@@ -4,7 +4,7 @@
 
 ### Users
 
-#### Registers a new user
+- Registers a new user
 
 POST: api/account/register
 
@@ -22,7 +22,8 @@ BODY:
     "confirmPassword":"123"
 }
 ```
-#### Get authorization token
+- Get authorization token
+
 POST: token
 
 BODY: x-www-form-urlencoded
@@ -43,7 +44,7 @@ In order to authenticate to the WebApis that require authorization (have the [Au
 
 ### Albums
     
-#### Create a new album - needs Authorization
+- Create a new album - needs Authorization
 
 POST: api/albums
 
@@ -61,12 +62,16 @@ BODY:
     "Description":"{description}",
 }
 ```
-#### Get all albums
+- Get all albums
+
 GET: api/albums 
-#### Get specific album by album name
+
+- Get specific album by album name
+- 
 GET: api/albums/{album name}
 ex. api/albums/snimki%20kupona
 
-#### Get all albums by page
+- Get all albums by page
+
 GET: api/albums/all/{page number}?pageSize={items per page}
 ex. api/albums/all/1?pageSize=2
