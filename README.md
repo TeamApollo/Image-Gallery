@@ -6,15 +6,15 @@
 
 - Registers a new user
 
-    POST: api/account/register
+    __POST__: api/account/register
 
-    HEADERs:
+    __HEADERs__:
 
     | Header Key | Header Value |
     |---|---|
     | Content-Type | application/json |    
 
-    BODY:
+    __BODY__:
     ```js
     {
         "email":"user1@user1.com",
@@ -24,9 +24,9 @@
     ```
 - Get authorization token
 
-    POST: token
+    __POST__: token
 
-    BODY: x-www-form-urlencoded
+    __BODY__: x-www-form-urlencoded
 
     | Header Key | Header Value |
     |---|---|
@@ -46,16 +46,16 @@
     
 - Create a new album (needs Authorization)
 
-    POST: api/albums
+    __POST__: api/albums
 
-    HEADERs:
+    __HEADERs__:
 
     | Header Key | Header Value |
     |---|---|
     | Authorization | bearer {*your access token here*} |
     | Content-Type | application/json |
 
-    BODY:
+    __BODY__:
     ```js
     {
         "Name":"{album name}",
@@ -64,14 +64,16 @@
     ```
 - Get all albums
 
-    GET: api/albums 
+    __GET__: api/albums 
 
 - Get specific album by album name
 
-    GET: api/albums/{album name}
+    __GET__: api/albums/{album name}
+
     _ex. api/albums/snimki%20kupona_
 
 - Get all albums by page
 
-    GET: api/albums/all/{page number}?pageSize={items per page}
+    __GET__: api/albums/all/{page number}?pageSize={items per page}
+
     _ex. api/albums/all/1?pageSize=2_
