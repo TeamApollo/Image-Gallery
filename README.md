@@ -6,22 +6,22 @@
 
 - Registers a new user
 
-POST: api/account/register
+    POST: api/account/register
 
-HEADERs:
+    HEADERs:
 
-| Header Key | Header Value |
-|---|---|
-| Content-Type | application/json |    
+    | Header Key | Header Value |
+    |---|---|
+    | Content-Type | application/json |    
 
-BODY:
-```js
-{
-    "email":"user1@user1.com",
-    "password":"123",
-    "confirmPassword":"123"
-}
-```
+    BODY:
+    ```js
+    {
+        "email":"user1@user1.com",
+        "password":"123",
+        "confirmPassword":"123"
+    }
+    ```
 - Get authorization token
 
 POST: token
