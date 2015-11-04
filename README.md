@@ -24,54 +24,54 @@
     ```
 - Get authorization token
 
-POST: token
+    POST: token
 
-BODY: x-www-form-urlencoded
+    BODY: x-www-form-urlencoded
 
-| Header Key | Header Value |
-|---|---|
-| username | *{your emali}* |
-| passwrod | *{your password}* |
-| grant_type | password |
+    | Header Key | Header Value |
+    |---|---|
+    | username | *{your emali}* |
+    | passwrod | *{your password}* |
+    | grant_type | password |
 
-In order to authenticate to the WebApis that require authorization (have the [Authorize] attribute) you need to provide the received "access_token" as a header "Authorization" of the Http message:
+    In order to authenticate to the WebApis that require authorization (have the [Authorize] attribute) you need to provide the received "access_token" as a header "Authorization" of the Http message:
 
-| Header key | Header value |
-| --- | --- |
-| Authorization | bearer {*your access token here*} |
+    | Header key | Header value |
+    | --- | --- |
+    | Authorization | bearer {*your access token here*} |
 
 -
 
 ### Albums
     
-- Create a new album - needs Authorization
+- Create a new album (needs Authorization)
 
-POST: api/albums
+    POST: api/albums
 
-HEADERs:
+    HEADERs:
 
-| Header Key | Header Value |
-|---|---|
-| Authorization | bearer {*your access token here*} |
-| Content-Type | application/json |
+    | Header Key | Header Value |
+    |---|---|
+    | Authorization | bearer {*your access token here*} |
+    | Content-Type | application/json |
 
-BODY:
-```js
-{
-    "Name":"{album name}",
-    "Description":"{description}",
-}
-```
+    BODY:
+    ```js
+    {
+        "Name":"{album name}",
+        "Description":"{description}",
+    }
+    ```
 - Get all albums
 
-GET: api/albums 
+    GET: api/albums 
 
 - Get specific album by album name
 
-GET: api/albums/{album name}
-ex. api/albums/snimki%20kupona
+    GET: api/albums/{album name}
+    _ex. api/albums/snimki%20kupona_
 
 - Get all albums by page
 
-GET: api/albums/all/{page number}?pageSize={items per page}
-ex. api/albums/all/1?pageSize=2
+    GET: api/albums/all/{page number}?pageSize={items per page}
+    _ex. api/albums/all/1?pageSize=2_
