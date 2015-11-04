@@ -5,6 +5,7 @@
 ### Users
 
 #### Registers a new user
+
 POST: api/account/register
 
 HEADERs:
@@ -37,6 +38,8 @@ In order to authenticate to the WebApis that require authorization (have the [Au
 | Header key | Header value |
 | --- | --- |
 | Authorization | bearer {*your access token here*} |
+
+-
 
 ### Albums
     
