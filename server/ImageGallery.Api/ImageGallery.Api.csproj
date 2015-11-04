@@ -240,19 +240,19 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\data\SourceControlSystem.Data\ImageGallery.Data.csproj">
+    <ProjectReference Include="..\..\data\ImageGallery.Data\ImageGallery.Data.csproj">
       <Project>{70a3ddb0-8927-404c-850a-e7510234f772}</Project>
       <Name>ImageGallery.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Data\SourceControlSystem.Models\SourceControlSystem.Models.csproj">
+    <ProjectReference Include="..\..\Data\ImageGallery.Models\ImageGallery.Models.csproj">
       <Project>{1cfdbdaa-3da7-49b3-a639-232c39e30d06}</Project>
-      <Name>SourceControlSystem.Models</Name>
+      <Name>ImageGallery.Models</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Services\SourceControlSystem.Services.Data\ImageGallery.Services.Data.csproj">
+    <ProjectReference Include="..\..\Services\ImageGallery.Services.Data\ImageGallery.Services.Data.csproj">
       <Project>{1076e136-4c00-4b5a-8c70-68e80f3497a7}</Project>
       <Name>ImageGallery.Services.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\SourceControlSystem.Common\ImageGallery.Common.csproj">
+    <ProjectReference Include="..\..\ImageGallery.Common\ImageGallery.Common.csproj">
       <Project>{3b3514ca-4b9d-4fca-9fb1-d8106b1d07f3}</Project>
       <Name>ImageGallery.Common</Name>
     </ProjectReference>

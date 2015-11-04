@@ -3,21 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageGallery.Api", "server\SourceControlSystem.Api\ImageGallery.Api.csproj", "{2CFEA231-7C53-45EC-9129-0DB97929C686}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageGallery.Api", "server\ImageGallery.Api\ImageGallery.Api.csproj", "{2CFEA231-7C53-45EC-9129-0DB97929C686}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{4B85CD7B-86CF-4CB2-A051-07A7B503A992}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{32DC46A7-EE24-41F1-B3D1-1FDB78ACFFA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourceControlSystem.Models", "Data\SourceControlSystem.Models\SourceControlSystem.Models.csproj", "{1CFDBDAA-3DA7-49B3-A639-232C39E30D06}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageGallery.Models", "Data\ImageGallery.Models\ImageGallery.Models.csproj", "{1CFDBDAA-3DA7-49B3-A639-232C39E30D06}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageGallery.Data", "data\SourceControlSystem.Data\ImageGallery.Data.csproj", "{70A3DDB0-8927-404C-850A-E7510234F772}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageGallery.Data", "data\ImageGallery.Data\ImageGallery.Data.csproj", "{70A3DDB0-8927-404C-850A-E7510234F772}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageGallery.Common", "SourceControlSystem.Common\ImageGallery.Common.csproj", "{3B3514CA-4B9D-4FCA-9FB1-D8106B1D07F3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageGallery.Common", "ImageGallery.Common\ImageGallery.Common.csproj", "{3B3514CA-4B9D-4FCA-9FB1-D8106B1D07F3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{A83425C2-6DA9-44C1-BCBE-00433D70B625}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageGallery.Services.Data", "Services\SourceControlSystem.Services.Data\ImageGallery.Services.Data.csproj", "{1076E136-4C00-4B5A-8C70-68E80F3497A7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageGallery.Services.Data", "Services\ImageGallery.Services.Data\ImageGallery.Services.Data.csproj", "{1076E136-4C00-4B5A-8C70-68E80F3497A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
