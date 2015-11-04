@@ -67,7 +67,7 @@ BODY:
 GET: api/albums 
 
 - Get specific album by album name
-- 
+
 GET: api/albums/{album name}
 ex. api/albums/snimki%20kupona
 
