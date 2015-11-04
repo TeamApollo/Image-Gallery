@@ -4,17 +4,17 @@
 
 ### Users
 
-- Registers a new user
+- __Registers a new user__
 
-    __POST__: api/account/register
+    POST: api/account/register
 
-    __HEADERs__:
+    HEADERs:
 
     | Header Key | Header Value |
     |---|---|
     | Content-Type | application/json |    
 
-    __BODY__:
+    BODY:
     ```js
     {
         "email":"user1@user1.com",
@@ -22,11 +22,11 @@
         "confirmPassword":"123"
     }
     ```
-- Get authorization token
+- __Get authorization token__
 
-    __POST__: token
+    POST: token
 
-    __BODY__: x-www-form-urlencoded
+    BODY: x-www-form-urlencoded
 
     | Header Key | Header Value |
     |---|---|
@@ -44,36 +44,36 @@
 
 ### Albums
     
-- Create a new album (needs Authorization)
+- __Create a new album__ (needs Authorization)
 
-    __POST__: api/albums
+    POST: api/albums
 
-    __HEADERs__:
+    HEADERs:
 
     | Header Key | Header Value |
     |---|---|
     | Authorization | bearer {*your access token here*} |
     | Content-Type | application/json |
 
-    __BODY__:
+    BODY:
     ```js
     {
         "Name":"{album name}",
         "Description":"{description}",
     }
     ```
-- Get all albums
+- __Get all albums__
 
-    __GET__: api/albums 
+    GET: api/albums 
 
-- Get specific album by album name
+- __Get specific album by album name__
 
-    __GET__: api/albums/{album name}
+    GET: api/albums/{album name}
 
     _ex. api/albums/snimki%20kupona_
 
-- Get all albums by page
+- __Get all albums by page__
 
-    __GET__: api/albums/all/{page number}?pageSize={items per page}
+    GET: api/albums/all/{page number}?pageSize={items per page}
 
     _ex. api/albums/all/1?pageSize=2_
