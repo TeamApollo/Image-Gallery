@@ -3,35 +3,36 @@
     using System;
     using System.Data.Entity;
     using System.Linq;
+    using Contracts;
 
-    public class EfGenericRepository<T> : IRepository<T> where T : class
+    public class GenericRepository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        public EfGenericRepository(IImageGalleryDbContext context)
+        public GenericRepository(IImageGalleryDbContext context)
         {
             if (context == null)
             {
-                throw new ArgumentException("An instance of DbContext is required to use this repository.", nameof(context));
+                throw new ArgumentException("An instance of IImageGalleryDbContext is required to use this repository.", nameof(context));
             }
 
             this.Context = context;
-            this.DbSet = this.Context.Set<T>();
+            this.DbSet = this.Context.Set<TEntity>();
         }
 
-        protected IDbSet<T> DbSet { get; set; }
+        protected IDbSet<TEntity> DbSet { get; set; }
 
         protected IImageGalleryDbContext Context { get; set; }
 
-        public virtual IQueryable<T> All()
+        public virtual IQueryable<TEntity> All()
         {
             return this.DbSet.AsQueryable();
         }
 
-        public virtual T GetById(object id)
+        public virtual TEntity GetById(object id)
         {
             return this.DbSet.Find(id);
         }
 
-        public virtual void Add(T entity)
+        public virtual void Add(TEntity entity)
         {
             var entry = this.Context.Entry(entity);
             if (entry.State != EntityState.Detached)
@@ -44,7 +45,7 @@
             }
         }
 
-        public virtual void Update(T entity)
+        public virtual void Update(TEntity entity)
         {
             var entry = this.Context.Entry(entity);
             if (entry.State == EntityState.Detached)
@@ -55,7 +56,7 @@
             entry.State = EntityState.Modified;
         }
 
-        public virtual void Delete(T entity)
+        public virtual void Delete(TEntity entity)
         {
             var entry = this.Context.Entry(entity);
             if (entry.State != EntityState.Deleted)
@@ -79,25 +80,15 @@
             }
         }
 
-        public virtual T Attach(T entity)
+        public virtual TEntity Attach(TEntity entity)
         {
-            return this.Context.Set<T>().Attach(entity);
+            return this.Context.Set<TEntity>().Attach(entity);
         }
 
-        public virtual void Detach(T entity)
+        public virtual void Detach(TEntity entity)
         {
             var entry = this.Context.Entry(entity);
             entry.State = EntityState.Detached;
-        }
-
-        public int SaveChanges()
-        {
-            return this.Context.SaveChanges();
-        }
-
-        public void Dispose()
-        {
-            this.Context.Dispose();
         }
     }
 }

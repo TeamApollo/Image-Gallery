@@ -4,37 +4,36 @@
     using System.Linq;
     using Contracts;
     using ImageGallery.Data;
+    using ImageGallery.Data.Contracts;
     using Models;
 
     public class AlbumsService : IAlbumsService
     {
-        private readonly IRepository<Album> albums;
-        private readonly IRepository<User> users;
+        private readonly IImageGalleryData data;
 
-        public AlbumsService(IRepository<Album> albumsRepo, IRepository<User> usersRepo)
+        public AlbumsService(IImageGalleryData data)
         {
-            this.albums = albumsRepo;
-            this.users = usersRepo;
+            this.data = data;
         }
 
         public int Add(Album newAlbum, string creatorName)
         {
             newAlbum.CreatedOn = DateTime.Now;
-            var currentUser = this.users
+            var currentUser = this.data.Users
                 .All()
                 .FirstOrDefault(u => u.UserName == creatorName);
 
             newAlbum.Owner = currentUser;
 
-            this.albums.Add(newAlbum);
-            this.albums.SaveChanges();
+            this.data.Albums.Add(newAlbum);
+            this.data.SaveChanges();
 
             return newAlbum.Id;
         }
 
         public IQueryable<Album> All()
         {
-            return this.albums
+            return this.data.Albums
                 .All()
                 .OrderByDescending(p => p.CreatedOn);
         }

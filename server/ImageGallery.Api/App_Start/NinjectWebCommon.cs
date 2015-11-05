@@ -8,11 +8,12 @@ namespace ImageGallery.Api
     using System;
     using System.Web;
     using Data;
+    using Data.Contracts;
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
     using Ninject;
     using Ninject.Extensions.Conventions;
     using Ninject.Web.Common;
-
+    
     public static class NinjectWebCommon
     {
         private static readonly Bootstrapper Bootstrapper = new Bootstrapper();
@@ -68,13 +69,15 @@ namespace ImageGallery.Api
                 .To<ImageGalleryDbContext>()
                 .InRequestScope();
 
+            kernel.Bind(typeof(IRepository<>)).To(typeof(GenericRepository<>));
+
+            kernel.Bind<IImageGalleryData>().To<ImageGalleryData>();
+
             // This will bind all classes to their interfaces if they have the same name
             // without the leading "I". For ex. Products : IProducts, Cats : ICats.
             kernel.Bind(b => b.From("ImageGallery.Services.Data")
                 .SelectAllClasses()
                 .BindDefaultInterface());
-
-            kernel.Bind(typeof(IRepository<>)).To(typeof(EfGenericRepository<>));
         }
     }
 }

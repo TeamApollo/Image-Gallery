@@ -57,9 +57,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EFGenericRepository.cs" />
-    <Compile Include="IRepository.cs" />
-    <Compile Include="IImageGalleryDbContext.cs" />
+    <Compile Include="GenericRepository.cs" />
+    <Compile Include="Contracts\IImageGalleryData.cs" />
+    <Compile Include="ImageGalleryData.cs" />
+    <Compile Include="Contracts\IRepository.cs" />
+    <Compile Include="Contracts\IImageGalleryDbContext.cs" />
     <Compile Include="ImageGalleryDbContext.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
