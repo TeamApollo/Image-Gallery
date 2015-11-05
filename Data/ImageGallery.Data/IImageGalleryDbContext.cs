@@ -1,12 +1,12 @@
-﻿using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using ImageGallery.Models;
-
-namespace ImageGallery.Data
+﻿namespace ImageGallery.Data
 {
+    using System.Data.Entity;
+    using System.Data.Entity.Infrastructure;
+    using Models;
+
     public interface IImageGalleryDbContext
     {
-        IDbSet<Album> SoftwareProjects { get; set; }
+        IDbSet<Album> Albums { get; set; }
 
         int SaveChanges();
 

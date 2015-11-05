@@ -1,11 +1,11 @@
-﻿namespace ImageGallery
+﻿namespace ImageGallery.Api
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using Api.Infrastructure.Mappings;
     using AutoMapper;
+    using Infrastructure.Mappings;
 
     public class AutoMapperConfig
     {
@@ -17,8 +17,8 @@
                 types.AddRange(assembly.GetExportedTypes());
             }
 
-            LoadStandardMappings(types);
-            LoadCustomMappings(types);
+            AutoMapperConfig.LoadStandardMappings(types);
+            AutoMapperConfig.LoadCustomMappings(types);
         }
 
         private static void LoadStandardMappings(IEnumerable<Type> types)

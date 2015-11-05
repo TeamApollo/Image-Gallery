@@ -1,38 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.OAuth;
-using ImageGallery.Api.Models;
-using ImageGallery.Models;
-
-namespace ImageGallery.Api.Providers
+﻿namespace ImageGallery.Api.Providers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Microsoft.AspNet.Identity.Owin;
+    using Microsoft.Owin.Security;
+    using Microsoft.Owin.Security.Cookies;
+    using Microsoft.Owin.Security.OAuth;
+
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {
-        private readonly string _publicClientId;
+        private readonly string publicClientId;
 
         public ApplicationOAuthProvider(string publicClientId)
         {
             if (publicClientId == null)
             {
-                throw new ArgumentNullException("publicClientId");
+                throw new ArgumentNullException(nameof(publicClientId));
             }
 
-            _publicClientId = publicClientId;
+            this.publicClientId = publicClientId;
+        }
+
+        public static AuthenticationProperties CreateProperties(string userName)
+        {
+            IDictionary<string, string> data = new Dictionary<string, string>
+            {
+                { "userName", userName }
+            };
+            return new AuthenticationProperties(data);
         }
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
             var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
 
-            User user = await userManager.FindAsync(context.UserName, context.Password);
+            var user = await userManager.FindAsync(context.UserName, context.Password);
 
             if (user == null)
             {
@@ -40,13 +43,15 @@ namespace ImageGallery.Api.Providers
                 return;
             }
 
-            ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager,
-               OAuthDefaults.AuthenticationType);
-            ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager,
+            var oAuthIdentity = await user.GenerateUserIdentityAsync(
+                userManager,
+                OAuthDefaults.AuthenticationType);
+            var cookiesIdentity = await user.GenerateUserIdentityAsync(
+                userManager,
                 CookieAuthenticationDefaults.AuthenticationType);
 
-            AuthenticationProperties properties = CreateProperties(user.UserName);
-            AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
+            var properties = ApplicationOAuthProvider.CreateProperties(user.UserName);
+            var ticket = new AuthenticationTicket(oAuthIdentity, properties);
             context.Validated(ticket);
             context.Request.Context.Authentication.SignIn(cookiesIdentity);
         }
@@ -74,26 +79,19 @@ namespace ImageGallery.Api.Providers
 
         public override Task ValidateClientRedirectUri(OAuthValidateClientRedirectUriContext context)
         {
-            if (context.ClientId == _publicClientId)
+            if (context.ClientId != this.publicClientId)
             {
-                Uri expectedRootUri = new Uri(context.Request.Uri, "/");
+                return Task.FromResult<object>(null);
+            }
 
-                if (expectedRootUri.AbsoluteUri == context.RedirectUri)
-                {
-                    context.Validated();
-                }
+            var expectedRootUri = new Uri(context.Request.Uri, "/");
+
+            if (expectedRootUri.AbsoluteUri == context.RedirectUri)
+            {
+                context.Validated();
             }
 
             return Task.FromResult<object>(null);
-        }
-
-        public static AuthenticationProperties CreateProperties(string userName)
-        {
-            IDictionary<string, string> data = new Dictionary<string, string>
-            {
-                { "userName", userName }
-            };
-            return new AuthenticationProperties(data);
         }
     }
 }

@@ -1,7 +1,9 @@
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(ImageGallery.Api.App_Start.NinjectWebCommon), "Start")]
-[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(ImageGallery.Api.App_Start.NinjectWebCommon), "Stop")]
+using ImageGallery.Api;
 
-namespace ImageGallery.Api.App_Start
+[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(NinjectWebCommon), "Start")]
+[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(NinjectWebCommon), "Stop")]
+
+namespace ImageGallery.Api
 {
     using System;
     using System.Web;
@@ -13,7 +15,7 @@ namespace ImageGallery.Api.App_Start
 
     public static class NinjectWebCommon
     {
-        private static readonly Bootstrapper bootstrapper = new Bootstrapper();
+        private static readonly Bootstrapper Bootstrapper = new Bootstrapper();
 
         /// <summary>
         /// Starts the application
@@ -22,7 +24,7 @@ namespace ImageGallery.Api.App_Start
         {
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
             DynamicModuleUtility.RegisterModule(typeof(NinjectHttpModule));
-            bootstrapper.Initialize(CreateKernel);
+            NinjectWebCommon.Bootstrapper.Initialize(NinjectWebCommon.CreateKernel);
         }
 
         /// <summary>
@@ -30,7 +32,7 @@ namespace ImageGallery.Api.App_Start
         /// </summary>
         public static void Stop()
         {
-            bootstrapper.ShutDown();
+            NinjectWebCommon.Bootstrapper.ShutDown();
         }
 
         /// <summary>
@@ -45,7 +47,7 @@ namespace ImageGallery.Api.App_Start
                 kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
-                RegisterServices(kernel);
+                NinjectWebCommon.RegisterServices(kernel);
                 return kernel;
             }
             catch

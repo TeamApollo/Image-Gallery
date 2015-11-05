@@ -6,9 +6,9 @@
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using Common.Constants;
+    using ImageGallery.Models;
     using Models.Album;
     using Services.Data.Contracts;
-    using ImageGallery.Models;
 
     public class AlbumsController : ApiController
     {
@@ -37,16 +37,15 @@
                 return this.BadRequest("Invalid album name.");
             }
 
-            var currentUserName = this.User.Identity.Name;
+            string currentUserName = this.User.Identity.Name;
 
-            var result = albumsService
+            var result = this.albumsService
                 .All()
                 .Where(
                     p => p.Name == id &&
                     (!p.Private ||
                         (p.Private &&
-                        p.Owner.UserName == currentUserName))
-                )
+                        p.Owner.UserName == currentUserName)))
                 .ProjectTo<AlbumViewModel>()
                 .FirstOrDefault();
 

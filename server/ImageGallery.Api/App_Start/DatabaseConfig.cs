@@ -1,9 +1,6 @@
 ﻿namespace ImageGallery.Api
 {
-    using System;
-    using System.Collections.Generic;
     using System.Data.Entity;
-    using System.Linq;
     using Data;
     using Data.Migrations;
 

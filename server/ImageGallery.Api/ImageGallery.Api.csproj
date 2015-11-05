@@ -218,10 +218,18 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Account\AccountBindingModels.cs" />
-    <Compile Include="Models\Account\AccountViewModels.cs" />
+    <Compile Include="Models\Account\BindingModels\SetPasswordBindingModel.cs" />
+    <Compile Include="Models\Account\BindingModels\AddExternalLoginBindingModel.cs" />
+    <Compile Include="Models\Account\BindingModels\ChangePasswordBindingModel.cs" />
+    <Compile Include="Models\Account\BindingModels\RegisterBindingModel.cs" />
+    <Compile Include="Models\Account\BindingModels\RegisterExternalBindingModel.cs" />
+    <Compile Include="Models\Account\BindingModels\RemoveLoginBindingModel.cs" />
+    <Compile Include="Models\Account\ViewModels\UserLoginInfoViewModel.cs" />
     <Compile Include="Infrastructure\Mappings\IHaveCustomMappings.cs" />
     <Compile Include="Infrastructure\Mappings\IMapFrom.cs" />
+    <Compile Include="Models\Account\ViewModels\ExternalLoginViewModel.cs" />
+    <Compile Include="Models\Account\ViewModels\ManageInfoViewModel.cs" />
+    <Compile Include="Models\Account\ViewModels\UserInfoViewModel.cs" />
     <Compile Include="Models\Album\AlbumBindingModel.cs" />
     <Compile Include="Models\Album\AlbumViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -3,8 +3,8 @@
     using System;
     using System.Linq;
     using Contracts;
-    using Models;
     using ImageGallery.Data;
+    using Models;
 
     public class AlbumsService : IAlbumsService
     {

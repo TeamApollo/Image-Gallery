@@ -3,7 +3,6 @@
     using System;
     using System.Data.Entity;
     using System.Linq;
-    using System.Threading.Tasks;
 
     public class EfGenericRepository<T> : IRepository<T> where T : class
     {
@@ -11,7 +10,7 @@
         {
             if (context == null)
             {
-                throw new ArgumentException("An instance of DbContext is required to use this repository.", "context");
+                throw new ArgumentException("An instance of DbContext is required to use this repository.", nameof(context));
             }
 
             this.Context = context;

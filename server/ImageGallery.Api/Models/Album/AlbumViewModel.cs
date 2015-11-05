@@ -2,11 +2,10 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    using System.Linq;
     using AutoMapper;
     using Common.Constants;
-    using Infrastructure.Mappings;
     using ImageGallery.Models;
+    using Infrastructure.Mappings;
 
     public class AlbumViewModel : IMapFrom<Album>, IHaveCustomMappings
     {

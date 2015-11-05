@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Identity.EntityFramework;
-using ImageGallery.Models;
-
-namespace ImageGallery.Data
+﻿namespace ImageGallery.Data
 {
+    using System.Data.Entity;
+    using System.Data.Entity.Infrastructure;
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using Models;
+
     public class ImageGalleryDbContext : IdentityDbContext<User>, IImageGalleryDbContext
     {
         public ImageGalleryDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
+
+        public virtual IDbSet<Album> Albums { get; set; }
 
         public static ImageGalleryDbContext Create()
         {
@@ -24,16 +21,12 @@ namespace ImageGallery.Data
 
         IDbSet<T> IImageGalleryDbContext.Set<T>()
         {
-            return base.Set<T>();
+            return this.Set<T>();
         }
 
         DbEntityEntry IImageGalleryDbContext.Entry<T>(T entity)
         {
-            return base.Entry<T>(entity);
+            return this.Entry<T>(entity);
         }
-
-        public virtual IDbSet<Album> SoftwareProjects { get; set; }
-
-
     }
 }

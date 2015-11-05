@@ -1,7 +1,6 @@
 ﻿namespace ImageGallery.Services.Data.Contracts
 {
     using System.Linq;
-    using Common.Constants;
     using Models;
 
     public interface IAlbumsService

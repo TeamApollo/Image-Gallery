@@ -1,69 +1,75 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Http;
-using System.Web.Http.ModelBinding;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.OAuth;
-using ImageGallery.Api.Models;
-using ImageGallery.Api.Providers;
-using ImageGallery.Api.Results;
-using ImageGallery.Models;
-
-namespace ImageGallery.Api.Controllers
+﻿namespace ImageGallery.Api.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net.Http;
+    using System.Security.Claims;
+    using System.Security.Cryptography;
+    using System.Threading.Tasks;
+    using System.Web;
+    using System.Web.Http;
+    using ImageGallery.Models;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using Microsoft.AspNet.Identity.Owin;
+    using Microsoft.Owin.Security;
+    using Microsoft.Owin.Security.Cookies;
+    using Microsoft.Owin.Security.OAuth;
+    using Models.Account.BindingModels;
+    using Models.Account.ViewModels;
+    using Providers;
+    using Results;
+
     [Authorize]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
         private const string LocalLoginProvider = "Local";
-        private ApplicationUserManager _userManager;
+        private ApplicationUserManager userManager;
 
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager,
+        public AccountController(
+            ApplicationUserManager userManager,
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
         {
-            UserManager = userManager;
-            AccessTokenFormat = accessTokenFormat;
+            this.UserManager = userManager;
+            this.AccessTokenFormat = accessTokenFormat;
         }
 
         public ApplicationUserManager UserManager
         {
             get
             {
-                return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                return this.userManager ??
+                    this.Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
             }
+
             private set
             {
-                _userManager = value;
+                this.userManager = value;
             }
         }
 
-        public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
+        public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; }
+
+        private IAuthenticationManager Authentication => this.Request.GetOwinContext().Authentication;
 
         // GET api/Account/UserInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]
         public UserInfoViewModel GetUserInfo()
         {
-            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+            var externalLogin = ExternalLoginData.FromIdentity(this.User.Identity as ClaimsIdentity);
 
             return new UserInfoViewModel
             {
-                Email = User.Identity.GetUserName(),
+                Email = this.User.Identity.GetUserName(),
                 HasRegistered = externalLogin == null,
-                LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
+                LoginProvider = externalLogin?.LoginProvider
             };
         }
 
@@ -71,47 +77,45 @@ namespace ImageGallery.Api.Controllers
         [Route("Logout")]
         public IHttpActionResult Logout()
         {
-            Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
-            return Ok();
+            this.Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
+            return this.Ok();
         }
 
         // GET api/Account/ManageInfo?returnUrl=%2F&generateState=true
         [Route("ManageInfo")]
-        public async Task<ManageInfoViewModel> GetManageInfo(string returnUrl, bool generateState = false)
+        public async Task<ManageInfoViewModel> GetManageInfo(
+            string returnUrl,
+            bool generateState = false)
         {
-            IdentityUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            IdentityUser user = await this.UserManager.FindByIdAsync(this.User.Identity.GetUserId());
 
             if (user == null)
             {
                 return null;
             }
 
-            List<UserLoginInfoViewModel> logins = new List<UserLoginInfoViewModel>();
-
-            foreach (IdentityUserLogin linkedAccount in user.Logins)
+            var logins = user.Logins.Select(linkedAccount => new UserLoginInfoViewModel
             {
-                logins.Add(new UserLoginInfoViewModel
-                {
-                    LoginProvider = linkedAccount.LoginProvider,
-                    ProviderKey = linkedAccount.ProviderKey
-                });
-            }
+                LoginProvider = linkedAccount.LoginProvider,
+                ProviderKey = linkedAccount.ProviderKey
+            }).ToList();
 
             if (user.PasswordHash != null)
             {
-                logins.Add(new UserLoginInfoViewModel
-                {
-                    LoginProvider = LocalLoginProvider,
-                    ProviderKey = user.UserName,
-                });
+                logins.Add(
+                    new UserLoginInfoViewModel
+                    {
+                        LoginProvider = AccountController.LocalLoginProvider,
+                        ProviderKey = user.UserName
+                    });
             }
 
             return new ManageInfoViewModel
             {
-                LocalLoginProvider = LocalLoginProvider,
+                LocalLoginProvider = AccountController.LocalLoginProvider,
                 Email = user.UserName,
                 Logins = logins,
-                ExternalLoginProviders = GetExternalLogins(returnUrl, generateState)
+                ExternalLoginProviders = this.GetExternalLogins(returnUrl, generateState)
             };
         }
 
@@ -119,106 +123,95 @@ namespace ImageGallery.Api.Controllers
         [Route("ChangePassword")]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return this.BadRequest(this.ModelState);
             }
 
-            IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
-                model.NewPassword);
-            
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
+            var result =
+                await
+                    this.UserManager.ChangePasswordAsync(
+                        this.User.Identity.GetUserId(),
+                        model.OldPassword,
+                        model.NewPassword);
 
-            return Ok();
+            return !result.Succeeded ? this.GetErrorResult(result) : this.Ok();
         }
 
         // POST api/Account/SetPassword
         [Route("SetPassword")]
         public async Task<IHttpActionResult> SetPassword(SetPasswordBindingModel model)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return this.BadRequest(this.ModelState);
             }
 
-            IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
+            var result =
+                await
+                    this.UserManager.AddPasswordAsync(
+                        this.User.Identity.GetUserId(),
+                        model.NewPassword);
 
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
-
-            return Ok();
+            return !result.Succeeded ? this.GetErrorResult(result) : this.Ok();
         }
 
         // POST api/Account/AddExternalLogin
         [Route("AddExternalLogin")]
         public async Task<IHttpActionResult> AddExternalLogin(AddExternalLoginBindingModel model)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return this.BadRequest(this.ModelState);
             }
 
-            Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+            this.Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
 
-            AuthenticationTicket ticket = AccessTokenFormat.Unprotect(model.ExternalAccessToken);
+            var ticket = this.AccessTokenFormat.Unprotect(model.ExternalAccessToken);
 
-            if (ticket == null || ticket.Identity == null || (ticket.Properties != null
-                && ticket.Properties.ExpiresUtc.HasValue
-                && ticket.Properties.ExpiresUtc.Value < DateTimeOffset.UtcNow))
+            if (ticket?.Identity == null
+                || (ticket.Properties?.ExpiresUtc != null && ticket.Properties.ExpiresUtc.Value < DateTimeOffset.UtcNow))
             {
-                return BadRequest("External login failure.");
+                return this.BadRequest("External login failure.");
             }
 
-            ExternalLoginData externalData = ExternalLoginData.FromIdentity(ticket.Identity);
+            var externalData = ExternalLoginData.FromIdentity(ticket.Identity);
 
             if (externalData == null)
             {
-                return BadRequest("The external login is already associated with an account.");
+                return this.BadRequest("The external login is already associated with an account.");
             }
 
-            IdentityResult result = await UserManager.AddLoginAsync(User.Identity.GetUserId(),
+            var result = await this.UserManager.AddLoginAsync(
+                this.User.Identity.GetUserId(),
                 new UserLoginInfo(externalData.LoginProvider, externalData.ProviderKey));
 
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
-
-            return Ok();
+            return !result.Succeeded ? this.GetErrorResult(result) : this.Ok();
         }
 
         // POST api/Account/RemoveLogin
         [Route("RemoveLogin")]
         public async Task<IHttpActionResult> RemoveLogin(RemoveLoginBindingModel model)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return this.BadRequest(this.ModelState);
             }
 
             IdentityResult result;
 
-            if (model.LoginProvider == LocalLoginProvider)
+            if (model.LoginProvider == AccountController.LocalLoginProvider)
             {
-                result = await UserManager.RemovePasswordAsync(User.Identity.GetUserId());
+                result = await this.UserManager.RemovePasswordAsync(this.User.Identity.GetUserId());
             }
             else
             {
-                result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(),
+                result = await this.UserManager.RemoveLoginAsync(
+                    this.User.Identity.GetUserId(),
                     new UserLoginInfo(model.LoginProvider, model.ProviderKey));
             }
 
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
-
-            return Ok();
+            return !result.Succeeded ? this.GetErrorResult(result) : this.Ok();
         }
 
         // GET api/Account/ExternalLogin
@@ -230,93 +223,96 @@ namespace ImageGallery.Api.Controllers
         {
             if (error != null)
             {
-                return Redirect(Url.Content("~/") + "#error=" + Uri.EscapeDataString(error));
+                return
+                    this.Redirect(this.Url.Content("~/") + "#error=" + Uri.EscapeDataString(error));
             }
 
-            if (!User.Identity.IsAuthenticated)
+            if (!this.User.Identity.IsAuthenticated)
             {
                 return new ChallengeResult(provider, this);
             }
 
-            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+            var externalLogin = ExternalLoginData.FromIdentity(this.User.Identity as ClaimsIdentity);
 
             if (externalLogin == null)
             {
-                return InternalServerError();
+                return this.InternalServerError();
             }
 
             if (externalLogin.LoginProvider != provider)
             {
-                Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+                this.Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
                 return new ChallengeResult(provider, this);
             }
 
-            User user = await UserManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider,
-                externalLogin.ProviderKey));
+            var user =
+                await this.UserManager.FindAsync(
+                    new UserLoginInfo(
+                        externalLogin.LoginProvider,
+                        externalLogin.ProviderKey));
 
             bool hasRegistered = user != null;
 
             if (hasRegistered)
             {
-                Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-                
-                 ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
+                this.Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+
+                var oAuthIdentity = await user.GenerateUserIdentityAsync(
+                    this.UserManager,
                     OAuthDefaults.AuthenticationType);
-                ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
+                var cookieIdentity = await user.GenerateUserIdentityAsync(
+                    this.UserManager,
                     CookieAuthenticationDefaults.AuthenticationType);
 
-                AuthenticationProperties properties = ApplicationOAuthProvider.CreateProperties(user.UserName);
-                Authentication.SignIn(properties, oAuthIdentity, cookieIdentity);
+                var properties = ApplicationOAuthProvider.CreateProperties(user.UserName);
+                this.Authentication.SignIn(properties, oAuthIdentity, cookieIdentity);
             }
             else
             {
                 IEnumerable<Claim> claims = externalLogin.GetClaims();
-                ClaimsIdentity identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
-                Authentication.SignIn(identity);
+                var identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
+                this.Authentication.SignIn(identity);
             }
 
-            return Ok();
+            return this.Ok();
         }
 
         // GET api/Account/ExternalLogins?returnUrl=%2F&generateState=true
         [AllowAnonymous]
         [Route("ExternalLogins")]
-        public IEnumerable<ExternalLoginViewModel> GetExternalLogins(string returnUrl, bool generateState = false)
+        public IEnumerable<ExternalLoginViewModel> GetExternalLogins(
+            string returnUrl,
+            bool generateState = false)
         {
-            IEnumerable<AuthenticationDescription> descriptions = Authentication.GetExternalAuthenticationTypes();
-            List<ExternalLoginViewModel> logins = new List<ExternalLoginViewModel>();
+            var descriptions = this.Authentication.GetExternalAuthenticationTypes();
 
             string state;
 
             if (generateState)
             {
-                const int strengthInBits = 256;
-                state = RandomOAuthStateGenerator.Generate(strengthInBits);
+                const int StrengthInBits = 256;
+                state = RandomOAuthStateGenerator.Generate(StrengthInBits);
             }
             else
             {
                 state = null;
             }
 
-            foreach (AuthenticationDescription description in descriptions)
+            return descriptions.Select(description => new ExternalLoginViewModel
             {
-                ExternalLoginViewModel login = new ExternalLoginViewModel
-                {
-                    Name = description.Caption,
-                    Url = Url.Route("ExternalLogin", new
+                Name = description.Caption,
+                Url = this.Url.Route(
+                    "ExternalLogin",
+                    new
                     {
                         provider = description.AuthenticationType,
                         response_type = "token",
                         client_id = Startup.PublicClientId,
-                        redirect_uri = new Uri(Request.RequestUri, returnUrl).AbsoluteUri,
-                        state = state
+                        redirect_uri = new Uri(this.Request.RequestUri, returnUrl).AbsoluteUri,
+                        state
                     }),
-                    State = state
-                };
-                logins.Add(login);
-            }
-
-            return logins;
+                State = state
+            }).ToList();
         }
 
         // POST api/Account/Register
@@ -324,21 +320,16 @@ namespace ImageGallery.Api.Controllers
         [Route("Register")]
         public async Task<IHttpActionResult> Register(RegisterBindingModel model)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return this.BadRequest(this.ModelState);
             }
 
-            var user = new User() { UserName = model.Email, Email = model.Email };
+            var user = new User { UserName = model.Email, Email = model.Email };
 
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+            var result = await this.UserManager.CreateAsync(user, model.Password);
 
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
-
-            return Ok();
+            return !result.Succeeded ? this.GetErrorResult(result) : this.Ok();
         }
 
         // POST api/Account/RegisterExternal
@@ -347,39 +338,35 @@ namespace ImageGallery.Api.Controllers
         [Route("RegisterExternal")]
         public async Task<IHttpActionResult> RegisterExternal(RegisterExternalBindingModel model)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return this.BadRequest(this.ModelState);
             }
 
-            var info = await Authentication.GetExternalLoginInfoAsync();
+            var info = await this.Authentication.GetExternalLoginInfoAsync();
             if (info == null)
             {
-                return InternalServerError();
+                return this.InternalServerError();
             }
 
-            var user = new User() { UserName = model.Email, Email = model.Email };
+            var user = new User { UserName = model.Email, Email = model.Email };
 
-            IdentityResult result = await UserManager.CreateAsync(user);
+            var result = await this.UserManager.CreateAsync(user);
             if (!result.Succeeded)
             {
-                return GetErrorResult(result);
+                return this.GetErrorResult(result);
             }
 
-            result = await UserManager.AddLoginAsync(user.Id, info.Login);
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result); 
-            }
-            return Ok();
+            result = await this.UserManager.AddLoginAsync(user.Id, info.Login);
+            return !result.Succeeded ? this.GetErrorResult(result) : this.Ok();
         }
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && _userManager != null)
+            if (disposing && this.userManager != null)
             {
-                _userManager.Dispose();
-                _userManager = null;
+                this.userManager.Dispose();
+                this.userManager = null;
             }
 
             base.Dispose(disposing);
@@ -387,70 +374,71 @@ namespace ImageGallery.Api.Controllers
 
         #region Helpers
 
-        private IAuthenticationManager Authentication
-        {
-            get { return Request.GetOwinContext().Authentication; }
-        }
-
         private IHttpActionResult GetErrorResult(IdentityResult result)
         {
             if (result == null)
             {
-                return InternalServerError();
+                return this.InternalServerError();
             }
 
-            if (!result.Succeeded)
+            if (result.Succeeded)
             {
-                if (result.Errors != null)
-                {
-                    foreach (string error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error);
-                    }
-                }
-
-                if (ModelState.IsValid)
-                {
-                    // No ModelState errors are available to send, so just return an empty BadRequest.
-                    return BadRequest();
-                }
-
-                return BadRequest(ModelState);
+                return null;
             }
 
-            return null;
+            if (result.Errors != null)
+            {
+                foreach (string error in result.Errors)
+                {
+                    this.ModelState.AddModelError(string.Empty, error);
+                }
+            }
+
+            if (this.ModelState.IsValid)
+            {
+                // No ModelState errors are available to send, so just return an empty BadRequest.
+                return this.BadRequest();
+            }
+
+            return this.BadRequest(this.ModelState);
+        }
+
+        private static class RandomOAuthStateGenerator
+        {
+            private static readonly RandomNumberGenerator Random = new RNGCryptoServiceProvider();
+
+            public static string Generate(int strengthInBits)
+            {
+                const int BitsPerByte = 8;
+
+                if (strengthInBits % BitsPerByte != 0)
+                {
+                    throw new ArgumentException(
+                        "strengthInBits must be evenly divisible by 8.",
+                        nameof(strengthInBits));
+                }
+
+                int strengthInBytes = strengthInBits / BitsPerByte;
+
+                var data = new byte[strengthInBytes];
+                RandomOAuthStateGenerator.Random.GetBytes(data);
+                return HttpServerUtility.UrlTokenEncode(data);
+            }
         }
 
         private class ExternalLoginData
         {
             public string LoginProvider { get; set; }
+
             public string ProviderKey { get; set; }
+
             public string UserName { get; set; }
-
-            public IList<Claim> GetClaims()
-            {
-                IList<Claim> claims = new List<Claim>();
-                claims.Add(new Claim(ClaimTypes.NameIdentifier, ProviderKey, null, LoginProvider));
-
-                if (UserName != null)
-                {
-                    claims.Add(new Claim(ClaimTypes.Name, UserName, null, LoginProvider));
-                }
-
-                return claims;
-            }
 
             public static ExternalLoginData FromIdentity(ClaimsIdentity identity)
             {
-                if (identity == null)
-                {
-                    return null;
-                }
+                var providerKeyClaim = identity?.FindFirst(ClaimTypes.NameIdentifier);
 
-                Claim providerKeyClaim = identity.FindFirst(ClaimTypes.NameIdentifier);
-
-                if (providerKeyClaim == null || String.IsNullOrEmpty(providerKeyClaim.Issuer)
-                    || String.IsNullOrEmpty(providerKeyClaim.Value))
+                if (string.IsNullOrEmpty(providerKeyClaim?.Issuer) || string.IsNullOrEmpty(providerKeyClaim.Value))
                 {
                     return null;
                 }
@@ -467,29 +455,21 @@ namespace ImageGallery.Api.Controllers
                     UserName = identity.FindFirstValue(ClaimTypes.Name)
                 };
             }
-        }
 
-        private static class RandomOAuthStateGenerator
-        {
-            private static RandomNumberGenerator _random = new RNGCryptoServiceProvider();
-
-            public static string Generate(int strengthInBits)
+            public IList<Claim> GetClaims()
             {
-                const int bitsPerByte = 8;
+                IList<Claim> claims = new List<Claim>();
+                claims.Add(
+                    new Claim(ClaimTypes.NameIdentifier, this.ProviderKey, null, this.LoginProvider));
 
-                if (strengthInBits % bitsPerByte != 0)
+                if (this.UserName != null)
                 {
-                    throw new ArgumentException("strengthInBits must be evenly divisible by 8.", "strengthInBits");
+                    claims.Add(new Claim(ClaimTypes.Name, this.UserName, null, this.LoginProvider));
                 }
 
-                int strengthInBytes = strengthInBits / bitsPerByte;
-
-                byte[] data = new byte[strengthInBytes];
-                _random.GetBytes(data);
-                return HttpServerUtility.UrlTokenEncode(data);
+                return claims;
             }
         }
-
-        #endregion
+        #endregion Helpers
     }
 }
