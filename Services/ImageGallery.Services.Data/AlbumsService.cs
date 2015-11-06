@@ -3,7 +3,6 @@
     using System;
     using System.Linq;
     using Contracts;
-    using ImageGallery.Data;
     using ImageGallery.Data.Contracts;
     using Models;
 

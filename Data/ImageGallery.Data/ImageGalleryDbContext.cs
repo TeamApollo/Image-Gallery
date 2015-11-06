@@ -15,6 +15,14 @@
 
         public virtual IDbSet<Album> Albums { get; set; }
 
+        public virtual IDbSet<Image> Images { get; set; }
+
+        public virtual IDbSet<Video> Videos { get; set; }
+
+        public virtual IDbSet<Tag> Tags { get; set; }
+
+        public virtual IDbSet<Comment> Comments { get; set; }
+
         public static ImageGalleryDbContext Create()
         {
             return new ImageGalleryDbContext();

@@ -12,15 +12,23 @@
 
         private bool disposed;
 
-        public ImageGalleryData(IImageGalleryDbContext context)
+        public ImageGalleryData(IImageGalleryDbContext context, IDictionary<Type, object> repositories)
         {
             this.context = context;
-            this.repositories = new Dictionary<Type, object>();
+            this.repositories = repositories;
         }
 
         public IRepository<User> Users => this.GetRepository<User>();
 
         public IRepository<Album> Albums => this.GetRepository<Album>();
+
+        public IRepository<Image> Images => this.GetRepository<Image>();
+
+        public IRepository<Video> Videos => this.GetRepository<Video>();
+
+        public IRepository<Tag> Tags => this.GetRepository<Tag>();
+
+        public IRepository<Comment> Comments => this.GetRepository<Comment>();
 
         public void SaveChanges()
         {

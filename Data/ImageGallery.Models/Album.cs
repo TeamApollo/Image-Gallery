@@ -7,8 +7,15 @@
 
     public class Album
     {
+        private ICollection<MediaFile> mediaFiles;
+        private ICollection<Tag> tags;
+        private ICollection<Comment> comments;
+
         public Album()
         {
+            this.mediaFiles = new HashSet<MediaFile>();
+            this.tags = new HashSet<Tag>();
+            this.comments = new HashSet<Comment>();
         }
 
         public int Id { get; set; }
@@ -23,9 +30,28 @@
         public DateTime CreatedOn { get; set; }
 
         public bool Private { get; set; }
-
-        public int UserId { get; set; }
+        
+        [Required]
+        public string OwnerId { get; set; }
 
         public virtual User Owner { get; set; }
+
+        public virtual ICollection<MediaFile> MediaFiles
+        {
+            get { return this.mediaFiles; }
+            set { this.mediaFiles = value; }
+        }
+
+        public virtual ICollection<Tag> Tags
+        {
+            get { return this.tags; }
+            set { this.tags = value; }
+        }
+
+        public virtual ICollection<Comment> Comments
+        {
+            get { return this.comments; }
+            set { this.comments = value; }
+        }
     }
 }

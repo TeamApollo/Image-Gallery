@@ -1,25 +1,37 @@
 ﻿namespace ImageGallery.Models
 {
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Security.Claims;
     using System.Threading.Tasks;
+    using Common.Constants;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
 
     public class User : IdentityUser
     {
-        private ICollection<Album> projects;
+        private ICollection<Album> albums;
 
         public User()
         {
-            this.projects = new HashSet<Album>();
+            this.albums = new HashSet<Album>();
         }
 
-        public virtual ICollection<Album> Projects
+        [Required]
+        [MaxLength(ValidationConstants.NameMaxLength)]
+        public string FirstName { get; set; }
+
+        [Required]
+        [MaxLength(ValidationConstants.NameMaxLength)]
+        public string LastName { get; set; }
+
+        public virtual ICollection<Album> Albums
         {
-            get { return this.projects; }
-            set { this.projects = value; }
+            get { return this.albums; }
+            set { this.albums = value; }
         }
+
+        public virtual Image ProfileImage { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager, string authenticationType)
         {
