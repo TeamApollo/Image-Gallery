@@ -5,9 +5,9 @@
 
     public interface IAlbumsService
     {
-        IQueryable<Album> All();
+        IQueryable<Album> GetAll();
 
-        int Add(Album album, string creatorName);
+        int Add(Album album, string username);
 
         IQueryable<Album> GetById(int id, string username);
     }

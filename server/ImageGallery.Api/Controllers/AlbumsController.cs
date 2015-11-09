@@ -20,17 +20,20 @@
             this.albumsService = albumsService;
         }
 
+        // GET api/albums
         [EnableCors("*", "*", "*")]
         public IHttpActionResult Get()
         {
             var result = this.albumsService
-                .All()
+                .GetAll()
                 .ProjectTo<AlbumViewModel>()
                 .ToList();
 
             return this.Ok(result);
         }
 
+        // GET api/albums/{id}
+        [Authorize]
         public IHttpActionResult Get(int id)
         {
             string currentUserName = this.User.Identity.Name;
@@ -48,11 +51,14 @@
             return this.Ok(result);
         }
 
+        // GET api/albums/all
         [Route("api/albums/all")]
         public IHttpActionResult Get(int page = 1, int pageSize = GlobalConstants.DefaultPageSize)
         {
+            string currentUserName = this.User.Identity.Name;
+
             var result = this.albumsService
-                .All()
+                .GetAll()
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ProjectTo<AlbumViewModel>()
@@ -61,6 +67,7 @@
             return this.Ok(result);
         }
 
+        // POST api/albums
         [Authorize]
         public IHttpActionResult Post(AlbumsBindingModel albumRequestModel)
         {
@@ -78,6 +85,7 @@
             return this.Ok(createdProjectId);
         }
 
+        // DELETE api/albums/{id}
         [Authorize]
         public IHttpActionResult Delete(int id)
         {
