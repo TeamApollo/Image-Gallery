@@ -103,8 +103,16 @@
         [Authorize]
         public IHttpActionResult Delete(int id)
         {
-            // todo: implement
-            throw new NotImplementedException();
+            var currentUser = this.User.Identity.Name;
+
+            int deletedId = this.albumsService.DeleteAlbumById(id, currentUser);
+
+            if (deletedId < 0)
+            {
+                return this.NotFound();
+            }
+
+            return this.Ok(deletedId);
         }
     }
 }

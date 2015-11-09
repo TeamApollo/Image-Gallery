@@ -75,5 +75,23 @@
 
             return albums;
         }
+
+        /// <summary>
+        /// Deletes the album with the specified id. If no album with this id returns -1.
+        /// </summary>
+        /// <param name="id">The album id.</param>
+        /// <returns>Returns the id of the deleted album or -1 if no album with such id was found.</returns>
+        public int DeleteAlbumById(int id, string username)
+        {
+            var album = this.data.Albums.All().FirstOrDefault(a => a.Id == id && a.Owner.UserName == username);
+
+            if (album == null)
+            {
+                return -1;
+            }
+
+            this.data.Albums.Delete(album);
+            return album.Id;
+        }
     }
 }

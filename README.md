@@ -120,3 +120,15 @@
     | Header key | Header value | Required |
     | --- | --- | --- |
     | Authorization | bearer {*your access token here*} | false |
+
+- **Delete album by album id** (Requires authorization)
+    
+    Delete api/albums/{id}
+
+    Deletes the album with the specified id if it belongs to the current authorized user.
+
+    HEADERS:
+
+    | Header key | Header value | Required |
+    | --- | --- | --- |
+    | Authorization | bearer {*your access token here*} | true |
