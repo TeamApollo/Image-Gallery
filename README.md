@@ -44,7 +44,7 @@
 
 ### Albums
     
-- **Create a new album** (needs Authorization)
+- **Create a new album** (Required authorization)
 
     POST api/albums
 
@@ -63,13 +63,22 @@
         "Private": "{true | false}",
     }
     ```
-- **Get all non-private albums**
+- **Get all albums** (Optional authorization)
 
     GET api/albums 
 
-- **Get album by id** (Needs authorization)
+    HEADERS:
 
-    Gets the album if it is not private or if it is private - gets it if it is owned by the authenticated user
+    | Header key | Header value | Required |
+    | --- | --- |
+    | Authorization | bearer {*your access token here*} | false |
+
+    If authorization token is NOT provided then all the albums that are NOT private are returned. If such token is proived, then the result includes all the private album of the authenticated user
+
+
+- **Get album by id** (Optional authorization)
+    
+    Gets the album by id if it is not private, or if it is private gets it if it is owned by the authenitcated user.
     
     GET api/albums/{id}
     
@@ -77,9 +86,9 @@
     
     HEADERS:
 
-    | Header key | Header value |
+    | Header key | Header value | Required |
     | --- | --- |
-    | Authorization | bearer {*your access token here*} |
+    | Authorization | bearer {*your access token here*} | false |
 
 - **Get all albums by page**
 
