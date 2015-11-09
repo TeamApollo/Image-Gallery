@@ -73,7 +73,7 @@
     | --- | --- |
     | Authorization | bearer {*your access token here*} | false |
 
-    If authorization token is NOT provided then all the albums that are NOT private are returned. If such token is proived, then the result includes all the private album of the authenticated user
+    If authorization token is NOT provided then all the albums that are NOT private are returned. If such token is proived, then the result includes all the private album of the authorized user
 
 
 - **Get album by id** (Optional authorization)
@@ -82,7 +82,7 @@
     
     GET api/albums/{id}
     
-    _ex. api/albums/1_
+    *ex. api/albums/1* will return the album with id=1 if it is not private or if it is private and owned by the requesting authorized user.
     
     HEADERS:
 
@@ -90,16 +90,19 @@
     | --- | --- |
     | Authorization | bearer {*your access token here*} | false |
 
-- **Get all albums by page**
+- **Get all albums by page** (Optional authorization)
 
     GET api/albums/all?page={*page number*}&pageSize={*items per page*}
 
-    If no query string is provided defaults to page = 1 & pageSize = 10
+    If no query string is provided defaults to page = 1 & pageSize = 10.
+    If no authorization token is provided returns only the non private albums. If such is provided includes the authorized user`s albums also.
 
-    _ex. api/albums/all?page=1&pageSize=2_
+    *ex. api/albums/all?page=1&pageSize=2*
 
-    _ex. api/albums/all_ will default to _api/albums/all?page=1&pageSize=10_
+    *ex. api/albums/all* **will default to** *api/albums/all?page=1&pageSize=10*
 
+    HEADERS:
 
-
-    
+    | Header key | Header value | Required |
+    | --- | --- |
+    | Authorization | bearer {*your access token here*} | false |
