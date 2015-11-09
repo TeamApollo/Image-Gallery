@@ -49,11 +49,26 @@
         /// <returns>The id of the created album.</returns>
         public int Add(Album newAlbum, string creatorName)
         {
-            newAlbum.CreatedOn = DateTime.Now;
+            if (creatorName == null)
+            {
+                throw new ArgumentNullException("Creator name must be specified.");
+            }
+
+            if (newAlbum == null)
+            {
+                throw new ArgumentNullException("Album cannot be null.");
+            }
+
             var currentUser = this.data.Users
                 .All()
                 .FirstOrDefault(u => u.UserName == creatorName);
 
+            if (currentUser == null)
+            {
+                throw new ArgumentException("No user with this username found.");
+            }
+
+            newAlbum.CreatedOn = DateTime.Now;
             newAlbum.Owner = currentUser;
 
             this.data.Albums.Add(newAlbum);
