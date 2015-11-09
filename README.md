@@ -123,7 +123,7 @@
 
 - **Delete album by album id** (Requires authorization)
     
-    Delete api/albums/{id}
+    DELETE api/albums/{id}
 
     Deletes the album with the specified id if it belongs to the current authorized user.
 
