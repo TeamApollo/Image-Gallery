@@ -24,8 +24,10 @@
         [EnableCors("*", "*", "*")]
         public IHttpActionResult Get()
         {
+            string currentUserName = this.User.Identity.Name;
+
             var result = this.albumsService
-                .GetAll()
+                .GetAll(currentUserName)
                 .ProjectTo<AlbumViewModel>()
                 .ToList();
 
@@ -33,7 +35,6 @@
         }
 
         // GET api/albums/{id}
-        [Authorize]
         public IHttpActionResult Get(int id)
         {
             string currentUserName = this.User.Identity.Name;
@@ -58,7 +59,7 @@
             string currentUserName = this.User.Identity.Name;
 
             var result = this.albumsService
-                .GetAll()
+                .GetAll(currentUserName)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ProjectTo<AlbumViewModel>()

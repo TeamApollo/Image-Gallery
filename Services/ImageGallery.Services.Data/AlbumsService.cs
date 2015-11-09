@@ -19,11 +19,12 @@
         /// Gets all non-private albums.
         /// </summary>
         /// <returns>All found non-private albums</returns>
-        public IQueryable<Album> GetAll()
+        public IQueryable<Album> GetAll(string username)
         {
             return this.data.Albums
                 .All()
-                .Where(p => !p.Private)
+                .Where(p => !p.Private
+                    || (p.Private && p.Owner.UserName == username))
                 .OrderByDescending(p => p.CreatedOn);
         }
 
@@ -35,10 +36,7 @@
         /// <returns>Found album or null if not found.</returns>
         public IQueryable<Album> GetById(int id, string currentUserName)
         {
-            var album = this.data.Albums
-                .All()
-                .Where(p => !p.Private
-                    || (p.Private && p.Owner.UserName == currentUserName))
+            var album = this.GetAll(currentUserName)
                 .Where(p => p.Id == id);
 
             return album;
