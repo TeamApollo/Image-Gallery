@@ -4,9 +4,9 @@
 
 ### Users
 
-- __Registers a new user__
+- **Register a new user**
 
-    POST: api/account/register
+    POST api/account/register
 
     HEADERs:
 
@@ -22,7 +22,7 @@
         "confirmPassword":"123"
     }
     ```
-- __Get authorization token__
+- **Get authorization token**
 
     POST: token
 
@@ -44,36 +44,53 @@
 
 ### Albums
     
-- __Create a new album__ (needs Authorization)
+- **Create a new album** (needs Authorization)
 
-    POST: api/albums
+    POST api/albums
 
-    HEADERs:
+    HEADERs
 
     | Header Key | Header Value |
     |---|---|
     | Authorization | bearer {*your access token here*} |
     | Content-Type | application/json |
 
-    BODY:
+    BODY
     ```js
     {
-        "Name":"{album name}",
+        "Name":"{album name}", // required
         "Description":"{description}",
+        "Private": "{true | false}",
     }
     ```
-- __Get all albums__
+- **Get all non-private albums**
 
-    GET: api/albums 
+    GET api/albums 
 
-- __Get specific album by album name__
+- **Get album by id** (Needs authorization)
 
-    GET: api/albums/{album name}
+    Gets the album if it is not private or if it is private - gets it if it is owned by the authenticated user
+    
+    GET api/albums/{id}
+    
+    _ex. api/albums/1_
+    
+    HEADERS:
 
-    _ex. api/albums/snimki%20kupona_
+    | Header key | Header value |
+    | --- | --- |
+    | Authorization | bearer {*your access token here*} |
 
-- __Get all albums by page__
+- **Get all albums by page**
 
-    GET: api/albums/all/{page number}?pageSize={items per page}
+    GET api/albums/all?page={*page number*}&pageSize={*items per page*}
 
-    _ex. api/albums/all/1?pageSize=2_
+    If no query string is provided defaults to page = 1 & pageSize = 10
+
+    _ex. api/albums/all?page=1&pageSize=2_
+
+    _ex. api/albums/all_ will default to _api/albums/all?page=1&pageSize=10_
+
+
+
+    

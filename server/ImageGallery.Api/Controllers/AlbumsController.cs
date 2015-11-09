@@ -89,6 +89,7 @@
         [Authorize]
         public IHttpActionResult Delete(int id)
         {
+            // todo: implement
             throw new NotImplementedException();
         }
     }
