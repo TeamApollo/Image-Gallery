@@ -3,7 +3,7 @@
     using System;
     using Models;
 
-    public interface IImageGalleryData : IDisposable
+    public interface IImageGalleryData
     {
         IRepository<User> Users { get; }
 
