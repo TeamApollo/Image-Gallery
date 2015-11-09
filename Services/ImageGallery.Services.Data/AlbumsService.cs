@@ -36,5 +36,17 @@
                 .All()
                 .OrderByDescending(p => p.CreatedOn);
         }
+
+        public IQueryable<Album> GetById(int id, string currentUserName)
+        {
+            var album = this.All()
+                .Where(
+                    p => p.Id == id &&
+                    (!p.Private ||
+                        (p.Private &&
+                        p.Owner.UserName == currentUserName)));
+
+            return album;
+        }
     }
 }

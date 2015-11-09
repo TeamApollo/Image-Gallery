@@ -8,5 +8,7 @@
         IQueryable<Album> All();
 
         int Add(Album album, string creatorName);
+
+        IQueryable<Album> GetById(int id, string username);
     }
 }

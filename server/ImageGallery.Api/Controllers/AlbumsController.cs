@@ -1,5 +1,6 @@
 ﻿namespace ImageGallery.Api.Controllers
 {
+    using System;
     using System.Linq;
     using System.Web.Http;
     using System.Web.Http.Cors;
@@ -30,22 +31,12 @@
             return this.Ok(result);
         }
 
-        public IHttpActionResult Get(string id)
+        public IHttpActionResult Get(int id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return this.BadRequest("Invalid album name.");
-            }
-
             string currentUserName = this.User.Identity.Name;
 
             var result = this.albumsService
-                .All()
-                .Where(
-                    p => p.Name == id &&
-                    (!p.Private ||
-                        (p.Private &&
-                        p.Owner.UserName == currentUserName)))
+                .GetById(id, currentUserName)
                 .ProjectTo<AlbumViewModel>()
                 .FirstOrDefault();
 
@@ -85,6 +76,12 @@
                 .Add(newProject, currentUser);
 
             return this.Ok(createdProjectId);
+        }
+
+        [Authorize]
+        public IHttpActionResult Delete(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
