@@ -59,7 +59,9 @@
   <ItemGroup>
     <Compile Include="Contracts\IAlbumsService.cs" />
     <Compile Include="AlbumsService.cs" />
+    <Compile Include="Contracts\ITagsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TagsService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\data\ImageGallery.Data\ImageGallery.Data.csproj">
