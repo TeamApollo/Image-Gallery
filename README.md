@@ -12,7 +12,7 @@
 
     | Header Key | Header Value |
     |---|---|
-    | Content-Type | application/json |    
+    | Content-Type | application/json |
 
     BODY:
     ```js
@@ -51,7 +51,7 @@
     HEADERs
 
     | Header Key | Header Value |
-    |---|---|
+    | --- | --- |
     | Authorization | bearer {*your access token here*} |
     | Content-Type | application/json |
 
@@ -70,7 +70,7 @@
     HEADERS:
 
     | Header key | Header value | Required |
-    | --- | --- |
+    | --- | --- | --- |
     | Authorization | bearer {*your access token here*} | false |
 
     If authorization token is NOT provided then all the albums that are NOT private are returned. If such token is proived, then the result includes all the private album of the authorized user
@@ -87,7 +87,7 @@
     HEADERS:
 
     | Header key | Header value | Required |
-    | --- | --- |
+    | --- | --- | --- |
     | Authorization | bearer {*your access token here*} | false |
 
 - **Get all albums by page** (Optional authorization)
@@ -104,7 +104,7 @@
     HEADERS:
 
     | Header key | Header value | Required |
-    | --- | --- |
+    | --- | --- | --- |
     | Authorization | bearer {*your access token here*} | false |
 
 - **Get all albums by user** (Optional authorization)
@@ -118,5 +118,5 @@
     HEADERS:
 
     | Header key | Header value | Required |
-    | --- | --- |
+    | --- | --- | --- |
     | Authorization | bearer {*your access token here*} | false |
