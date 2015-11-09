@@ -68,6 +68,19 @@
             return this.Ok(result);
         }
 
+        // GET api/albums/user?owner={owner username}
+        [Route("api/albums/user")]
+        public IHttpActionResult GetUserAlbums(string owner)
+        {
+            string authorizedUsername = this.User.Identity.Name;
+
+            var albums = albumsService.GetAlbumsByUser(owner, authorizedUsername)
+                .ProjectTo<AlbumViewModel>()
+                .ToList();
+
+            return this.Ok(albums);
+        }
+
         // POST api/albums
         [Authorize]
         public IHttpActionResult Post(AlbumsBindingModel albumRequestModel)

@@ -106,3 +106,17 @@
     | Header key | Header value | Required |
     | --- | --- |
     | Authorization | bearer {*your access token here*} | false |
+
+- **Get all albums by user** (Optional authorization)
+    
+    GET api/albums/user?owner={*owner username*}
+
+    Gets all albums that are owned by the provided owner username and are not private. If the authorized user is also the owner gets the private albums as well.
+
+    *ex. api/albums/user?owner=BaiIvan@mail.com*
+
+    HEADERS:
+
+    | Header key | Header value | Required |
+    | --- | --- |
+    | Authorization | bearer {*your access token here*} | false |

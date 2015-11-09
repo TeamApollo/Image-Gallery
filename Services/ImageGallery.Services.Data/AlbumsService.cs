@@ -61,5 +61,19 @@
 
             return newAlbum.Id;
         }
+
+        /// <summary>
+        /// Gets all albums that are owned by the provided username and are not private. If the authorized user is also the owner gets the private albums as well.
+        /// </summary>
+        /// <param name="ownerUsername">The owner of the albums to get.</param>
+        /// <param name="authorizedUsername">The requesting authorized user username.</param>
+        /// <returns></returns>
+        public IQueryable<Album> GetAlbumsByUser(string ownerUsername, string authorizedUsername)
+        {
+            var albums = this.GetAll(authorizedUsername)
+                .Where(a => a.Owner.UserName == ownerUsername);
+
+            return albums;
+        }
     }
 }

@@ -10,5 +10,7 @@
         int Add(Album album, string username);
 
         IQueryable<Album> GetById(int id, string username);
+
+        IQueryable<Album> GetAlbumsByUser(string username, string authorizedUsername);
     }
 }
