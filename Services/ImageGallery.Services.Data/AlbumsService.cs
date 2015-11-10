@@ -106,6 +106,7 @@
             }
 
             this.data.Albums.Delete(album);
+            this.data.SaveChanges();
             return album.Id;
         }
     }
