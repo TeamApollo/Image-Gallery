@@ -235,6 +235,8 @@
     <Compile Include="Models\Album\AlbumViewModel.cs" />
     <Compile Include="Models\Tag\TagBindingModel.cs" />
     <Compile Include="Models\Tag\TagViewModel.cs" />
+    <Compile Include="Models\Video\VideoBindingModel.cs" />
+    <Compile Include="Models\Video\VideoViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
