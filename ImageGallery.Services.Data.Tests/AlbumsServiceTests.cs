@@ -193,7 +193,6 @@
 
             // assert
             Assert.AreEqual(DateTime.Now.Date, addedAlbumDate);
-            Assert.AreEqual(DateTime.Now.Hour, addedAlbumDate.Hour);
         }
 
         [TestMethod]

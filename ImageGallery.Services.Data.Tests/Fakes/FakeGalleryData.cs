@@ -6,6 +6,7 @@
 
     public class FakeGalleryData : IImageGalleryData
     {
+        private FakeRepository<Tag> tags;
         private FakeRepository<Album> albums;
         private FakeRepository<User> users;
 
@@ -50,7 +51,12 @@
         {
             get
             {
-                throw new NotImplementedException();
+                if (this.tags == null)
+                {
+                    this.tags = new FakeRepository<Tag>();
+                }
+
+                return this.tags;
             }
         }
 
