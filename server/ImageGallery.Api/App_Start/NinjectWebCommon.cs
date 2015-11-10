@@ -6,7 +6,6 @@ using ImageGallery.Api;
 namespace ImageGallery.Api
 {
     using System;
-    using System.Collections.Generic;
     using System.Web;
     using Data;
     using Data.Contracts;
