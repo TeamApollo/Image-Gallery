@@ -235,6 +235,8 @@
     <Compile Include="Models\Album\AlbumViewModel.cs" />
     <Compile Include="Models\Image\ImageBindingModel.cs" />
     <Compile Include="Models\Image\ImageViewModel.cs" />
+    <Compile Include="Models\MediaFile\MediaFileBindingModel.cs" />
+    <Compile Include="Models\MediaFile\MediaFileViewModel.cs" />
     <Compile Include="Models\Tag\TagBindingModel.cs" />
     <Compile Include="Models\Tag\TagViewModel.cs" />
     <Compile Include="Models\Video\VideoBindingModel.cs" />
