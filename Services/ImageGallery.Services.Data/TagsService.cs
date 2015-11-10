@@ -1,10 +1,10 @@
 ﻿namespace ImageGallery.Services.Data
 {
-    using System.Linq;
-    using Models;
-    using ImageGallery.Services.Data.Contracts;
-    using ImageGallery.Data.Contracts;
     using System;
+    using System.Linq; 
+    using ImageGallery.Data.Contracts;
+    using ImageGallery.Services.Data.Contracts;
+    using Models;
 
     public class TagsService : ITagsService
     {

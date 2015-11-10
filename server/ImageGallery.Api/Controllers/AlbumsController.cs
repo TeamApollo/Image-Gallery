@@ -74,7 +74,7 @@
         {
             string authorizedUsername = this.User.Identity.Name;
 
-            var albums = albumsService.GetAlbumsByUser(owner, authorizedUsername)
+            var albums = this.albumsService.GetAlbumsByUser(owner, authorizedUsername)
                 .ProjectTo<AlbumViewModel>()
                 .ToList();
 

@@ -69,11 +69,11 @@
             }
         }
 
+        public int SaveChangesCallCount { get; set; }
+
         public void SaveChanges()
         {
             this.SaveChangesCallCount++;
-        }
-
-        public int SaveChangesCallCount { get; set; }
+        } 
     }
 }

@@ -1,12 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-namespace ImageGallery.Services.Data.Tests
+﻿namespace ImageGallery.Services.Data.Tests
 {
     using System;
-    using System.Linq;
-    using System.Text;
-    using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.Linq; 
     using Fakes;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Models;
 
     [TestClass]
@@ -19,7 +16,7 @@ namespace ImageGallery.Services.Data.Tests
         {
             // arrange
             var data = new FakeGalleryData();
-            PopulateFakeGalleryAlbumsData(data, 30);
+            this.PopulateFakeGalleryAlbumsData(data, 30);
             var service = new AlbumsService(data);
             string username = null;
 
@@ -50,7 +47,7 @@ namespace ImageGallery.Services.Data.Tests
         {
             // arrange
             var data = new FakeGalleryData();
-            PopulateFakeGalleryAlbumsData(data, 30);
+            this.PopulateFakeGalleryAlbumsData(data, 30);
             var service = new AlbumsService(data);
             string username = "user2";
 
@@ -70,7 +67,7 @@ namespace ImageGallery.Services.Data.Tests
         {
             // arrange
             var data = new FakeGalleryData();
-            PopulateFakeGalleryAlbumsData(data, 5);
+            this.PopulateFakeGalleryAlbumsData(data, 5);
             var service = new AlbumsService(data);
             string username = null;
 
@@ -86,7 +83,7 @@ namespace ImageGallery.Services.Data.Tests
         {
             // arrange
             var data = new FakeGalleryData();
-            PopulateFakeGalleryAlbumsData(data, 5);
+            this.PopulateFakeGalleryAlbumsData(data, 5);
             var service = new AlbumsService(data);
             string username = null;
 
@@ -102,7 +99,7 @@ namespace ImageGallery.Services.Data.Tests
         {
             // arrange
             var data = new FakeGalleryData();
-            PopulateFakeGalleryAlbumsData(data, 5);
+            this.PopulateFakeGalleryAlbumsData(data, 5);
             var service = new AlbumsService(data);
             string username = "user3";
 
@@ -118,7 +115,7 @@ namespace ImageGallery.Services.Data.Tests
         {
             // arrange
             var data = new FakeGalleryData();
-            PopulateFakeGalleryAlbumsData(data, 5);
+            this.PopulateFakeGalleryAlbumsData(data, 5);
             var service = new AlbumsService(data);
             string username = "user2";
 
@@ -138,10 +135,10 @@ namespace ImageGallery.Services.Data.Tests
         {
             // arrange
             var data = new FakeGalleryData();
-            PopulateFakeGalleryUsersData(data, 5);
+            this.PopulateFakeGalleryUsersData(data, 5);
             var service = new AlbumsService(data);
             string username = "user0";
-            var album = GetAlbum("myalbum", false);
+            var album = this.GetAlbum("myalbum", false);
 
             // act
             service.Add(album, username);
@@ -170,9 +167,9 @@ namespace ImageGallery.Services.Data.Tests
         {
             // arrange
             var data = new FakeGalleryData();
-            PopulateFakeGalleryUsersData(data, 5);
+            this.PopulateFakeGalleryUsersData(data, 5);
             var service = new AlbumsService(data);
-            var album = GetAlbum("myalbum", false);
+            var album = this.GetAlbum("myalbum", false);
 
             // act
             service.Add(album, null);
@@ -183,10 +180,10 @@ namespace ImageGallery.Services.Data.Tests
         {
             // arrange
             var data = new FakeGalleryData();
-            PopulateFakeGalleryUsersData(data, 5);
+            this.PopulateFakeGalleryUsersData(data, 5);
             var service = new AlbumsService(data);
             string username = "user0";
-            var album = GetAlbum("myalbum", false);
+            var album = this.GetAlbum("myalbum", false);
 
             // act
             service.Add(album, username);
@@ -204,10 +201,10 @@ namespace ImageGallery.Services.Data.Tests
         {
             // arrange
             var data = new FakeGalleryData();
-            PopulateFakeGalleryUsersData(data, 5);
+            this.PopulateFakeGalleryUsersData(data, 5);
             var service = new AlbumsService(data);
             string username = "user0";
-            var album = GetAlbum("myalbum", false);
+            var album = this.GetAlbum("myalbum", false);
 
             // act
             service.Add(album, username);
@@ -222,10 +219,10 @@ namespace ImageGallery.Services.Data.Tests
         {
             // arrange
             var data = new FakeGalleryData();
-            PopulateFakeGalleryUsersData(data, 5);
+            this.PopulateFakeGalleryUsersData(data, 5);
             var service = new AlbumsService(data);
             string username = "user0";
-            var album = GetAlbum("myalbum", false);
+            var album = this.GetAlbum("myalbum", false);
 
             // act
             var actual = service.Add(album, username);
@@ -240,10 +237,10 @@ namespace ImageGallery.Services.Data.Tests
         {
             // arrange
             var data = new FakeGalleryData();
-            PopulateFakeGalleryUsersData(data, 5);
+            this.PopulateFakeGalleryUsersData(data, 5);
             var service = new AlbumsService(data);
             string username = "user8";
-            var album = GetAlbum("myalbum", false);
+            var album = this.GetAlbum("myalbum", false);
 
             // act
             service.Add(album, username);
@@ -254,10 +251,10 @@ namespace ImageGallery.Services.Data.Tests
         {
             // arrange
             var data = new FakeGalleryData();
-            PopulateFakeGalleryUsersData(data, 5);
+            this.PopulateFakeGalleryUsersData(data, 5);
             var service = new AlbumsService(data);
             string username = "user0";
-            var album = GetAlbum("myalbum", false);
+            var album = this.GetAlbum("myalbum", false);
 
             // act
             service.Add(album, username);
@@ -279,7 +276,7 @@ namespace ImageGallery.Services.Data.Tests
                 {
                     Id = i,
                     Name = "Album" + i,
-                    Private = (i % 2 == 0),
+                    Private = i % 2 == 0,
                     CreatedOn = DateTime.Now.AddDays(i),
                     Owner = new User()
                     {
