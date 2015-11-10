@@ -10,5 +10,7 @@
         int Add(Tag tag);
 
         IQueryable<Tag> GetById(int id);
+
+        int DeleteTagById(int id);
     }
 }
