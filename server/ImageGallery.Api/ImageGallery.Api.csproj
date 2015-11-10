@@ -233,6 +233,8 @@
     <Compile Include="Models\Account\ViewModels\UserInfoViewModel.cs" />
     <Compile Include="Models\Album\AlbumBindingModel.cs" />
     <Compile Include="Models\Album\AlbumViewModel.cs" />
+    <Compile Include="Models\Image\ImageBindingModel.cs" />
+    <Compile Include="Models\Image\ImageViewModel.cs" />
     <Compile Include="Models\Tag\TagBindingModel.cs" />
     <Compile Include="Models\Tag\TagViewModel.cs" />
     <Compile Include="Models\Video\VideoBindingModel.cs" />
@@ -273,9 +275,7 @@
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\Image\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
