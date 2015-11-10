@@ -24,8 +24,10 @@
         [EnableCors("*", "*", "*")]
         public IHttpActionResult Get()
         {
+            string currentUserName = this.User.Identity.Name;
+
             var result = this.albumsService
-                .GetAll()
+                .GetAll(currentUserName)
                 .ProjectTo<AlbumViewModel>()
                 .ToList();
 
@@ -33,7 +35,6 @@
         }
 
         // GET api/albums/{id}
-        [Authorize]
         public IHttpActionResult Get(int id)
         {
             string currentUserName = this.User.Identity.Name;
@@ -58,13 +59,26 @@
             string currentUserName = this.User.Identity.Name;
 
             var result = this.albumsService
-                .GetAll()
+                .GetAll(currentUserName)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ProjectTo<AlbumViewModel>()
                 .ToList();
 
             return this.Ok(result);
+        }
+
+        // GET api/albums/user?owner={owner username}
+        [Route("api/albums/user")]
+        public IHttpActionResult GetUserAlbums(string owner)
+        {
+            string authorizedUsername = this.User.Identity.Name;
+
+            var albums = albumsService.GetAlbumsByUser(owner, authorizedUsername)
+                .ProjectTo<AlbumViewModel>()
+                .ToList();
+
+            return this.Ok(albums);
         }
 
         // POST api/albums
@@ -89,8 +103,16 @@
         [Authorize]
         public IHttpActionResult Delete(int id)
         {
-            // todo: implement
-            throw new NotImplementedException();
+            var currentUser = this.User.Identity.Name;
+
+            int deletedId = this.albumsService.DeleteAlbumById(id, currentUser);
+
+            if (deletedId < 0)
+            {
+                return this.NotFound();
+            }
+
+            return this.Ok(deletedId);
         }
     }
 }

@@ -10,8 +10,6 @@
         private readonly IImageGalleryDbContext context;
         private readonly IDictionary<Type, object> repositories;
 
-        private bool disposed;
-
         public ImageGalleryData(IImageGalleryDbContext context, IDictionary<Type, object> repositories)
         {
             this.context = context;
@@ -35,12 +33,6 @@
             this.context.SaveChanges();
         }
 
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
         protected IRepository<T> GetRepository<T>() where T : class
         {
             var typeOfModel = typeof(T);
@@ -52,19 +44,6 @@
             }
 
             return (IRepository<T>)this.repositories[typeOfModel];
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this.disposed)
-            {
-                if (disposing)
-                {
-                    this.context.Dispose();
-                }
-            }
-
-            this.disposed = true;
         }
     }
 }
