@@ -6,7 +6,6 @@ using ImageGallery.Api;
 namespace ImageGallery.Api
 {
     using System;
-    using System.Collections.Generic;
     using System.Web;
     using Data;
     using Data.Contracts;
@@ -71,8 +70,6 @@ namespace ImageGallery.Api
                 .InRequestScope();
 
             kernel.Bind(typeof(IRepository<>)).To(typeof(GenericRepository<>));
-
-            kernel.Bind(typeof(IDictionary<,>)).To(typeof(Dictionary<,>));
 
             kernel.Bind<IImageGalleryData>().To<ImageGalleryData>();
 

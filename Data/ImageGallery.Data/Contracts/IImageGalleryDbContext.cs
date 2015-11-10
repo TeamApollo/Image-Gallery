@@ -8,6 +8,8 @@
     {
         IDbSet<Album> Albums { get; set; }
 
+        IDbSet<MediaFile> MediaFiles { get; set; }
+
         IDbSet<Image> Images { get; set; }
 
         IDbSet<Video> Videos { get; set; }

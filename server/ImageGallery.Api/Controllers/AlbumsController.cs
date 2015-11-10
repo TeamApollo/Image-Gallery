@@ -1,6 +1,5 @@
 ﻿namespace ImageGallery.Api.Controllers
 {
-    using System;
     using System.Linq;
     using System.Web.Http;
     using System.Web.Http.Cors;
@@ -74,7 +73,7 @@
         {
             string authorizedUsername = this.User.Identity.Name;
 
-            var albums = albumsService.GetAlbumsByUser(owner, authorizedUsername)
+            var albums = this.albumsService.GetAlbumsByUser(owner, authorizedUsername)
                 .ProjectTo<AlbumViewModel>()
                 .ToList();
 
@@ -91,10 +90,10 @@
             }
 
             var currentUser = this.User.Identity.Name;
-            var newProject = Mapper.Map<Album>(albumRequestModel);
+            var newAlbum = Mapper.Map<Album>(albumRequestModel);
 
             var createdProjectId = this.albumsService
-                .Add(newProject, currentUser);
+                .Add(newAlbum, currentUser);
 
             return this.Ok(createdProjectId);
         }

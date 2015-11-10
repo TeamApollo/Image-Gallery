@@ -8,15 +8,16 @@
     public class ImageGalleryData : IImageGalleryData
     {
         private readonly IImageGalleryDbContext context;
-        private readonly IDictionary<Type, object> repositories;
+        private readonly IDictionary<Type, object> repositories = new Dictionary<Type, object>();
 
-        public ImageGalleryData(IImageGalleryDbContext context, IDictionary<Type, object> repositories)
+        public ImageGalleryData(IImageGalleryDbContext context)
         {
             this.context = context;
-            this.repositories = repositories;
         }
 
         public IRepository<User> Users => this.GetRepository<User>();
+
+        public IRepository<MediaFile> MediaFiles => this.GetRepository<MediaFile>();
 
         public IRepository<Album> Albums => this.GetRepository<Album>();
 

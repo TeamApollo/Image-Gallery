@@ -15,6 +15,8 @@
 
         public virtual IDbSet<Album> Albums { get; set; }
 
+        public virtual IDbSet<MediaFile> MediaFiles { get; set; }
+
         public virtual IDbSet<Image> Images { get; set; }
 
         public virtual IDbSet<Video> Videos { get; set; }

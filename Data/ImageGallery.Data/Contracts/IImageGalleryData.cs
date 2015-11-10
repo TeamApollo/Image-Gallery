@@ -7,6 +7,8 @@
     {
         IRepository<User> Users { get; }
 
+        IRepository<MediaFile> MediaFiles { get; }
+
         IRepository<Album> Albums { get; }
 
         IRepository<Image> Images { get; }

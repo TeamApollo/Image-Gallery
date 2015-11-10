@@ -1,8 +1,6 @@
 ﻿namespace ImageGallery.Services.Data.Tests.Fakes
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using ImageGallery.Data.Contracts;
     using Models;
 
@@ -22,6 +20,14 @@
                 }
 
                 return this.albums;
+            }
+        }
+
+        public IRepository<MediaFile> MediaFiles
+        {
+            get
+            {
+                throw new NotImplementedException();
             }
         }
 
@@ -75,11 +81,11 @@
             }
         }
 
+        public int SaveChangesCallCount { get; set; }
+
         public void SaveChanges()
         {
             this.SaveChangesCallCount++;
         }
-
-        public int SaveChangesCallCount { get; set; }
     }
 }

@@ -2,13 +2,13 @@
 {
     using System.Linq;
     using System.Web.Http;
-    using System.Web.Http.Cors;
-    using Services.Data.Contracts;
+    using System.Web.Http.Cors;    
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using Common.Constants;
     using ImageGallery.Models;
     using Models.Tag;
+    using Services.Data.Contracts;
 
     public class TagsController : ApiController
     {
