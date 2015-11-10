@@ -17,6 +17,8 @@
     BODY:
     ```js
     {
+        "firstName":"John",
+        "lastName":"Doe"
         "email":"user1@user1.com",
         "password":"123",
         "confirmPassword":"123"

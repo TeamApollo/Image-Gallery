@@ -72,8 +72,6 @@ namespace ImageGallery.Api
 
             kernel.Bind(typeof(IRepository<>)).To(typeof(GenericRepository<>));
 
-            kernel.Bind(typeof(IDictionary<,>)).To(typeof(Dictionary<,>));
-
             kernel.Bind<IImageGalleryData>().To<ImageGalleryData>();
 
             // This will bind all classes to their interfaces if they have the same name
