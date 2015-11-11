@@ -215,6 +215,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AlbumsController.cs" />
+    <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\TagsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -233,6 +234,8 @@
     <Compile Include="Models\Account\ViewModels\UserInfoViewModel.cs" />
     <Compile Include="Models\Album\AlbumBindingModel.cs" />
     <Compile Include="Models\Album\AlbumViewModel.cs" />
+    <Compile Include="Models\Comment\CommentBindingModel.cs" />
+    <Compile Include="Models\Comment\CommentViewModel.cs" />
     <Compile Include="Models\Image\ImageBindingModel.cs" />
     <Compile Include="Models\Image\ImageViewModel.cs" />
     <Compile Include="Models\MediaFile\MediaFileBindingModel.cs" />
