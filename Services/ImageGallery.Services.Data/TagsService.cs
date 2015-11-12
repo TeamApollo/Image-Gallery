@@ -59,7 +59,7 @@
         }
 
         /// <summary>
-        /// Deletets the tag with the provided id.
+        /// Deletes the tag with the provided id.
         /// </summary>
         /// <param name="id">The id of the tag to delete.</param>
         /// <returns>The id of the deleted tag or -1 if no item with such id is found.</returns>

@@ -15,6 +15,11 @@
             this.data = data;
         }
 
+        /// <summary>
+        /// Adds a new comment to the database.
+        /// </summary>
+        /// <param name="comment">The new comment to be added.</param>
+        /// <returns>The id of the created comment.</returns>
         public int Add(Comment comment, string username)
         {
             if (username == null)
@@ -39,6 +44,11 @@
             return comment.Id;
         }
 
+        /// <summary>
+        /// Deletes the comment with the provided id.
+        /// </summary>
+        /// <param name="id">The id of the comment to delete.</param>
+        /// <returns>The id of the deleted comment or -1 if no item with such id is found.</returns>
         public int DeleteCommentById(int id, string authorizedUser)
         {
             var commentToDelete = this.data.Comments
@@ -53,6 +63,10 @@
             return commentToDelete.Id;
         }
 
+        /// <summary>
+        /// Gets all comments.
+        /// </summary>
+        /// <returns>All found comments.</returns>
         public IQueryable<Comment> GetAll(string username)
         {
             var comments = this.data.Comments
@@ -62,6 +76,11 @@
             return comments;
         }
 
+        /// <summary>
+        /// Gets the comment with the provided id.
+        /// </summary>
+        /// <param name="id">The id of the comment to get.</param>
+        /// <returns>Found comment or null if not found.</returns>
         public IQueryable<Comment> GetById(int id, string username)
         {
             var comments = this.data.Comments
