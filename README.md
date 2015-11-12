@@ -1,5 +1,22 @@
 # Image-Gallery
 
+## Image Gallery Client
+
+### Users
+
+#### For local tests:
+
+1. **Run ImageGallery Web API**
+
+2. **Copy server link (localhost link)**
+
+3. **Open Client/Scripts/Controllers/users-controller.js**
+
+4. **Find Row 2 (var MyLocalHostWithPort), replace the server link (paste yours)**
+
+5. **Open Client/index.html**
+	`Note: must be opened on another localhost server for Sammy.js to work properly`
+
 ## Image Gallery WebApi
 
 ### Users

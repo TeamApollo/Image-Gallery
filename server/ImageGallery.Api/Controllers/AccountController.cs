@@ -9,6 +9,7 @@
     using System.Threading.Tasks;
     using System.Web;
     using System.Web.Http;
+    using System.Web.Http.Cors;
     using ImageGallery.Models;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
@@ -20,7 +21,7 @@
     using Models.Account.ViewModels;
     using Providers;
     using Results;
-    
+
     [Authorize]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController

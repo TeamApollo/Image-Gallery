@@ -265,6 +265,196 @@
 
         #endregion
 
+        #region GetAlbumsByUser
+
+        [TestMethod]
+        public void GetAlbumsByUser_ShouldGetAllAlbumsOfUserIfSameIsAuthenticated()
+        {
+            // arrange
+            var data = new FakeGalleryData();
+            this.PopulateFakeGalleryUsersData(data, 5);
+            this.PopulateFakeGalleryAlbumsData(data, 10);
+
+            string username = "user0";
+            var album = new Album()
+            {
+                Name = "customAlbum0",
+            };
+            var service = new AlbumsService(data);
+            service.Add(album, username);
+
+            // act
+            var actual = service.GetAlbumsByUser(username, username).Count();
+
+            // assert
+            Assert.AreEqual(2, actual);
+        }
+
+        [TestMethod]
+        public void GetAlbumsByUser_ShouldGetOnlyPublicAlbumsOfUserIfNOAuthenitcatedUser()
+        {
+            // arrange
+            var data = new FakeGalleryData();
+            this.PopulateFakeGalleryUsersData(data, 5);
+            this.PopulateFakeGalleryAlbumsData(data, 10);
+
+            string username = "user0";
+            var album = new Album()
+            {
+                Name = "customAlbum0",
+                Private = false
+            };
+
+            var service = new AlbumsService(data);
+            service.Add(album, username);
+
+            // act
+            var actual = service.GetAlbumsByUser(username, null).Count();
+
+            // assert
+            Assert.AreEqual(1, actual);
+        }
+
+        [TestMethod]
+        public void GetAlbumsByUser_ShouldGetOnlyPublicAlbumsOfUserIfOtherAuthenitcatedUser()
+        {
+            // arrange
+            var data = new FakeGalleryData();
+            this.PopulateFakeGalleryUsersData(data, 5);
+            this.PopulateFakeGalleryAlbumsData(data, 10);
+
+            string username = "user0";
+            var album = new Album()
+            {
+                Name = "customAlbum0",
+                Private = false
+            };
+
+            var service = new AlbumsService(data);
+            service.Add(album, username);
+
+            // act
+            var actual = service.GetAlbumsByUser(username, "user1").Count();
+
+            // assert
+            Assert.AreEqual(1, actual);
+        }
+
+        #endregion
+
+        #region Delete
+
+        [TestMethod]
+        public void Delete_ShouldDeleteAlbumOfAuthorizedUser()
+        {
+            // arrange
+
+            string username = "user0";
+            var album = new Album()
+            {
+                Id = 2,
+                Name = "customAlbum0",
+                Private = false,
+                Owner = new User() { UserName = username}
+            };
+
+            var data = new FakeGalleryData();
+            data.Albums.Add(album);
+            var service = new AlbumsService(data);
+
+            // act
+
+            service.DeleteAlbumById(2, username);
+
+            // assert
+
+            var actual = data.Albums.All().Count();
+            Assert.AreEqual(0, actual);
+        }
+
+        [TestMethod]
+        public void Delete_ShouldReturnTheIdOfTheDeletedAlbum()
+        {
+            // arrange
+
+            string username = "user0";
+            var album = new Album()
+            {
+                Id = 2,
+                Name = "customAlbum0",
+                Private = false,
+                Owner = new User() { UserName = username }
+            };
+
+            var data = new FakeGalleryData();
+            data.Albums.Add(album);
+            var service = new AlbumsService(data);
+
+            // act
+
+            var actual = service.DeleteAlbumById(2, username);
+
+            // assert
+
+            Assert.AreEqual(2, actual);
+        }
+
+        public void Delete_ShouldReturnMinusOneIfAlbumWasNotFoundOrAuthorizedUserIsNotOwner()
+        {
+            // arrange
+
+            string username = "user0";
+            var album = new Album()
+            {
+                Id = 2,
+                Name = "customAlbum0",
+                Private = false,
+                Owner = new User() { UserName = username }
+            };
+
+            var data = new FakeGalleryData();
+            data.Albums.Add(album);
+            var service = new AlbumsService(data);
+
+            // act
+
+            var actual = service.DeleteAlbumById(3, username);
+
+            // assert
+
+            Assert.AreEqual(0, actual);
+        }
+
+        public void Delete_ShouldCallSaveChangesIfOperationIsAuthorizedAndAlbumIsFound()
+        {
+            // arrange
+
+            string username = "user0";
+            var album = new Album()
+            {
+                Id = 2,
+                Name = "customAlbum0",
+                Private = false,
+                Owner = new User() { UserName = username }
+            };
+
+            var data = new FakeGalleryData();
+            data.Albums.Add(album);
+            var service = new AlbumsService(data);
+
+            // act
+
+            service.DeleteAlbumById(2, username);
+
+            // assert
+
+            var actual = data.SaveChangesCallCount;
+            Assert.AreEqual(1, actual);
+        }
+
+        #endregion
+
+        #region helpers
         private void PopulateFakeGalleryAlbumsData(
             FakeGalleryData data,
             int albumsCount)
@@ -311,5 +501,7 @@
                 Id = 1
             };
         }
+
+        #endregion
     }
 }
