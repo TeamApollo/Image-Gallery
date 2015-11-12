@@ -4,7 +4,7 @@ var templates = (function () {
 
     function get(name) {
         var promise = new Promise(function(resolve, reject) {
-            var url = '../templates/' + name + '.handlebars';
+            var url = 'Templates/' + name + '.handlebars';
             $.get(url, function(templateHtml) {
                 var template = handlebars.compile(templateHtml);
                 resolve(template);
