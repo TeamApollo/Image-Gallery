@@ -20,7 +20,7 @@
     using Models.Account.ViewModels;
     using Providers;
     using Results;
-
+    
     [Authorize]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController

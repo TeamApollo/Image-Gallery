@@ -1,12 +1,12 @@
 var requester = function () {
     'use strict';
 
-    function httpRequest(method, url, data, authKey) {
+    function httpRequest(method, url, data, headers, contentType) {
         var promise = new Promise(function (resolve, reject) {
             var objectRequest = {
                 url: url,
                 method: method,
-                contentType: 'application/json',
+                crossDomain: true,
                 success: function (res) {
                     resolve(res);
                 },
@@ -19,8 +19,16 @@ var requester = function () {
                 objectRequest.data = JSON.stringify(data);
             }
 
-            if (authKey) {
-                objectRequest.headers = {'x-auth-key': authKey};
+            if (contentType) {
+                objectRequest.contentType = contentType
+            }
+
+            //if (authKey) {
+            //    objectRequest.headers = {'x-auth-key': authKey};
+            //}
+
+            if (headers) {
+                objectRequest.headers = headers;
             }
 
             $.ajax(objectRequest);
