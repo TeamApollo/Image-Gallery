@@ -23,7 +23,7 @@ var usersController = (function () {
             data = "username=" + user.email + "&password=" + user.password + "&grant_type=password";
             contentType = 'application/x-www-form-urlencoded; charset=utf-8' ;
 
-        requester.post(url, data, false, contentType)
+        var req = requester.post(url, data, false, contentType)
             .then(function (result) {
                 var accessToken = result.access_token;
                 localStorage.setItem(ACCESSTOKEN, accessToken);
@@ -32,6 +32,8 @@ var usersController = (function () {
             .catch(function (err) {
                 toastr.error(err.responseText);
             });
+
+        return req;
     }
 
     function userRegister(user) {

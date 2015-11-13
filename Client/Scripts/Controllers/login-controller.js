@@ -16,9 +16,7 @@ var loginController = function () {
                         password: $('#tb-log-password').val()
                     };
 
-                    usersController.login(user);
-                    // needed for logout button to appear but first the query must be completed
-                    setTimeout(function() { context.redirect('#/home') }, 100);
+                    usersController.login(user).then(function () { context.redirect('#/home') });
                 });
             });
     }
