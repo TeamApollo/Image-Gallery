@@ -12,14 +12,6 @@
         this.get('#/login', loginController.login);
 
         this.get('#/logout', logoutController.logout);
-
-        //this.get('#/users', viewUsersController.all);
-
-        //this.get('#/cookies', cookieController.all);
-        //this.get('#/cookies/share', cookieController.share);
-        //this.get('#/my-cookie', cookieController.draw);
-
-        //this.get('#/categories', categoriesController.all);
     });
 
     $(function () {

@@ -16,16 +16,12 @@ var requester = function () {
             };
 
             if (data) {
-                objectRequest.data = JSON.stringify(data);
+                objectRequest.data = data;
             }
 
             if (contentType) {
                 objectRequest.contentType = contentType
             }
-
-            //if (authKey) {
-            //    objectRequest.headers = {'x-auth-key': authKey};
-            //}
 
             if (headers) {
                 objectRequest.headers = headers;

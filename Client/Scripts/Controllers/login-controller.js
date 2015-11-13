@@ -17,7 +17,8 @@ var loginController = function () {
                     };
 
                     usersController.login(user);
-                    context.redirect('#/home');
+                    // needed for logout button to appear but first the query must be completed
+                    setTimeout(function() { context.redirect('#/home') }, 100);
                 });
             });
     }

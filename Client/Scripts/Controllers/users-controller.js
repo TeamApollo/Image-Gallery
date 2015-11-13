@@ -19,22 +19,14 @@ var usersController = (function () {
     //}
 
     function userLogin(user) {
-        var url = MyLocalHostWithPort + 'api/token',
-        // TODO: might need headers to be send as data, now data is false
-            headers = {
-                username: user.email,
-                password: user.password,
-                grant_type: 'password'
-            },
-            contentType = 'application/x-www-form-urlencoded';
+        var url = MyLocalHostWithPort + 'token',
+            data = "username=" + user.email + "&password=" + user.password + "&grant_type=password";
+            contentType = 'application/x-www-form-urlencoded; charset=utf-8' ;
 
-        requester.post(url, false, headers, contentType)
+        requester.post(url, data, false, contentType)
             .then(function (result) {
-                console.log(result);
-                console.log(result.result);
-                var accessToken = result.result.access_token;
+                var accessToken = result.access_token;
                 localStorage.setItem(ACCESSTOKEN, accessToken);
-
                 toastr.success(user.email + ', you logged in successfully!');
             })
             .catch(function (err) {
@@ -55,11 +47,10 @@ var usersController = (function () {
 
         requester.post(url, data, false, contentType)
             .then(function (result) {
-                console.log(result);
-                console.log(result.result);
-
-                //TODO: MIGHT NOT WORK, COMMENTED BUT NOT TESTED
-                //this.userLoggedIn(result.result);
+                toastr.success(user.email + ', you registered successfully!');
+            })
+            .catch(function (err) {
+                toastr.error(err.responseText);
             });
     }
 
