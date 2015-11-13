@@ -21,9 +21,9 @@ var usersController = (function () {
     function userLogin(user) {
         var url = MyLocalHostWithPort + 'token',
             data = "username=" + user.email + "&password=" + user.password + "&grant_type=password";
-            contentType = 'application/x-www-form-urlencoded; charset=utf-8' ;
+        contentType = 'application/x-www-form-urlencoded; charset=utf-8';
 
-        var req = requester.post(url, data, false, contentType)
+        var promise = requester.post(url, data, false, contentType)
             .then(function (result) {
                 var accessToken = result.access_token;
                 localStorage.setItem(ACCESSTOKEN, accessToken);
@@ -33,10 +33,18 @@ var usersController = (function () {
                 toastr.error(err.responseText);
             });
 
-        return req;
+        return promise;
     }
 
     function userRegister(user) {
+        if (!(validator.validateName(user.firstName, "First Name") &&
+            validator.validateName(user.lastName, "Last Name") &&
+            validator.validateEmail(user.email, "Email") &&
+            validator.validatePassword(user.password, "Password") &&
+            validator.validatePassword(user.confirmPassword, "Confirmation Password"))) {
+            return
+        }
+
         var url = MyLocalHostWithPort + 'api/account/register',
             contentType = 'application/json',
             data = {

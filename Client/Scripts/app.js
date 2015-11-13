@@ -5,13 +5,13 @@
             this.redirect('#/home');
         });
 
-        this.get('#/home', homeController.all);
+        this.get('#/login', navigation.login);
 
-        this.get('#/register', registerController.reg);
+        this.get('#/logout', navigation.logout);
 
-        this.get('#/login', loginController.login);
+        this.get('#/register', navigation.register);
 
-        this.get('#/logout', logoutController.logout);
+        this.get('#/home', homeView.all);
     });
 
     $(function () {
