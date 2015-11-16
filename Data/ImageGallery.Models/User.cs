@@ -31,8 +31,6 @@
             set { this.albums = value; }
         }
 
-        public virtual Image ProfileImage { get; set; }
-
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager, string authenticationType)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

@@ -1,5 +1,9 @@
 # Image-Gallery
 
+## Class Diagram
+
+![Image-Gallery Class Diagram](ImageGalleryClassDiagram.png "Image-Gallery Class Diagram")
+
 ## Image Gallery Client
 
 ### Users
