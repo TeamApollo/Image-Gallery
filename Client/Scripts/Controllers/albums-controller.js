@@ -32,6 +32,7 @@ var albumsController = (function () {
             .catch(function (err) {
                 //var errorDescription = JSON.parse(err.responseText).error_description;
                 //toastr.error(errorDescription);
+                console.log(err);
             });
 
         return promise;

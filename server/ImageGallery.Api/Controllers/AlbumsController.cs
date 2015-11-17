@@ -10,6 +10,7 @@
     using Models.Album;
     using Services.Data.Contracts;
 
+    [EnableCors("*", "*", "*")]
     public class AlbumsController : ApiController
     {
         private readonly IAlbumsService albumsService;
@@ -20,7 +21,7 @@
         }
 
         // GET api/albums
-        [EnableCors("*", "*", "*")]
+        //[EnableCors("*", "*", "*")]
         public IHttpActionResult Get()
         {
             string currentUserName = this.User.Identity.Name;
@@ -81,8 +82,11 @@
         }
 
         // POST api/albums
-        [Authorize]
-        public IHttpActionResult Post(AlbumsBindingModel albumRequestModel)
+        [EnableCors("*", "*", "*")]
+        //[Authorize]
+        [Route("~/api/albums/")]
+        [HttpPost]
+        public IHttpActionResult Post([FromBody] AlbumsBindingModel albumRequestModel)
         {
             if (!this.ModelState.IsValid)
             {

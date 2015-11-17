@@ -33,7 +33,7 @@ var usersController = (function () {
             validator.validateEmail(user.email, "Email") &&
             validator.validatePassword(3, 100, user.password, "Password") &&
             validator.validatePassword(3, 100, user.confirmPassword, "Confirmation Password"))) {
-            return
+            return;
         }
 
         var url = MyLocalHostWithPort + 'api/account/register',

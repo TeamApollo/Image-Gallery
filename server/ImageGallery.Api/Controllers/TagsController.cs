@@ -10,6 +10,7 @@
     using Models.Tag;
     using Services.Data.Contracts;
 
+    [EnableCors("*", "*", "*")]
     public class TagsController : ApiController
     {
         private readonly ITagsService tagsService;
@@ -20,7 +21,6 @@
         }
 
         // GET api/tags
-        [EnableCors("*", "*", "*")]
         public IHttpActionResult Get()
         {
             var result = this.tagsService

@@ -22,6 +22,7 @@
     using Providers;
     using Results;
 
+    [EnableCors("*", "*", "*")]
     [Authorize]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
@@ -316,6 +317,7 @@
             }).ToList();
         }
 
+        [EnableCors("*", "*", "*")]
         // POST api/Account/Register
         [AllowAnonymous]
         [Route("Register")]

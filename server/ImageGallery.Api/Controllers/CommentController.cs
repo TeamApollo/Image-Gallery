@@ -10,6 +10,7 @@
     using AutoMapper;
     using ImageGallery.Models;
 
+    [EnableCors("*", "*", "*")]
     public class CommentController : ApiController
     {
         private ICommentsService comments;
