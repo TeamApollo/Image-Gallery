@@ -295,6 +295,9 @@
   <ItemGroup>
     <Content Include="Metadata\deploymentTemplates\apiappconfig.azureresource.json" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\ImageGallery2015.pubxml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
