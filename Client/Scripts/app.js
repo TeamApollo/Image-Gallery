@@ -12,9 +12,18 @@
         this.get('#/register', navigation.register);
 
         this.get('#/home', homeView.all);
+
+        this.get('#/create-album', albumCreateView.show)
     });
 
     $(function () {
         sammyApp.run('#/home');
+        if (usersController.userLoggedIn()) {
+            $('#div-reg').hide();
+            $('#div-loggedin').show();
+        } else {
+            $('#div-reg').show();
+            $('#div-loggedin').hide();
+        }
     })
 }());
