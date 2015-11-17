@@ -4,7 +4,7 @@
     using System.Linq;
     using Common; 
     using ImageGallery.Data.Contracts;
-    using ImageGallery.Services.Data.Contracts;
+    using Contracts;
     using Models;
 
     public class MediaFilesService : IMediaFilesService
@@ -70,7 +70,7 @@
         /// Gets all media files.
         /// </summary>
         /// <returns>All found media files.</returns>
-        public ICollection<MediaFile> GetAll(int albumId, string username)
+        public IQueryable GetAll(int albumId, string username)
         {
             Validator.ValidateObjectIsNotNull(username);
 
@@ -83,7 +83,7 @@
                 throw new ImageGalleryException("Access Denied!");
             }
 
-            return album.MediaFiles;
+            return album.MediaFiles.AsQueryable();
         }
 
         /// <summary>
@@ -95,9 +95,9 @@
         public MediaFile GetById(int id, string username)
         {
             Validator.ValidateObjectIsNotNull(username);
-            var currentUser = this.data.Users.All()
-                .Where(u => u.UserName == username)
-                .FirstOrDefault();
+            var currentUser = this.data.Users
+                .All()
+                .FirstOrDefault(u => u.UserName == username);
 
             Validator.ValidateObjectIsNotNull(currentUser);
 
