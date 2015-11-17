@@ -6,25 +6,15 @@ var navigation = (function () {
             return;
         }
 
-        templates.get('login')
-            .then(function (template) {
-                context.$element().html(template());
-            }).then(function () {
-                $('#btn-login-submit').on('click', function () {
-                    var user = {
-                        email: $('#tb-log-email').val(),
-                        password: $('#tb-log-password').val()
-                    };
-
-                    usersController.login(user).then(function () {
-                        context.redirect('#/home')
-                    });
-                });
-            });
+        loginView.show(context);
     }
 
     function logout(context) {
         usersController.logout();
+
+        $('#div-reg').show();
+        $('#div-loggedin').hide();
+
         context.redirect('#/home');
     }
 
@@ -35,29 +25,23 @@ var navigation = (function () {
             return;
         }
 
-        templates.get('register')
-            .then(function (template) {
-                context.$element().html(template());
-            })
-            .then(function () {
-                $('#btn-register-submit').on('click', function () {
-                    var user = {
-                        'firstName': $('#tb-reg-firstName').val(),
-                        'lastName': $('#tb-reg-lastName').val(),
-                        'email': $('#tb-reg-email').val(),
-                        'password': $('#tb-reg-password').val(),
-                        'confirmPassword': $('#tb-reg-confirmPassword').val()
-                    };
+        registerView.show(context);
+    }
 
-                    usersController.register(user);
-                    context.redirect('#/home');
-                });
-            });
+    function createAlbum(context) {
+        if (!usersController.userLoggedIn()) {
+            toastr.error('You must be LoggedIn to do that!');
+            context.redirect('#/home');
+            return;
+        }
+
+        albumCreateView.show(context);
     }
 
     return {
         login: login,
         logout: logout,
-        register: register
+        register: register,
+        createAlbum: createAlbum
     };
 }());

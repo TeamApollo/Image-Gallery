@@ -1,53 +1,49 @@
-var requester = function () {
-    'use strict';
+var requester = (function() {
 
-    function httpRequest(method, url, data, headers, contentType) {
-        var promise = new Promise(function (resolve, reject) {
-            var objectRequest = {
+    function send(method, url, options) {
+        options = options || {};
+
+        var headers = options.headers || {},
+            data = options.data || undefined;
+
+        var promise = new Promise(function(resolve, reject) {
+            $.ajax({
                 url: url,
                 method: method,
-                crossDomain: true,
-                success: function (res) {
+                headers: headers,
+                data: data,
+                success: function(res) {
                     resolve(res);
                 },
-                error: function (err) {
+                error: function(err) {
                     reject(err);
                 }
-            };
-
-            if (data) {
-                objectRequest.data = data;
-            }
-
-            if (contentType) {
-                objectRequest.contentType = contentType
-            }
-
-            if (headers) {
-                objectRequest.headers = headers;
-            }
-
-            $.ajax(objectRequest);
+            });
         });
 
         return promise;
     }
 
-    function get(url, data, authKey) {
-        return httpRequest('GET', url, data, authKey);
+    function get(url, options) {
+        return send('GET', url, options);
     }
 
-    function post(url, data, authKey) {
-        return httpRequest('POST', url, data, authKey);
+    function post(url, options) {
+        return send('POST', url, options);
     }
 
-    function put(url, data, authKey) {
-        return httpRequest('PUT', url, data, authKey);
+    function put(url, options) {
+        return send('PUT', url, options);
+    }
+
+    function del(url, options) {
+        return send('POST', url, options);
     }
 
     return {
         get: get,
         post: post,
-        put: put
+        put: put,
+        delete: del
     };
-}();
+}());

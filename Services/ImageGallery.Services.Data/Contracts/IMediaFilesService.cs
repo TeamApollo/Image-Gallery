@@ -1,11 +1,11 @@
 ﻿namespace ImageGallery.Services.Data.Contracts
 {      
-    using System.Collections.Generic;
+    using System.Linq;
     using Models;  
 
     public interface IMediaFilesService
     {
-        ICollection<MediaFile> GetAll(int albumId, string username);
+        IQueryable GetAll(int albumId, string username);
 
         MediaFile GetById(int id, string username);
 

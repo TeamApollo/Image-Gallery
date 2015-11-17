@@ -12,7 +12,10 @@
         <h1 class="col-md-6"><a href="#/home">Apollo's Image Gallery</a></h1>
 
         <nav class="nav navbar-brand col-md-6">
-            <a id="btn-logout" class="navbar-brand" href="#/logout">Logout</a>
+            <div id="div-loggedin">
+                <a id="btn-album-create" class="navbar-brand" href="#/create-album">Create Album</a>
+                <a id="btn-logout" class="navbar-brand" href="#/logout">Logout</a>
+            </div>
 
             <div id="div-reg">
                 <a class="navbar-brand" href="#/login" id="btn-login">Login</a>
@@ -34,10 +37,14 @@
 <!-- CUSTOM SCRIPTS -->
 <script src="Scripts/validator.js"></script>
 <script src="Scripts/requester.js"></script>
-<script src="Scripts/Controllers/users-controller.js"></script> <!-- must be first -->
-<script src="Scripts/navigation.js"></script>
-<script src="Scripts/Views/home-view.js"></script>
 <script src="Scripts/templates.js"></script>
+<script src="Scripts/navigation.js"></script>
+<script src="Scripts/Controllers/users-controller.js"></script> <!-- must be first -->
+<script src="Scripts/Controllers/albums-controller.js"></script>
+<script src="Scripts/Views/home-view.js"></script>
+<script src="Scripts/Views/register-view.js"></script>
+<script src="Scripts/Views/login-view.js"></script>
+<script src="Scripts/Views/album-create-view.js"></script>
 <script src="Scripts/app.js"></script>
 </body>
 </html>
