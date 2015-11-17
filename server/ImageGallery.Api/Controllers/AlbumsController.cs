@@ -10,6 +10,7 @@
     using Models.Album;
     using Services.Data.Contracts;
 
+    [EnableCors("*", "*", "*")]
     public class AlbumsController : ApiController
     {
         private readonly IAlbumsService albumsService;
@@ -20,7 +21,6 @@
         }
 
         // GET api/albums
-        [EnableCors("*", "*", "*")]
         public IHttpActionResult Get()
         {
             string currentUserName = this.User.Identity.Name;

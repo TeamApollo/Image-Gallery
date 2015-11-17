@@ -7,6 +7,7 @@
     using Models.MediaFile;
     using Services.Data.Contracts;
 
+    [EnableCors("*", "*", "*")]
     public class MediaFilesController : ApiController
     {
         private readonly IMediaFilesService mediaFilesService;
@@ -17,7 +18,6 @@
         }
 
         // GET /api/MediaFiles/{albumId}
-        [EnableCors("*", "*", "*")]
         public IHttpActionResult Get(int albumId)
         {
             string currentUserName = this.User.Identity.Name;
