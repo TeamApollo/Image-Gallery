@@ -2,65 +2,59 @@ var usersController = (function () {
     var MyLocalHostWithPort = 'http://localhost:55833/',
         ACCESSTOKEN = 'x-auth-token';
 
-    //function all(context) {
-    //    var users,
-    //        authKey = localStorage.getItem(ACCESSTOKEN);
-    //    requester.get(url, false, authKey)
-    //        .then(function (requestedUsers) {
-    //            users = requestedUsers.result;
-    //            return templates.get('users');
-    //        })
-    //        .then(function (template) {
-    //            context.$element().html(template(users));
-    //        })
-    //        .catch(function (err) {
-    //            toastr.error(err.responseText);
-    //        });
-    //}
-
     function userLogin(user) {
         var url = MyLocalHostWithPort + 'token',
-            data = "username=" + user.email + "&password=" + user.password + "&grant_type=password";
-        contentType = 'application/x-www-form-urlencoded; charset=utf-8';
+            options = {
+                data: "username=" + user.email + "&password=" + user.password + "&grant_type=password"
+            };
+        //contentType = 'application/x-www-form-urlencoded; charset=utf-8';
 
-        var promise = requester.post(url, data, false, contentType)
-            .then(function (result) {
-                var accessToken = result.access_token;
-                localStorage.setItem(ACCESSTOKEN, accessToken);
-                toastr.success(user.email + ', you logged in successfully!');
-            })
-            .catch(function (err) {
-                toastr.error(err.responseText);
-            });
+        var promise = new Promise(function (res, rej) {
+            requester.post(url, options)
+                .then(function (result) {
+                    var accessToken = result.access_token;
+                    localStorage.setItem(ACCESSTOKEN, accessToken);
+                    toastr.success(user.email + ', you logged in successfully!');
+                    res();
+                })
+                .catch(function (err) {
+                    var errorDescription = JSON.parse(err.responseText).error_description;
+                    toastr.error(errorDescription);
+                    rej();
+                });
+        });
 
         return promise;
     }
 
     function userRegister(user) {
-        if (!(validator.validateName(user.firstName, "First Name") &&
-            validator.validateName(user.lastName, "Last Name") &&
+        if (!(validator.validateName(3, 30, user.firstName, "First Name") &&
+            validator.validateName(3, 30, user.lastName, "Last Name") &&
             validator.validateEmail(user.email, "Email") &&
-            validator.validatePassword(user.password, "Password") &&
-            validator.validatePassword(user.confirmPassword, "Confirmation Password"))) {
+            validator.validatePassword(3, 100, user.password, "Password") &&
+            validator.validatePassword(3, 100, user.confirmPassword, "Confirmation Password"))) {
             return
         }
 
         var url = MyLocalHostWithPort + 'api/account/register',
-            contentType = 'application/json',
-            data = {
-                'firstName': user.firstName,
-                'lastName': user.lastName,
-                'email': user.email,
-                'password': user.password,
-                'confirmPassword': user.confirmPassword
+        //contentType = 'application/json',
+            options = {
+                data: {
+                    'firstName': user.firstName,
+                    'lastName': user.lastName,
+                    'email': user.email,
+                    'password': user.password,
+                    'confirmPassword': user.confirmPassword
+                }
             };
 
-        requester.post(url, data, false, contentType)
-            .then(function (result) {
+        requester.post(url, options)
+            .then(function () {
                 toastr.success(user.email + ', you registered successfully!');
             })
             .catch(function (err) {
-                toastr.error(err.responseText);
+                var errorDescription = JSON.parse(err.responseText).error_description;
+                toastr.error(errorDescription);
             });
     }
 
@@ -79,4 +73,5 @@ var usersController = (function () {
         register: userRegister,
         logout: userLogout
     };
-})();
+})
+();
