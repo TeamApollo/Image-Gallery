@@ -58,7 +58,15 @@ var usersController = (function () {
                     var errorResponseText = JSON.parse(err.responseText);
                     var errorDescription = errorResponseText.error_description;
                     if(!errorDescription) {
-                        toastr.error(errorResponseText.ModelState[""][1]);
+                        for (var attr in errorResponseText) {
+                            if (errorResponseText[attr] !== undefined && attr !== 'Message') {
+                                for (var prop in errorResponseText[attr]) {
+                                    errorResponseText[attr][prop].forEach(function (error) {
+                                        toastr.error(error);
+                                    });
+                                }
+                            }
+                        }
                     } else {
                         toastr.error(errorDescription);
                     }

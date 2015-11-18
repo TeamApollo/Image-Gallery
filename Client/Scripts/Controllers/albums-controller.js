@@ -10,11 +10,11 @@ var albumsController = (function () {
 
         var url = defaultRoute + 'api/albums',
             options = {
-                data: {
+                data: JSON.stringify({
                     "Name": album.name,
                     "Description": album.description,
-                    "Private": album.isPrivate
-                },
+                    "Private": !!album.isPrivate
+                }),
                 headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem(ACCESSTOKEN),
                     'Content-Type': 'application/json'
