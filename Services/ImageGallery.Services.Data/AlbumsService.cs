@@ -21,11 +21,13 @@
         /// <returns>All found non-private albums</returns>
         public IQueryable<Album> GetAll(string username)
         {
-            return this.data.Albums
+            var albums = this.data.Albums
                 .All()
                 .Where(p => !p.Private
                     || (p.Private && p.Owner.UserName == username))
                 .OrderByDescending(p => p.CreatedOn);
+
+            return albums;
         }
 
         /// <summary>
@@ -107,6 +109,7 @@
 
             this.data.Albums.Delete(album);
             this.data.SaveChanges();
+
             return album.Id;
         }
     }

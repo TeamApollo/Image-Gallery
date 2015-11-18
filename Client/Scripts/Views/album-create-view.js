@@ -12,7 +12,7 @@ var albumCreateView = (function () {
                     };
 
                     albumsController.createAlbum(album).then(function () {
-                        context.redicrect('#/home');
+                        context.redirect('#/home');
                     });
                 });
             });

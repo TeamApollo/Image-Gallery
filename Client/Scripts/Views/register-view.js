@@ -19,8 +19,10 @@ var registerView = (function() {
                         'confirmPassword': $('#tb-reg-confirmPassword').val()
                     };
 
-                    usersController.register(user);
-                    context.redirect('#/home');
+                    usersController.register(user)
+                        .then(function() {
+                            context.redirect('#/home');
+                        });
                 });
             });
     }

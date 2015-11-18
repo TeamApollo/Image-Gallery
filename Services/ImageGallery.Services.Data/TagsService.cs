@@ -39,7 +39,9 @@
         /// <returns>All found tags.</returns>
         public IQueryable<Tag> GetAll()
         {
-            var tags = this.data.Tags.All();
+            var tags = this.data.Tags
+                .All()
+                .OrderByDescending(t => t.Id);
 
             return tags;
         }

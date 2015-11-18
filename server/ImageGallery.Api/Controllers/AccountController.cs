@@ -24,6 +24,7 @@
 
     [Authorize]
     [RoutePrefix("api/Account")]
+    [EnableCors("*", "*", "*")]
     public class AccountController : ApiController
     {
         private const string LocalLoginProvider = "Local";
@@ -317,6 +318,7 @@
         }
 
         // POST api/Account/Register
+        // [EnableCors("*", "*", "*")] TODO: try to register with and without this attribute here.
         [AllowAnonymous]
         [Route("Register")]
         public async Task<IHttpActionResult> Register(RegisterBindingModel model)

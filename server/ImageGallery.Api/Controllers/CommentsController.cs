@@ -11,11 +11,11 @@
     using ImageGallery.Models;
 
     [EnableCors("*", "*", "*")]
-    public class CommentController : ApiController
+    public class CommentsController : ApiController
     {
         private ICommentsService comments;
 
-        public CommentController(ICommentsService comments)
+        public CommentsController(ICommentsService comments)
         {
             this.comments = comments;
         }
