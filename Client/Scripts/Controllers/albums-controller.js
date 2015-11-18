@@ -21,6 +21,8 @@ var albumsController = (function () {
                 }
             };
 
+        debugger;
+
         var promise = requester.post(url, options)
             .then(function (id) {
                 toastr.success('Successfully created album ' + album.name + '!');
