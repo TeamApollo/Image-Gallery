@@ -13,7 +13,7 @@ var albumsController = (function () {
                 data: JSON.stringify({
                     "Name": album.name,
                     "Description": album.description,
-                    "Private": !!album.isPrivate
+                    "Private": album.isPrivate
                 }),
                 headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem(ACCESSTOKEN),
@@ -22,10 +22,7 @@ var albumsController = (function () {
             };
 
         var promise = requester.post(url, options)
-            .then(function (result) {
-                console.log(result);
-                console.log(result.result);
-
+            .then(function (id) {
                 toastr.success('Successfully created album ' + album.name + '!');
             })
             .catch(function (err) {
@@ -36,7 +33,32 @@ var albumsController = (function () {
         return promise;
     }
 
+    function getAllAlbums() {
+        var url = defaultRoute + 'api/albums',
+            options = {};
+
+        if (usersController.userLoggedIn()) {
+            options.headers = {
+                'Authorization': 'Bearer ' + localStorage.getItem(ACCESSTOKEN)
+            }
+        }
+
+        var promise = new Promise(function (resolve, reject) {
+            requester.get(url, options)
+                .then(function (albums) {
+                    resolve(albums);
+                })
+                .catch(function () {
+                    toastr.error("No connection with the server!");
+                    reject();
+                })
+        });
+
+        return promise;
+    }
+
     return {
-        createAlbum: createAlbum
+        createAlbum: createAlbum,
+        getAll: getAllAlbums
     }
 }());
