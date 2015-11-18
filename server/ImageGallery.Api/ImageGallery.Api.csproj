@@ -228,7 +228,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AlbumsController.cs" />
     <Compile Include="Controllers\MediaFilesController.cs" />
-    <Compile Include="Controllers\CommentController.cs" />
+    <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\TagsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
