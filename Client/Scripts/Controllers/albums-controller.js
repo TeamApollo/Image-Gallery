@@ -1,5 +1,5 @@
 var albumsController = (function () {
-    var MyLocalHostWithPort = 'http://localhost:55833/',
+    var defaultRoute = 'http://localhost:55833/', // http://imagegallery2015.azurewebsites.net/ <- replace with this for production
         ACCESSTOKEN = 'x-auth-token';
 
     function createAlbum(album) {
@@ -8,7 +8,7 @@ var albumsController = (function () {
             return;
         }
 
-        var url = MyLocalHostWithPort + 'api/albums',
+        var url = defaultRoute + 'api/albums',
             options = {
                 data: {
                     "Name": album.name,
@@ -21,17 +21,16 @@ var albumsController = (function () {
                 }
             };
 
-
         var promise = requester.post(url, options)
             .then(function (result) {
                 console.log(result);
                 console.log(result.result);
 
-                toastr.success('Successfully created album with name ' + album.name + '!');
+                toastr.success('Successfully created album ' + album.name + '!');
             })
             .catch(function (err) {
-                //var errorDescription = JSON.parse(err.responseText).error_description;
-                //toastr.error(errorDescription);
+                var errorDescription = JSON.parse(err.responseText).error_description;
+                toastr.error(errorDescription);
             });
 
         return promise;

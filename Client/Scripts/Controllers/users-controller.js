@@ -1,9 +1,9 @@
 var usersController = (function () {
-    var MyLocalHostWithPort = 'http://localhost:55833/',
+    var defaultRoute = 'http://localhost:55833/', // http://imagegallery2015.azurewebsites.net/ <- replace with this for production
         ACCESSTOKEN = 'x-auth-token';
 
     function userLogin(user) {
-        var url = MyLocalHostWithPort + 'token',
+        var url = defaultRoute + 'token',
             options = {
                 data: "username=" + user.email + "&password=" + user.password + "&grant_type=password"
             };
@@ -28,15 +28,16 @@ var usersController = (function () {
     }
 
     function userRegister(user) {
+        debugger;
         if (!(validator.validateName(3, 30, user.firstName, "First Name") &&
             validator.validateName(3, 30, user.lastName, "Last Name") &&
             validator.validateEmail(user.email, "Email") &&
-            validator.validatePassword(3, 100, user.password, "Password") &&
-            validator.validatePassword(3, 100, user.confirmPassword, "Confirmation Password"))) {
+            validator.validatePassword(6, 100, user.password, "Password") &&
+            validator.validatePassword(6, 100, user.confirmPassword, "Confirmation Password"))) {
             return
         }
 
-        var url = MyLocalHostWithPort + 'api/account/register',
+        var url = defaultRoute + 'api/account/register',
         //contentType = 'application/json',
             options = {
                 data: {
@@ -48,14 +49,18 @@ var usersController = (function () {
                 }
             };
 
-        requester.post(url, options)
-            .then(function () {
-                toastr.success(user.email + ', you registered successfully!');
-            })
-            .catch(function (err) {
-                var errorDescription = JSON.parse(err.responseText).error_description;
-                toastr.error(errorDescription);
-            });
+        var promise = new Promise(function (res, rej) {
+            requester.post(url, options)
+                .then(function () {
+                    toastr.success(user.email + ', you registered successfully!');
+                })
+                .catch(function (err) {
+                    var errorDescription = JSON.parse(err.responseText).error_description;
+                    toastr.error(errorDescription);
+                });
+        });
+
+        return promise;
     }
 
     function userLoggedIn() {

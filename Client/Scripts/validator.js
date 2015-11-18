@@ -10,7 +10,7 @@ var validator = function () {
 
     function isValidLength(from, to, str, msg) {
         if (str.length < from || str.length > to) {
-            toastr.error(msg + ' must have length between ' + from + 'and ' + to + '!');
+            toastr.error(msg + ' must have length between ' + from + ' and ' + to + ' symbols!');
             return false;
         }
 
@@ -23,7 +23,7 @@ var validator = function () {
             return true;
         }
 
-        toastr.error(msg + ' is not a valid  and "."');
+        toastr.error(msg + ' is not valid!');
         return false;
     }
 
@@ -50,15 +50,15 @@ var validator = function () {
     }
 
     function validateName(from, to, str, msg) {
-        return isValidString(str, msg) && isValidLength(from, to, str, msg) && isValidChars(str, msg); // 3 30
+        return isValidString(str, msg) && isValidLength(from, to, str, msg) && isValidChars(str, msg); // 6 30
     }
 
     function validateEmail(str, msg) {
-        return isValidString(str, msg) && isValidEmail(str);
+        return isValidString(str, msg) && isValidEmail(str, msg);
     }
 
-    function validatePassword(from,to,str, msg) {
-        return isValidString(str, msg) && isValidLength(from,to,str,msg); // 3 100
+    function validatePassword(from, to, str, msg) {
+        return isValidString(str, msg) && isValidLength(from, to, str, msg); // 6 100
     }
 
     function validateUrl(url, msg) {
