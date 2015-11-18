@@ -77,7 +77,6 @@
             }
 
             var currentUserName = this.User.Identity.Name;
-
             var newComment = Mapper.Map<Comment>(commentsRequestModel);
 
             var createdComment = this.commentsService.Add(newComment, currentUserName);
