@@ -1,9 +1,11 @@
 ﻿namespace ImageGallery.Api.Models.MediaFile
 {
     using System.ComponentModel.DataAnnotations;
-    using ImageGallery.Common.Constants;   
+    using ImageGallery.Common.Constants;
+    using Infrastructure.Mappings;
+    using ImageGallery.Models;
 
-    public class MediaFileBindingModel
+    public class MediaFileBindingModel : IMapFrom<MediaFile>
     {
         [Required]
         [MaxLength(ValidationConstants.MaxOriginalFileNameLength)]

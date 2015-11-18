@@ -13,6 +13,5 @@ namespace ImageGallery.Api
             app.UseCors(CorsOptions.AllowAll);
             this.ConfigureAuth(app);
         }
-
     }
 }

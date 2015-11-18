@@ -100,7 +100,9 @@
         /// <returns>Returns the id of the deleted album or -1 if no album with such id was found.</returns>
         public int DeleteAlbumById(int id, string username)
         {
-            var album = this.data.Albums.All().FirstOrDefault(a => a.Id == id && a.Owner.UserName == username);
+            var album = this.data.Albums
+                .All()
+                .FirstOrDefault(a => a.Id == id && a.Owner.UserName == username);
 
             if (album == null)
             {
