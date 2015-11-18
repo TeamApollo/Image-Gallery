@@ -8,7 +8,7 @@ var albumCreateView = (function () {
                     var album = {
                         name: $('#tb-alb-name').val(),
                         description: $('#tb-alb-desc').val(),
-                        isPrivate: $('#cb-alb-private').val()
+                        isPrivate: $('#sl-alb-private').val()
                     };
 
                     albumsController.createAlbum(album).then(function () {

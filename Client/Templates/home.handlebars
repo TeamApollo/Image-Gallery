@@ -1,3 +1,22 @@
 <div class="container">
-    <h2 class="list-group-item-heading">Hi. This won't take long...</h2>
+    {{#if collection}}
+        {{#each collection}}
+            <div class="well">
+                <h2>{{Name}}</h2>
+                <div class="alert alert-info">
+                    IMAGE GOES HERE
+                </div>
+                <h4>
+                    <div>
+                        By <a style="color:blue">{{Author}}</a>
+                    </div>
+                    <div>
+                        Created On: <a style="color:blue">{{CreatedOn}}</a>
+                    </div>
+                </h4>
+            </div>
+        {{/each}}
+    {{else}}
+        <h1>Sorry we have no albums to show! :(</h1>
+    {{/if}}
 </div>
