@@ -28,7 +28,6 @@ var usersController = (function () {
     }
 
     function userRegister(user) {
-        debugger;
         if (!(validator.validateName(3, 30, user.firstName, "First Name") &&
             validator.validateName(3, 30, user.lastName, "Last Name") &&
             validator.validateEmail(user.email, "Email") &&
@@ -53,10 +52,12 @@ var usersController = (function () {
             requester.post(url, options)
                 .then(function () {
                     toastr.success(user.email + ', you registered successfully!');
+                    res();
                 })
                 .catch(function (err) {
                     var errorDescription = JSON.parse(err.responseText).error_description;
                     toastr.error(errorDescription);
+                    rej();
                 });
         });
 
