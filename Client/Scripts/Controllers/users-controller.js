@@ -55,8 +55,13 @@ var usersController = (function () {
                     res();
                 })
                 .catch(function (err) {
-                    var errorDescription = JSON.parse(err.responseText).error_description;
-                    toastr.error(errorDescription);
+                    var errorResponseText = JSON.parse(err.responseText);
+                    var errorDescription = errorResponseText.error_description;
+                    if(!errorDescription) {
+                        toastr.error(errorResponseText.ModelState[""][1]);
+                    } else {
+                        toastr.error(errorDescription);
+                    }
                     rej();
                 });
         });
