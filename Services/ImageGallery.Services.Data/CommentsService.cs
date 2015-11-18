@@ -81,7 +81,8 @@
         {
             var comments = this.data.Comments
                 .All()
-                .Where(c => c.Author.UserName == username);
+                .Where(c => c.Author.UserName == username)
+                .OrderByDescending(c => c.Id);
 
             return comments;
         }
