@@ -1,5 +1,6 @@
 ﻿namespace ImageGallery.Services.Data
 {
+    using System.Collections.Generic;
     using System.Linq;
     using Common;
     using ImageGallery.Data.Contracts;
@@ -36,7 +37,7 @@
                 throw new ImageGalleryException("The User cannot add media file to foreign album!");
             }
 
-            album.MediaFiles.Add(mediaFile);
+            album.Images.Add(mediaFile);
 
             return mediaFile.Id;
         }
@@ -48,15 +49,15 @@
         /// <param name="albumId">The id of the media file to be deleted from.</param>
         /// <param name="username">The username of the user deleting the media file.</param>
         /// <returns>The id of the deleted media file or -1 if no item with such id is found.</returns>
-        public int Delete(int albumId, int mediaFileId, string username)
+        public int Delete(int albumId, int imageId, string username)
         {
             Validator.ValidateObjectIsNotNull(username);
 
             var album = this.data.Albums.GetById(albumId);
 
-            var mediaFile = this.GetById(albumId, mediaFileId, username).FirstOrDefault();
+            var image = this.GetById(imageId, username);
 
-            Validator.ValidateObjectIsNotNull(mediaFile);
+            Validator.ValidateObjectIsNotNull(image);
             Validator.ValidateObjectIsNotNull(album);
 
             if (album.Owner.UserName != username)
@@ -64,9 +65,9 @@
                 throw new ImageGalleryException("The User cannot delete media file from foreign album!");
             }
 
-            album.MediaFiles.Remove(mediaFile);
+            album.Images.Remove(image.First());
 
-            return mediaFile.Id;
+            return image.First().Id;
         }
 
         /// <summary>
@@ -86,7 +87,7 @@
                 throw new ImageGalleryException("Access Denied!");
             }
 
-            var mediaFiles = album.MediaFiles.AsQueryable();
+            var mediaFiles = album.Images.AsQueryable();
 
             return mediaFiles;
         }
@@ -97,16 +98,18 @@
         /// <param name="id">The id of the media file to get.</param>
         /// <param name="username">The username of the user getting the media file.</param>
         /// <returns>Found media file or null if not found.</returns>
-        public IQueryable<Image> GetById(int albumId, int mediaFileId, string username)
+        public IQueryable<Image> GetById(int imageId, string username)
         {
-            Validator.ValidateObjectIsNotNull(username);
-            var currentUser = this.data.Users
-                .All()
-                .FirstOrDefault(u => u.UserName == username);
+            var image = this.data.Images.GetById(imageId);
+            Validator.ValidateObjectIsNotNull(image);
 
-            Validator.ValidateObjectIsNotNull(currentUser);
+            var album = image.Album;
+            if (album.Private && username != album.Owner.UserName)
+            {
+                throw new ImageGalleryException("The user does not have access to this image");
+            }
 
-            return this.GetAll(albumId, username).Where(a => a.Id == mediaFileId);
+            return new EnumerableQuery<Image>(new List<Image> {image});
         }
     }
 }

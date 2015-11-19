@@ -23,7 +23,8 @@
         }
 
         // GET api/images?albumId=XXX
-        public IHttpActionResult Get(int albumId)
+        [HttpGet]
+        public IHttpActionResult GetAll(int albumId)
         {
             string currentUserName = this.User.Identity.Name;
 
@@ -32,7 +33,8 @@
             {
                 result = this.imagesService
                     .GetAll(albumId, currentUserName)
-                    .ProjectTo<ImageViewModel>().ToList();
+                    .ProjectTo<ImageViewModel>()
+                    .ToList();
             }
             catch (ImageGalleryException)
             {
@@ -46,17 +48,25 @@
             return this.Ok(result);
         }
 
-        // GET api/images?album=XXX&imageId=XXX
-        public IHttpActionResult Get(int albumId, int imageId)
+        // GET api/images?imageId=XXX
+        public IHttpActionResult Get(int imageId)
         {
             string currentUserName = this.User.Identity.Name;
 
-            var result = this.imagesService
-                .GetById(albumId, imageId, currentUserName)
-                .ProjectTo<ImageViewModel>()
-                .FirstOrDefault();
+            List<ImageViewModel> result;
 
-            if (result == null)
+            try
+            {
+                result = this.imagesService
+                    .GetById(imageId, currentUserName)
+                    .ProjectTo<ImageViewModel>()
+                    .ToList();
+            }
+            catch (ImageGalleryException)
+            {
+                return this.Unauthorized();
+            }
+            catch (ArgumentNullException)
             {
                 return this.NotFound();
             }

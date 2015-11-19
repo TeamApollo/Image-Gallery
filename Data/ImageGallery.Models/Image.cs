@@ -3,17 +3,14 @@
     using Common.Constants;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
     
     public class Image
     {
-        private ICollection<Album> albums;
         private ICollection<Tag> tags;
         private ICollection<Comment> comments;
 
         protected Image()
         {
-            this.albums = new HashSet<Album>();
             this.tags = new HashSet<Tag>();
             this.comments = new HashSet<Comment>();
         }
@@ -32,11 +29,10 @@
         [MaxLength(ValidationConstants.MaxUrlPathLength)]
         public string UrlPath { get; set; }
 
-        public virtual ICollection<Album> Albums
-        {
-            get { return this.albums; }
-            set { this.albums = value; }
-        }
+        [Required]
+        public int AlbumId { get; set; }
+
+        public virtual Album Album{ get; set; }
 
         public virtual ICollection<Tag> Tags
         {
