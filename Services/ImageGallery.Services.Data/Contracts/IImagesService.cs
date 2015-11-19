@@ -7,10 +7,10 @@
     {
         IQueryable<Image> GetAll(int albumId, string username);
 
-        IQueryable<Image> GetById(int albumId, int mediaFileId, string username);
+        IQueryable<Image> GetById(int imageId, string username);
 
-        int Add(Image mediaFile, int albumId, string username);
+        int Add(Image image, string username);
 
-        int Delete(int albumId, int mediaFileId, string username);
+        int Delete(int albumId, int imageId, string username);
     }
 }

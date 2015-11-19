@@ -1,19 +1,20 @@
 var usersController = (function () {
     var defaultRoute = 'http://localhost:55833/', // http://imagegallery2015.azurewebsites.net/ <- replace with this for production
-        ACCESSTOKEN = 'x-auth-token';
+        ACCESSTOKEN = 'x-auth-token',
+        USERNAME = 'x-user-name';
 
     function userLogin(user) {
         var url = defaultRoute + 'token',
             options = {
                 data: "username=" + user.email + "&password=" + user.password + "&grant_type=password"
             };
-        //contentType = 'application/x-www-form-urlencoded; charset=utf-8';
 
         var promise = new Promise(function (res, rej) {
             requester.post(url, options)
                 .then(function (result) {
                     var accessToken = result.access_token;
                     localStorage.setItem(ACCESSTOKEN, accessToken);
+                    localStorage.setItem(USERNAME, user.email);
                     toastr.success(user.email + ', you logged in successfully!');
                     res();
                 })
@@ -37,7 +38,6 @@ var usersController = (function () {
         }
 
         var url = defaultRoute + 'api/account/register',
-        //contentType = 'application/json',
             options = {
                 data: {
                     'firstName': user.firstName,

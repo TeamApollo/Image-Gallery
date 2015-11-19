@@ -5,27 +5,27 @@
     <title>Image Gallery</title>
     <link rel="stylesheet" href="Styles/bootstrap.css">
     <link rel="stylesheet" href="bower_components/toastr/toastr.css">
+    <link rel="stylesheet" href="bower_components/photoswipe/dist/default-skin/default-skin.css"/>
+    <link rel="stylesheet" href="bower_components/photoswipe/dist/photoswipe.css"/>
+
+    <link rel="stylesheet" href="Styles/style.css"/>
 </head>
 <body>
-<div id="root">
-    <nav class="navbar navbar-inverse">
-        <h1 class="col-md-6"><a href="#/home">Apollo's Image Gallery</a></h1>
-
-        <nav class="nav navbar-brand col-md-6">
-            <div id="div-loggedin">
-                <a id="btn-album-create" class="navbar-brand" href="#/create-album">Create Album</a>
-                <a id="btn-logout" class="navbar-brand" href="#/logout">Logout</a>
-            </div>
-
+<nav class="navbar navbar-inverse">
+    <a href="#/home" class="navbar-brand" id="app-main-label">Apollo's Image Gallery</a>
+    <nav class="nav navbar-btn">
+        <div id="div-loggedin">
+            <a id="btn-album-manage" class="btn btn-default" href="#/manage-albums">Manage Albums</a>
+            <a id="btn-album-create" class="btn btn-default" href="#/create-album">Create Album</a>
+            <a id="btn-logout" class="btn btn-default" href="#/logout">Logout</a>
+        </div>
             <div id="div-reg">
                 <a class="navbar-brand" href="#/login" id="btn-login">Login</a>
                 <a class="navbar-brand" href="#/register" id="btn-register">Register</a>
             </div>
         </nav>
-        <span>Write your message here: </span>
-        <textarea id="txt-msg"></textarea>
     </nav>
-</div>
+</nav>
 <div id="content"></div>
 
 <!-- LIBS -->
@@ -36,6 +36,8 @@
 <script src="bower_components/sammy/lib/sammy.js"></script>
 <script src="bower_components/moment/moment.js"></script>
 <script src="https://cdn.pubnub.com/pubnub.min.js"></script>
+<script src="bower_components/photoswipe/dist/photoswipe.min.js"></script>
+<script src="bower_components/photoswipe/dist/photoswipe-ui-default.min.js"></script>
 
 <!-- CUSTOM SCRIPTS -->
 <script src="Scripts/validator.js"></script>
@@ -45,12 +47,15 @@
 <script src="Scripts/Controllers/users-controller.js"></script>
 <!-- must be first -->
 <script src="Scripts/Controllers/albums-controller.js"></script>
+<script src="Scripts/Controllers/media-file-controller.js"></script>
 <script src="Scripts/Views/home-view.js"></script>
 <script src="Scripts/Views/register-view.js"></script>
 <script src="Scripts/Views/login-view.js"></script>
+<script src="Scripts/Views/album-view.js"></script>
 <script src="Scripts/Views/album-create-view.js"></script>
 <script src="PubNub/notificationManager.js"></script>
 <script src="PubNub/notifier.js"></script>
+<script src="Scripts/Views/albums-manage-view.js"></script>
 <script src="Scripts/app.js"></script>
 
 </body>

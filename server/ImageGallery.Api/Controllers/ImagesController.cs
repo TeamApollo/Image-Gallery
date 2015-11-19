@@ -23,7 +23,8 @@
         }
 
         // GET api/images?albumId=XXX
-        public IHttpActionResult Get(int albumId)
+        [HttpGet]
+        public IHttpActionResult GetAll(int albumId)
         {
             string currentUserName = this.User.Identity.Name;
 
@@ -32,7 +33,8 @@
             {
                 result = this.imagesService
                     .GetAll(albumId, currentUserName)
-                    .ProjectTo<ImageViewModel>().ToList();
+                    .ProjectTo<ImageViewModel>()
+                    .ToList();
             }
             catch (ImageGalleryException)
             {
@@ -46,17 +48,25 @@
             return this.Ok(result);
         }
 
-        // GET api/images?album=XXX&imageId=XXX
-        public IHttpActionResult Get(int albumId, int imageId)
+        // GET api/images?imageId=XXX
+        public IHttpActionResult Get(int imageId)
         {
             string currentUserName = this.User.Identity.Name;
 
-            var result = this.imagesService
-                .GetById(albumId, imageId, currentUserName)
-                .ProjectTo<ImageViewModel>()
-                .FirstOrDefault();
+            List<ImageViewModel> result;
 
-            if (result == null)
+            try
+            {
+                result = this.imagesService
+                    .GetById(imageId, currentUserName)
+                    .ProjectTo<ImageViewModel>()
+                    .ToList();
+            }
+            catch (ImageGalleryException)
+            {
+                return this.Unauthorized();
+            }
+            catch (ArgumentNullException)
             {
                 return this.NotFound();
             }
@@ -64,9 +74,9 @@
             return this.Ok(result);
         }
 
-        // POST api/images/{albumId}
+        // POST api/images
         [Authorize]
-        public IHttpActionResult Post(int albumId, ImageBindingModel mediaFileRequestModel)
+        public IHttpActionResult Post(ImageBindingModel imageBindingModel)
         {
             if (!this.ModelState.IsValid)
             {
@@ -74,12 +84,24 @@
             }
 
             var currentUser = this.User.Identity.Name;
-            var newMediaFile = Mapper.Map<Image>(mediaFileRequestModel);
+            var image = Mapper.Map<Image>(imageBindingModel);
 
-            var createdProjectId = this.imagesService
-                .Add(newMediaFile, albumId, currentUser);
+            int imageId;
+            try
+            {
+                imageId = this.imagesService
+                    .Add(image, currentUser);
+            }
+            catch (ImageGalleryException)
+            {
+                return this.Unauthorized();
+            }
+            catch (ArgumentNullException)
+            {
+                return this.NotFound();
+            }
 
-            return this.Ok(createdProjectId);
+            return this.Ok(imageId);
         }
 
         // DELETE api/images/{albumId}/{imageId}

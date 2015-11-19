@@ -7,13 +7,13 @@
 
     public class Album
     {
-        private ICollection<Image> mediaFiles;
+        private ICollection<Image> images;
         private ICollection<Tag> tags;
         private ICollection<Comment> comments;
 
         public Album()
         {
-            this.mediaFiles = new HashSet<Image>();
+            this.images = new HashSet<Image>();
             this.tags = new HashSet<Tag>();
             this.comments = new HashSet<Comment>();
         }
@@ -36,10 +36,10 @@
 
         public virtual User Owner { get; set; }
 
-        public virtual ICollection<Image> MediaFiles
+        public virtual ICollection<Image> Images
         {
-            get { return this.mediaFiles; }
-            set { this.mediaFiles = value; }
+            get { return this.images; }
+            set { this.images = value; }
         }
 
         public virtual ICollection<Tag> Tags
