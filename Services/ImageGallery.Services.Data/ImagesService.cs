@@ -20,7 +20,6 @@
         /// Adds a new media file to the database.
         /// </summary>
         /// <param name="image">The new media file to be added.</param>
-        /// <param name="albumId">The id of the album the media file to be added to.</param>
         /// <param name="username">The username of the user adding the media file.</param>
         /// <returns>The id of the created media file.</returns>
         public int Add(Image image, string username)
@@ -46,29 +45,29 @@
         /// <summary>
         /// Deletes the media file with the provided id.
         /// </summary>
-        /// <param name="mediaFile">The media file to be deleted.</param>
-        /// <param name="albumId">The id of the media file to be deleted from.</param>
+        /// <param name="imageId">The image to be deleted.</param>
         /// <param name="username">The username of the user deleting the media file.</param>
         /// <returns>The id of the deleted media file or -1 if no item with such id is found.</returns>
-        public int Delete(int albumId, int imageId, string username)
+        public int Delete(int imageId, string username)
         {
             Validator.ValidateObjectIsNotNull(username);
-
-            var album = this.data.Albums.GetById(albumId);
-
-            var image = this.GetById(imageId, username);
-
+            
+            var image = this.GetById(imageId, username).FirstOrDefault();
             Validator.ValidateObjectIsNotNull(image);
-            Validator.ValidateObjectIsNotNull(album);
+
+            var album = image.Album;
 
             if (album.Owner.UserName != username)
             {
                 throw new ImageGalleryException("The User cannot delete media file from foreign album!");
             }
 
-            album.Images.Remove(image.First());
+            // album.Images.Remove(image);
 
-            return image.First().Id;
+            this.data.Images.Delete(image);
+            this.data.SaveChanges();
+
+            return image.Id;
         }
 
         /// <summary>

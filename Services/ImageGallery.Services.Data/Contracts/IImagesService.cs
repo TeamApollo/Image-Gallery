@@ -11,6 +11,6 @@
 
         int Add(Image image, string username);
 
-        int Delete(int albumId, int imageId, string username);
+        int Delete(int imageId, string username);
     }
 }
