@@ -1,5 +1,5 @@
 var mediaFileController = (function () {
-    var defaultRoute = 'http://localhost:55833/', // http://imagegallery2015.azurewebsites.net/ <- replace with this for production
+    var defaultRoute = 'http://imagegallery2015.azurewebsites.net/',
         ACCESSTOKEN = 'x-auth-token',
         USERNAME = 'x-user-name';
 

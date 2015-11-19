@@ -5,6 +5,7 @@ var homeView = function () {
         templates.get('home')
             .then(function (template) {
                 var albums = {};
+                debugger;
                 albumsController.getAll()
                     .then(function (collection) {
                         var currentUsername = localStorage.getItem(USERNAME);
