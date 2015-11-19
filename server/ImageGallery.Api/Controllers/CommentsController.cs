@@ -20,48 +20,47 @@
             this.comments = comments;
         }
 
+        // GET api/comments?imageId={id}
+        public IHttpActionResult Get(int albumId)
+        {
+            var currentUserName = this.User.Identity.Name;
+
+            var result = this.comments
+                .GetAll(currentUserName, albumId)
+                .ProjectTo<CommentViewModel>();
+
+            return this.Ok(result);
+        }
+
         // GET api/comments
-        public IHttpActionResult Get()
-        {
-            var currentUserName = this.User.Identity.Name;
+        //public IHttpActionResult Get()
+        //{
+        //    var currentUserName = this.User.Identity.Name;
 
-            var result = this.comments
-                .GetAll(currentUserName)
-                .ProjectTo<CommentViewModel>()
-                .ToList();
+        //    var result = this.comments
+        //        .GetAll(currentUserName)
+        //        .ProjectTo<CommentViewModel>()
+        //        .ToList();
 
-            return this.Ok(result);
-        }
-
-        // GET api/comments/{id}
-        public IHttpActionResult Get(int id)
-        {
-            var currentUserName = this.User.Identity.Name;
-
-            var result = this.comments
-                .GetAll(currentUserName)
-                .ProjectTo<CommentViewModel>()
-                .FirstOrDefault(c => c.Id == id);
-
-            return this.Ok(result);
-        }
+        //    return this.Ok(result);
+        //}
 
         // GET api/comments/all
-        public IHttpActionResult Get(int page = 1, int pageSize = GlobalConstants.DefaultPageSize)
-        {
-            var currentUserName = this.User.Identity.Name;
+        //public IHttpActionResult Get(int page = 1, int pageSize = GlobalConstants.DefaultPageSize)
+        //{
+        //    var currentUserName = this.User.Identity.Name;
 
-            var result = this.comments
-                .GetAll(currentUserName)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ProjectTo<CommentViewModel>()
-                .ToList();
+        //    var result = this.comments
+        //        .GetAll(currentUserName)
+        //        .Skip((page - 1) * pageSize)
+        //        .Take(pageSize)
+        //        .ProjectTo<CommentViewModel>()
+        //        .ToList();
 
-            return this.Ok(result);
-        }
+        //    return this.Ok(result);
+        //}
 
-        // POST api/comments
+        // POST api/comments?imageId={id}
         public IHttpActionResult Post(CommentBindingModel commentsRequestModel)
         {
             if (!this.ModelState.IsValid)
@@ -78,7 +77,7 @@
             return this.Ok(createdComment);
         }
 
-        // DELETE api/comments/{id}
+        // DELETE api/comments/{id}?imageId={id}
         [Authorize]
         public IHttpActionResult Delete(int id)
         {
