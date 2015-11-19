@@ -62,8 +62,8 @@
     <Compile Include="AlbumsService.cs" />
     <Compile Include="Contracts\ICommentsService.cs" />
     <Compile Include="Contracts\ITagsService.cs" />
-    <Compile Include="Contracts\IMediaFilesService.cs" />
-    <Compile Include="MediaFilesService.cs" />
+    <Compile Include="Contracts\IImagesService.cs" />
+    <Compile Include="ImagesService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TagsService.cs" />
   </ItemGroup>
