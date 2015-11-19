@@ -9,6 +9,8 @@
         private FakeRepository<Tag> tags;
         private FakeRepository<Album> albums;
         private FakeRepository<User> users;
+        private FakeRepository<Image> images;
+        private FakeRepository<Comment> comments;
 
         public IRepository<Album> Albums
         {
@@ -23,11 +25,16 @@
             }
         }
 
-        public IRepository<MediaFile> MediaFiles
+        public IRepository<Image> Images
         {
             get
             {
-                throw new NotImplementedException();
+                if (this.images == null)
+                {
+                    this.images = new FakeRepository<Image>();
+                }
+
+                return this.images;
             }
         }
 
@@ -35,15 +42,12 @@
         {
             get
             {
-                throw new NotImplementedException();
-            }
-        }
+                if (this.comments == null)
+                {
+                    this.comments = new FakeRepository<Comment>();
+                }
 
-        public IRepository<Image> Images
-        {
-            get
-            {
-                throw new NotImplementedException();
+                return this.comments;
             }
         }
 
@@ -70,14 +74,6 @@
                 }
 
                 return this.users;
-            }
-        }
-
-        public IRepository<Video> Videos
-        {
-            get
-            {
-                throw new NotImplementedException();
             }
         }
 

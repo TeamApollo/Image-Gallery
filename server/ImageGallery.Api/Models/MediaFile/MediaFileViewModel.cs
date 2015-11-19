@@ -3,7 +3,7 @@
     using ImageGallery.Api.Infrastructure.Mappings;
     using ImageGallery.Models;
 
-    public class MediaFileViewModel : IMapFrom<MediaFile>
+    public class MediaFileViewModel : IMapFrom<Image>
     {
         public int Id { get; set; }
 

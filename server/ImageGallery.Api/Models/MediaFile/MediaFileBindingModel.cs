@@ -5,15 +5,18 @@
     using Infrastructure.Mappings;
     using ImageGallery.Models;
 
-    public class MediaFileBindingModel : IMapFrom<MediaFile>
+    public class MediaFileBindingModel : IMapFrom<Image>
     {
+        [Required]
+        public int AlbumId { get; set; }
+
         [Required]
         [MaxLength(ValidationConstants.MaxOriginalFileNameLength)]
         public string OriginalFileName { get; set; }
 
-        [Required]
-        [MaxLength(ValidationConstants.MaxFileExtensionLength)]
-        public string FileExtension { get; set; }
+        // [Required]
+        // [MaxLength(ValidationConstants.MaxFileExtensionLength)]
+        // public string FileExtension { get; set; }
 
         [Required]
         [MaxLength(ValidationConstants.MaxUrlPathLength)]

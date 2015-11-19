@@ -6,12 +6,12 @@
 
     public class Tag
     {
-        private ICollection<MediaFile> mediaFiles;
+        private ICollection<Image> images;
         private ICollection<Album> albums;
 
         public Tag()
         {
-            this.mediaFiles = new HashSet<MediaFile>();
+            this.images = new HashSet<Image>();
             this.albums = new HashSet<Album>();
         }
 
@@ -21,10 +21,10 @@
         [MaxLength(ValidationConstants.MaxTagDescriptionLength)]
         public string Description { get; set; }
 
-        public virtual ICollection<MediaFile> MediaFiles
+        public virtual ICollection<Image> MediaFiles
         {
-            get { return this.mediaFiles; }
-            set { this.mediaFiles = value; }
+            get { return this.images; }
+            set { this.images = value; }
         }
 
         public virtual ICollection<Album> Albums

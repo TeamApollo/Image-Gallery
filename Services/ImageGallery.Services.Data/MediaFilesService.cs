@@ -22,7 +22,7 @@
         /// <param name="albumId">The id of the album the media file to be added to.</param>
         /// <param name="username">The username of the user adding the media file.</param>
         /// <returns>The id of the created media file.</returns>
-        public int Add(MediaFile mediaFile, int albumId, string username)
+        public int Add(Image mediaFile, int albumId, string username)
         {
             Validator.ValidateObjectIsNotNull(mediaFile);
             Validator.ValidateObjectIsNotNull(username);
@@ -75,7 +75,7 @@
         /// <param name="id">The id of the album's files to get.</param>
         /// <param name="username">The username of the user getting the album files.</param>
         /// <returns>All found media files.</returns>
-        public IQueryable<MediaFile> GetAll(int albumId, string username)
+        public IQueryable<Image> GetAll(int albumId, string username)
         {
             Validator.ValidateObjectIsNotNull(username);
 
@@ -99,7 +99,7 @@
         /// <param name="id">The id of the media file to get.</param>
         /// <param name="username">The username of the user getting the media file.</param>
         /// <returns>Found media file or null if not found.</returns>
-        public IQueryable<MediaFile> GetById(int albumId, int mediaFileId, string username)
+        public IQueryable<Image> GetById(int albumId, int mediaFileId, string username)
         {
             Validator.ValidateObjectIsNotNull(username);
             var currentUser = this.data.Users

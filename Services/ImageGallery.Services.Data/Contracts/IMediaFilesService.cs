@@ -5,11 +5,11 @@
 
     public interface IMediaFilesService
     {
-        IQueryable<MediaFile> GetAll(int albumId, string username);
+        IQueryable<Image> GetAll(int albumId, string username);
 
-        IQueryable<MediaFile> GetById(int albumId, int mediaFileId, string username);
+        IQueryable<Image> GetById(int albumId, int mediaFileId, string username);
 
-        int Add(MediaFile mediaFile, int albumId, string username);
+        int Add(Image mediaFile, int albumId, string username);
 
         int Delete(int albumId, int mediaFileId, string username);
     }

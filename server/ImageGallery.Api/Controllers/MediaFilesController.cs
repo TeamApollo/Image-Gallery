@@ -68,7 +68,7 @@
             }
 
             var currentUser = this.User.Identity.Name;
-            var newMediaFile = Mapper.Map<MediaFile>(mediaFileRequestModel);
+            var newMediaFile = Mapper.Map<Image>(mediaFileRequestModel);
 
             var createdProjectId = this.mediaFilesService
                 .Add(newMediaFile, albumId, currentUser);

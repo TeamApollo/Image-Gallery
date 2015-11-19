@@ -17,13 +17,9 @@
 
         public IRepository<User> Users => this.GetRepository<User>();
 
-        public IRepository<MediaFile> MediaFiles => this.GetRepository<MediaFile>();
-
-        public IRepository<Album> Albums => this.GetRepository<Album>();
-
         public IRepository<Image> Images => this.GetRepository<Image>();
 
-        public IRepository<Video> Videos => this.GetRepository<Video>();
+        public IRepository<Album> Albums => this.GetRepository<Album>();
 
         public IRepository<Tag> Tags => this.GetRepository<Tag>();
 
