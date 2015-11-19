@@ -1,5 +1,6 @@
 ﻿namespace ImageGallery.Api.Controllers
 {
+    using System;
     using System.Linq;
     using System.Web.Http;
     using System.Web.Http.Cors;
@@ -8,6 +9,7 @@
     using AutoMapper.QueryableExtensions;
     using Common.Constants;
     using AutoMapper;
+    using Common;
     using ImageGallery.Models;
 
     [EnableCors("*", "*", "*")]
@@ -20,14 +22,27 @@
             this.comments = comments;
         }
 
-        // GET api/comments?imageId={id}
+        // GET api/comments?albumId={albumId}
         public IHttpActionResult Get(int albumId)
         {
             var currentUserName = this.User.Identity.Name;
 
-            var result = this.comments
-                .GetAll(currentUserName, albumId)
-                .ProjectTo<CommentViewModel>();
+            IQueryable<CommentViewModel> result;
+
+            try
+            {
+                result = this.comments
+                    .GetAll(currentUserName, albumId)
+                    .ProjectTo<CommentViewModel>();
+            }
+            catch (ImageGalleryException)
+            {
+                return this.Unauthorized();
+            }
+            catch (ArgumentNullException)
+            {
+                return this.NotFound();
+            }
 
             return this.Ok(result);
         }
@@ -60,7 +75,7 @@
         //    return this.Ok(result);
         //}
 
-        // POST api/comments?imageId={id}
+        // POST api/comments
         public IHttpActionResult Post(CommentBindingModel commentsRequestModel)
         {
             if (!this.ModelState.IsValid)
@@ -72,9 +87,18 @@
 
             var newComment = Mapper.Map<Comment>(commentsRequestModel);
 
-            var createdComment = this.comments.Add(newComment, currentUserName);
+            int commentId;
 
-            return this.Ok(createdComment);
+            try
+            {
+                commentId = this.comments.Add(newComment, currentUserName);
+            }
+            catch (ArgumentNullException)
+            {
+                return this.NotFound();
+            }
+
+            return this.Ok(commentId);
         }
 
         // DELETE api/comments/{id}?imageId={id}
