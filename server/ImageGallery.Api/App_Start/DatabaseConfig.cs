@@ -8,8 +8,8 @@
     {
         public static void Initialize()
         {
-            //Database.SetInitializer(new MigrateDatabaseToLatestVersion<ImageGalleryDbContext, Configuration>());
-            //ImageGalleryDbContext.Create().Database.Initialize(true);
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<ImageGalleryDbContext, Configuration>());
+            ImageGalleryDbContext.Create().Database.Initialize(true);
         }
     }
 }
