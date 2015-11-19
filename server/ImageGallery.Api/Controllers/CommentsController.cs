@@ -1,14 +1,15 @@
 ﻿namespace ImageGallery.Api.Controllers
 {
+    using System;
     using System.Linq;
     using System.Web.Http;
-    using System.Web.Http.Cors;
-    using Services.Data.Contracts;
-    using Models.Comment;
-    using AutoMapper.QueryableExtensions;
-    using Common.Constants;
+    using System.Web.Http.Cors; 
     using AutoMapper;
+    using AutoMapper.QueryableExtensions;   
+    using Common;
     using ImageGallery.Models;
+    using Models.Comment;
+    using Services.Data.Contracts;
 
     [EnableCors("*", "*", "*")]
     public class CommentsController : ApiController
@@ -20,21 +21,34 @@
             this.comments = comments;
         }
 
-        // GET api/comments?imageId={id}
+        // GET api/comments?albumId={albumId}
         public IHttpActionResult Get(int albumId)
         {
             var currentUserName = this.User.Identity.Name;
 
-            var result = this.comments
-                .GetAll(currentUserName, albumId)
-                .ProjectTo<CommentViewModel>();
+            IQueryable<CommentViewModel> result;
+
+            try
+            {
+                result = this.comments
+                    .GetAll(currentUserName, albumId)
+                    .ProjectTo<CommentViewModel>();
+            }
+            catch (ImageGalleryException)
+            {
+                return this.Unauthorized();
+            }
+            catch (ArgumentNullException)
+            {
+                return this.NotFound();
+            }
 
             return this.Ok(result);
         }
 
         // GET api/comments
-        //public IHttpActionResult Get()
-        //{
+        // public IHttpActionResult Get()
+        // {
         //    var currentUserName = this.User.Identity.Name;
 
         //    var result = this.comments
@@ -43,11 +57,11 @@
         //        .ToList();
 
         //    return this.Ok(result);
-        //}
+        // }
 
         // GET api/comments/all
-        //public IHttpActionResult Get(int page = 1, int pageSize = GlobalConstants.DefaultPageSize)
-        //{
+        // public IHttpActionResult Get(int page = 1, int pageSize = GlobalConstants.DefaultPageSize)
+        // {
         //    var currentUserName = this.User.Identity.Name;
 
         //    var result = this.comments
@@ -58,9 +72,9 @@
         //        .ToList();
 
         //    return this.Ok(result);
-        //}
+        // }
 
-        // POST api/comments?imageId={id}
+        // POST api/comments
         public IHttpActionResult Post(CommentBindingModel commentsRequestModel)
         {
             if (!this.ModelState.IsValid)
@@ -72,9 +86,18 @@
 
             var newComment = Mapper.Map<Comment>(commentsRequestModel);
 
-            var createdComment = this.comments.Add(newComment, currentUserName);
+            int commentId;
 
-            return this.Ok(createdComment);
+            try
+            {
+                commentId = this.comments.Add(newComment, currentUserName);
+            }
+            catch (ArgumentNullException)
+            {
+                return this.NotFound();
+            }
+
+            return this.Ok(commentId);
         }
 
         // DELETE api/comments/{id}?imageId={id}

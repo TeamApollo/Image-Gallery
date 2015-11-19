@@ -1,14 +1,14 @@
 ﻿namespace ImageGallery.Services.Data
-{
-    using ImageGallery.Services.Data.Contracts;
-    using System;
+{       
     using System.Linq;
-    using ImageGallery.Models;
+    using Common;      
     using ImageGallery.Data.Contracts;
-
+    using ImageGallery.Models;   
+    using ImageGallery.Services.Data.Contracts;
+       
     public class CommentsService : ICommentsService
     {
-        private IImageGalleryData data;
+        private readonly IImageGalleryData data;
 
         public CommentsService(IImageGalleryData data)
         {
@@ -19,27 +19,18 @@
         /// Adds a new comment to the database.
         /// </summary>
         /// <param name="comment">The new comment to be added.</param>
+        /// <param name="username">The new comment to be added.</param>
         /// <returns>The id of the created comment.</returns>
         public int Add(Comment comment, string username)
         {
-            if (username == null)
-            {
-                throw new ArgumentNullException("Username cannot be null.");
-            }
-
-            if (comment == null)
-            {
-                throw new ArgumentNullException("Comment cannot be null");
-            }
-
+            Validator.ValidateObjectIsNotNull(comment);
+            Validator.ValidateObjectIsNotNull(username);
+            
             var currentUser = this.data.Users
                 .All()
                 .FirstOrDefault(u => u.UserName == username);
 
-            if (currentUser == null)
-            {
-                throw new ArgumentNullException("There is no user with such username.");
-            }
+            Validator.ValidateObjectIsNotNull(currentUser);
 
             comment.Author = currentUser;
 
@@ -80,12 +71,15 @@
         /// <returns>All found comments.</returns>
         public IQueryable<Comment> GetAll(string username, int albumId)
         {
-            var comments = this.data.Comments
-                .All()
-                .Where(c => c.Author.UserName == username)
-                .OrderByDescending(c => c.Id);
+            var album = this.data.Albums.GetById(albumId);
+            Validator.ValidateObjectIsNotNull(album);
 
-            return comments;
+            if (album.Owner.UserName != username)
+            {
+                throw new ImageGalleryException("The user does not have access to this album");
+            }
+            
+            return album.Comments.AsQueryable();
         }
 
         /// <summary>

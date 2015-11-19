@@ -9,19 +9,21 @@
 </head>
 <body>
 <nav class="navbar navbar-inverse">
-    <a href="#/home" class="navbar-brand" id="app-main-label">Apollo's Image Gallery</a>
+    <h1>
+        <a href="#/home" class="navbar-brand btn btn-link" id="app-main-label">Apollo's Image Gallery</a>
+    </h1>
     <nav class="nav navbar-btn">
         <div id="div-loggedin">
-            <a id="btn-album-manage" class="btn btn-default" href="#/manage-albums">Manage Albums</a>
-            <a id="btn-album-create" class="btn btn-default" href="#/create-album">Create Album</a>
-            <a id="btn-logout" class="btn btn-default" href="#/logout">Logout</a>
+            <a id="btn-album-manage" class="btn btn-primary navbar-brand" href="#/manage-albums">Manage Albums</a>
+            <a id="btn-album-create" class="btn btn-success navbar-brand" href="#/create-album">Create Album</a>
+            <a id="btn-logout" class="btn btn-warning navbar-brand" href="#/logout">Logout</a>
         </div>
-            <div id="div-reg">
-                <a class="navbar-brand" href="#/login" id="btn-login">Login</a>
-                <a class="navbar-brand" href="#/register" id="btn-register">Register</a>
-            </div>
-        </nav>
+        <div id="div-reg">
+            <a class="btn btn-success navbar-brand" href="#/login" id="btn-login">Login</a>
+            <a class="btn btn-info navbar-brand" href="#/register" id="btn-register">Register</a>
+        </div>
     </nav>
+</nav>
 </nav>
 <div id="content"></div>
 

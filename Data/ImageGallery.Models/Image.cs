@@ -1,9 +1,9 @@
 ﻿namespace ImageGallery.Models
-{
-    using Common.Constants;
+{        
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    
+    using Common.Constants;
+
     public class Image
     {
         private ICollection<Tag> tags;
@@ -28,7 +28,7 @@
         [Required]
         public int AlbumId { get; set; }
 
-        public virtual Album Album{ get; set; }
+        public virtual Album Album { get; set; }
 
         public virtual ICollection<Tag> Tags
         {

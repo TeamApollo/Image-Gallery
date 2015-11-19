@@ -4,25 +4,23 @@
     using System.Linq;
     using System.Web;
     using System.Web.Http;
-    using Microsoft.AspNet.Identity;
 
-    using Spring.IO;
-    using Spring.Social.Dropbox.Api;
-    using Spring.Social.Dropbox.Connect;
-    using System.Net.Http;
-    using Microsoft.AspNet.Identity.Owin;
     using ImageGallery.Data.Contracts;
     using ImageGallery.Models;
-
+    using Spring.IO;
+    using Spring.Social.Dropbox.Api;
+    using Spring.Social.Dropbox.Connect;        
+     
     public class FileUploadController : ApiController
-    {
+    {   
         private const string DropboxAppKey = "1vr5ezudby56rmx";
-        private const string DropboxAppSecret = "5a0va0gmb54a4vg";
-
+        private const string DropboxAppSecret = "5a0va0gmb54a4vg";  
+        private const string DropboxReturnedAppKey = "0ptqwblxvjk42u2d";
+        private const string DropboxReturnedAppSecret = "k4rlrdx430xld72";
+        private const string DataFirstPath = "/DateFirstImagesDb/{0}";  
         private const string OAuthTokenFileName = "OAuthTokenFileName.txt";
-        private string name;
-
         private readonly IImageGalleryData data;
+        private string name;            
 
         public FileUploadController(IImageGalleryData data)
         {
@@ -43,34 +41,29 @@
                 {
                     var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/"), httpPostedFile.FileName);
                     filePath = fileSavePath;
-                    name = httpPostedFile.FileName;
+                    this.name = httpPostedFile.FileName;
                     httpPostedFile.SaveAs(fileSavePath);
                 }
             }
 
             DropboxServiceProvider dropboxServiceProvider = new DropboxServiceProvider(DropboxAppKey, DropboxAppSecret, AccessLevel.Full);
 
-            IDropbox dropbox = dropboxServiceProvider.GetApi("0ptqwblxvjk42u2d", "k4rlrdx430xld72");
+            IDropbox dropbox = dropboxServiceProvider.GetApi(DropboxReturnedAppKey, DropboxReturnedAppSecret);
 
-            Entry uploadFileEntry = dropbox.UploadFileAsync(new FileResource(string.Format(filePath)), string.Format("/DateFirstImagesDb/{0}", name)).Result;
+            Entry uploadFileEntry = dropbox.UploadFileAsync(new FileResource(string.Format(filePath)), string.Format(DataFirstPath, this.name)).Result;
 
-            var link = dropbox.GetMediaLinkAsync(string.Format("/DateFirstImagesDb/{0}", name));
-            var UrlForDb = link.Result.Url;
-
-            //var currentUserName = this.User.Identity.Name;
-
-            //var userId = this.data.Users.All().FirstOrDefault(x => x.UserName == currentUserName).Id;
-
+            var link = dropbox.GetMediaLinkAsync(string.Format(DataFirstPath, this.name));
+            var urlForDb = link.Result.Url;            
             int albumIdReal = int.Parse(albumId);
             var image = new Image()
             {
                 AlbumId = albumIdReal,
-                OriginalFileName = name,
-                UrlPath = UrlForDb
+                OriginalFileName = this.name,
+                UrlPath = urlForDb
             };
                                  
             this.data.Images.Add(image);
-            data.SaveChanges();
+            this.data.SaveChanges();
         }
     }
 }

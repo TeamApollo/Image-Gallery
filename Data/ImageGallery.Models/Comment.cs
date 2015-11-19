@@ -15,5 +15,13 @@
         public string AuthorId { get; set; }
 
         public virtual User Author { get; set; }
+
+        public int? AlbumId { get; set; }
+
+        public virtual Album Album { get; set; }
+
+        public int? ImageId { get; set; }
+
+        public virtual Image Image { get; set; }
     }
 }
