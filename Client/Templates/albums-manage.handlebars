@@ -1,0 +1,23 @@
+<div class="container">
+    <h2>Manage my Albums</h2>
+    {{#if collection}}
+        {{#each collection}}
+            <div class="well">
+                <a class="album-link" href="#/album/{{Id}}">{{Name}}</a>
+
+                <div class="album-info">
+                    <div class="album-createdOn">
+                        <span class="album-createdOn-label">Created On: </span><a>{{CreatedOn}}</a>
+                    </div>
+                </div>
+                <input id="up-alb-media" class="btn btn-info" type="file" value="send"/>
+                <button class="btn-alb-upload-media">Upload Media</button>
+            <span class="btn btn-info">
+                <!--<span class="glyphicon glyphicon-remove-circle"></span>--> Remove Album
+            </span>
+            </div>
+        {{/each}}
+    {{else}}
+        <h1>Sorry you have no albums! :(</h1>
+    {{/if}}
+</div>

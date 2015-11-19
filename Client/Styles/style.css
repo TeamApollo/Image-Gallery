@@ -1,0 +1,50 @@
+#app-main-label {
+    float: left;
+}
+
+.nav {
+    float: right;
+}
+
+#album-main-image {
+    align-content: center;
+    text-align: center;
+    width: 100%;
+    border-radius: 2px;
+}
+
+#album-other-images {
+    width: 100%;
+    border: 1px solid black;
+}
+
+.album-link {
+    font-weight: bold;
+}
+
+.album-info .album-author .album-author-label{
+    color: blue;
+}
+
+.album-info .album-createdOn .album-createdOn-label{
+    color: blue;
+}
+
+/* EXTERNAL LIB CUSTOM CSS */
+.my-gallery {
+    width: 100%;
+    float: left;
+}
+.my-gallery img {
+    width: 100%;
+    height: auto;
+}
+.my-gallery figure {
+    display: block;
+    float: left;
+    margin: 0 5px 5px 0;
+    width: 150px;
+}
+.my-gallery figcaption {
+    display: none;
+}

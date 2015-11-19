@@ -13,11 +13,16 @@
 
         this.get('#/home', homeView.all);
 
-        this.get('#/create-album', albumCreateView.show)
+        this.get('#/create-album', albumCreateView.show);
+
+        this.get('#/album/:id', albumView.show);
+
+        this.get('#/manage-albums', albumsManageView.show);
     });
 
     $(function () {
         sammyApp.run('#/home');
+
         if (usersController.userLoggedIn()) {
             $('#div-reg').hide();
             $('#div-loggedin').show();
