@@ -45,7 +45,7 @@ var mediaFileController = (function () {
         var promise = new Promise(function (res, rej) {
             $.ajax({
                 type: "POST",
-                url: "http://localhost:55833/api/fileupload",
+                url: defaultRoute + "api/fileupload",
                 contentType: false,
                 processData: false,
                 data: data,
