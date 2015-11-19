@@ -22,6 +22,8 @@
                 <a class="navbar-brand" href="#/register" id="btn-register">Register</a>
             </div>
         </nav>
+        <span>Write your message here: </span>
+        <textarea id="txt-msg"></textarea>
     </nav>
 </div>
 <div id="content"></div>
@@ -33,18 +35,23 @@
 <script src="bower_components/toastr/toastr.js"></script>
 <script src="bower_components/sammy/lib/sammy.js"></script>
 <script src="bower_components/moment/moment.js"></script>
+<script src="https://cdn.pubnub.com/pubnub.min.js"></script>
 
 <!-- CUSTOM SCRIPTS -->
 <script src="Scripts/validator.js"></script>
 <script src="Scripts/requester.js"></script>
 <script src="Scripts/templates.js"></script>
 <script src="Scripts/navigation.js"></script>
-<script src="Scripts/Controllers/users-controller.js"></script> <!-- must be first -->
+<script src="Scripts/Controllers/users-controller.js"></script>
+<!-- must be first -->
 <script src="Scripts/Controllers/albums-controller.js"></script>
 <script src="Scripts/Views/home-view.js"></script>
 <script src="Scripts/Views/register-view.js"></script>
 <script src="Scripts/Views/login-view.js"></script>
 <script src="Scripts/Views/album-create-view.js"></script>
+<script src="notificationManager.js"></script>
+<script src="notifier.js"></script>
 <script src="Scripts/app.js"></script>
+
 </body>
 </html>
