@@ -155,3 +155,38 @@
     | Header key | Header value | Required |
     | --- | --- | --- |
     | Authorization | bearer {*your access token here*} | true |
+
+### Comments
+    
+- **Create a new comment** (Required authorization)
+
+    POST api/comments
+
+    HEADERs
+
+    | Header Key | Header Value |
+    | --- | --- |
+    | Authorization | bearer {*your access token here*} |
+    | Content-Type | application/json |
+
+    BODY
+    ```js
+    {
+        "Body":"{comment body}", // required
+    }
+    ```
+- **Get all comments for specific album** (Optional authorization)
+
+    GET api/comments?albumId={albumId}
+
+- **Delete comment by id** (Requires authorization)
+    
+    DELETE api/comments/{id}?albumId={id}
+
+    Deletes the comment with the specified id if it belongs to the current authorized user.
+
+    HEADERS:
+
+    | Header key | Header value | Required |
+    | --- | --- | --- |
+    | Authorization | bearer {*your access token here*} | true |
