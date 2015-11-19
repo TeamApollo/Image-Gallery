@@ -3,14 +3,13 @@
     using System;
     using System.Linq;
     using System.Web.Http;
-    using System.Web.Http.Cors;
-    using Services.Data.Contracts;
-    using Models.Comment;
-    using AutoMapper.QueryableExtensions;
-    using Common.Constants;
+    using System.Web.Http.Cors; 
     using AutoMapper;
+    using AutoMapper.QueryableExtensions;   
     using Common;
     using ImageGallery.Models;
+    using Models.Comment;
+    using Services.Data.Contracts;
 
     [EnableCors("*", "*", "*")]
     public class CommentsController : ApiController
@@ -48,8 +47,8 @@
         }
 
         // GET api/comments
-        //public IHttpActionResult Get()
-        //{
+        // public IHttpActionResult Get()
+        // {
         //    var currentUserName = this.User.Identity.Name;
 
         //    var result = this.comments
@@ -58,11 +57,11 @@
         //        .ToList();
 
         //    return this.Ok(result);
-        //}
+        // }
 
         // GET api/comments/all
-        //public IHttpActionResult Get(int page = 1, int pageSize = GlobalConstants.DefaultPageSize)
-        //{
+        // public IHttpActionResult Get(int page = 1, int pageSize = GlobalConstants.DefaultPageSize)
+        // {
         //    var currentUserName = this.User.Identity.Name;
 
         //    var result = this.comments
@@ -73,7 +72,7 @@
         //        .ToList();
 
         //    return this.Ok(result);
-        //}
+        // }
 
         // POST api/comments
         public IHttpActionResult Post(CommentBindingModel commentsRequestModel)

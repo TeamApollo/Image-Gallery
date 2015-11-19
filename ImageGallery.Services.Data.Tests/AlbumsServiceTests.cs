@@ -1,7 +1,7 @@
 ﻿namespace ImageGallery.Services.Data.Tests
 {
     using System;
-    using System.Linq; 
+    using System.Linq;
     using Fakes;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Models;
@@ -347,27 +347,24 @@
         [TestMethod]
         public void Delete_ShouldDeleteAlbumOfAuthorizedUser()
         {
-            // arrange
-
+            // arrange  
             string username = "user0";
             var album = new Album()
             {
                 Id = 2,
                 Name = "customAlbum0",
                 Private = false,
-                Owner = new User() { UserName = username}
+                Owner = new User() { UserName = username }
             };
 
             var data = new FakeGalleryData();
             data.Albums.Add(album);
             var service = new AlbumsService(data);
 
-            // act
-
+            // act        
             service.DeleteAlbumById(2, username);
 
-            // assert
-
+            // assert    
             var actual = data.Albums.All().Count();
             Assert.AreEqual(0, actual);
         }
@@ -375,8 +372,7 @@
         [TestMethod]
         public void Delete_ShouldReturnTheIdOfTheDeletedAlbum()
         {
-            // arrange
-
+            // arrange   
             string username = "user0";
             var album = new Album()
             {
@@ -390,19 +386,16 @@
             data.Albums.Add(album);
             var service = new AlbumsService(data);
 
-            // act
-
+            // act    
             var actual = service.DeleteAlbumById(2, username);
 
-            // assert
-
+            // assert  
             Assert.AreEqual(2, actual);
         }
 
         public void Delete_ShouldReturnMinusOneIfAlbumWasNotFoundOrAuthorizedUserIsNotOwner()
         {
-            // arrange
-
+            // arrange       
             string username = "user0";
             var album = new Album()
             {
@@ -416,19 +409,16 @@
             data.Albums.Add(album);
             var service = new AlbumsService(data);
 
-            // act
-
+            // act  
             var actual = service.DeleteAlbumById(3, username);
 
-            // assert
-
+            // assert  
             Assert.AreEqual(0, actual);
         }
 
         public void Delete_ShouldCallSaveChangesIfOperationIsAuthorizedAndAlbumIsFound()
         {
-            // arrange
-
+            // arrange 
             string username = "user0";
             var album = new Album()
             {
@@ -442,16 +432,13 @@
             data.Albums.Add(album);
             var service = new AlbumsService(data);
 
-            // act
-
+            // act  
             service.DeleteAlbumById(2, username);
 
-            // assert
-
+            // assert 
             var actual = data.SaveChangesCallCount;
             Assert.AreEqual(1, actual);
-        }
-
+        }     
         #endregion
 
         #region helpers

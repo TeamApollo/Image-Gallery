@@ -1,9 +1,9 @@
 ﻿namespace ImageGallery.Api.Models.Image
 {
-    using System.ComponentModel.DataAnnotations;
-    using ImageGallery.Common.Constants;
-    using Infrastructure.Mappings;
+    using System.ComponentModel.DataAnnotations; 
+    using ImageGallery.Common.Constants;   
     using ImageGallery.Models;
+    using Infrastructure.Mappings;
 
     public class ImageBindingModel : IMapFrom<Image>
     {

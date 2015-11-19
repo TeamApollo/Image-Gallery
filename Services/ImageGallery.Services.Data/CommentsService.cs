@@ -1,12 +1,11 @@
 ﻿namespace ImageGallery.Services.Data
-{
-    using ImageGallery.Services.Data.Contracts;
-    using System;
+{       
     using System.Linq;
-    using Common;
-    using ImageGallery.Models;
+    using Common;      
     using ImageGallery.Data.Contracts;
-
+    using ImageGallery.Models;   
+    using ImageGallery.Services.Data.Contracts;
+       
     public class CommentsService : ICommentsService
     {
         private readonly IImageGalleryData data;

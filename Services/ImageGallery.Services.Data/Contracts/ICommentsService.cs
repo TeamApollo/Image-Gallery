@@ -1,7 +1,7 @@
 ﻿namespace ImageGallery.Services.Data.Contracts
 {
-    using Models;
     using System.Linq;
+    using Models;  
 
     public interface ICommentsService
     {
