@@ -19,16 +19,16 @@
         /// <summary>
         /// Adds a new media file to the database.
         /// </summary>
-        /// <param name="mediaFile">The new media file to be added.</param>
+        /// <param name="image">The new media file to be added.</param>
         /// <param name="albumId">The id of the album the media file to be added to.</param>
         /// <param name="username">The username of the user adding the media file.</param>
         /// <returns>The id of the created media file.</returns>
-        public int Add(Image mediaFile, int albumId, string username)
+        public int Add(Image image, string username)
         {
-            Validator.ValidateObjectIsNotNull(mediaFile);
+            Validator.ValidateObjectIsNotNull(image);
             Validator.ValidateObjectIsNotNull(username);
 
-            var album = this.data.Albums.GetById(albumId);
+            var album = this.data.Albums.GetById(image.AlbumId);
 
             Validator.ValidateObjectIsNotNull(album);
 
@@ -37,9 +37,10 @@
                 throw new ImageGalleryException("The User cannot add media file to foreign album!");
             }
 
-            album.Images.Add(mediaFile);
+            album.Images.Add(image);
+            this.data.SaveChanges();
 
-            return mediaFile.Id;
+            return image.Id;
         }
 
         /// <summary>

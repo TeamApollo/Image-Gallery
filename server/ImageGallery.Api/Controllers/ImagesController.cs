@@ -74,9 +74,9 @@
             return this.Ok(result);
         }
 
-        // POST api/images/{albumId}
+        // POST api/images
         [Authorize]
-        public IHttpActionResult Post(int albumId, ImageBindingModel mediaFileRequestModel)
+        public IHttpActionResult Post(ImageBindingModel imageBindingModel)
         {
             if (!this.ModelState.IsValid)
             {
@@ -84,12 +84,24 @@
             }
 
             var currentUser = this.User.Identity.Name;
-            var newMediaFile = Mapper.Map<Image>(mediaFileRequestModel);
+            var image = Mapper.Map<Image>(imageBindingModel);
 
-            var createdProjectId = this.imagesService
-                .Add(newMediaFile, albumId, currentUser);
+            int imageId;
+            try
+            {
+                imageId = this.imagesService
+                    .Add(image, currentUser);
+            }
+            catch (ImageGalleryException)
+            {
+                return this.Unauthorized();
+            }
+            catch (ArgumentNullException)
+            {
+                return this.NotFound();
+            }
 
-            return this.Ok(createdProjectId);
+            return this.Ok(imageId);
         }
 
         // DELETE api/images/{albumId}/{imageId}

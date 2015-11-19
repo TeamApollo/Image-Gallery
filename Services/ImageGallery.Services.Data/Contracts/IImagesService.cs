@@ -9,7 +9,7 @@
 
         IQueryable<Image> GetById(int imageId, string username);
 
-        int Add(Image mediaFile, int albumId, string username);
+        int Add(Image image, string username);
 
         int Delete(int albumId, int imageId, string username);
     }

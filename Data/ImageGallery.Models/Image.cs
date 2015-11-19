@@ -22,10 +22,6 @@
         public string OriginalFileName { get; set; }
 
         [Required]
-        [MaxLength(ValidationConstants.MaxFileExtensionLength)]
-        public string FileExtension { get; set; }
-
-        [Required]
         [MaxLength(ValidationConstants.MaxUrlPathLength)]
         public string UrlPath { get; set; }
 
