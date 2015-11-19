@@ -15,8 +15,8 @@
 
     public class FileUploadController : ApiController
     {
-        private const string DropboxAppKey = "zyg48v1jsvk9yfm";
-        private const string DropboxAppSecret = "m6dha3d29jfjkr5";
+        private const string DropboxAppKey = "1vr5ezudby56rmx";
+        private const string DropboxAppSecret = "5a0va0gmb54a4vg";
 
         private const string OAuthTokenFileName = "OAuthTokenFileName.txt";
         private string name;
@@ -49,7 +49,7 @@
 
             DropboxServiceProvider dropboxServiceProvider = new DropboxServiceProvider(DropboxAppKey, DropboxAppSecret, AccessLevel.AppFolder);
 
-            IDropbox dropbox = dropboxServiceProvider.GetApi("ewl8tryz0hmkulda", "p1n05i71cfhohlu");
+            IDropbox dropbox = dropboxServiceProvider.GetApi("0ptqwblxvjk42u2d", "k4rlrdx430xld72");
 
             Entry uploadFileEntry = dropbox.UploadFileAsync(new FileResource(string.Format(filePath)), string.Format("/DateFirstImagesDb/{0}", name)).Result;
 
