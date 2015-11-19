@@ -5,7 +5,6 @@
     using System.Web.Http.Cors;    
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
-    using Common.Constants;
     using ImageGallery.Models;
     using Models.Tag;
     using Services.Data.Contracts;
@@ -20,11 +19,12 @@
             this.tagsService = tagsService;
         }
 
-        // GET api/tags
-        public IHttpActionResult Get()
+        // GET api/tags?albumId={id}
+        [Route("api/tags")]
+        public IHttpActionResult Get(int albumId)
         {
             var result = this.tagsService
-                .GetAll()
+                .GetAll(albumId)
                 .ProjectTo<TagViewModel>()
                 .ToList();
 
@@ -32,7 +32,9 @@
         }
 
         // GET api/tags/{id}
-        public IHttpActionResult Get(int id)
+        [Route("api/tags/{id}")]
+        [HttpGet]
+        public IHttpActionResult GetTagAlbums(int id)
         {
             var result = this.tagsService
                 .GetById(id)
@@ -47,21 +49,21 @@
             return this.Ok(result);
         }
 
-        // GET api/tags/all
-        [Route("api/tags/all")]
-        public IHttpActionResult Get(int page = 1, int pageSize = GlobalConstants.DefaultPageSize)
-        {
-            var result = this.tagsService
-                .GetAll()
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ProjectTo<TagViewModel>()
-                .ToList();
+        //// GET api/tags/all
+        //[Route("api/tags/all")]
+        //public IHttpActionResult Get(int page = 1, int pageSize = GlobalConstants.DefaultPageSize)
+        //{
+        //    var result = this.tagsService
+        //        .GetAll()
+        //        .Skip((page - 1) * pageSize)
+        //        .Take(pageSize)
+        //        .ProjectTo<TagViewModel>()
+        //        .ToList();
 
-            return this.Ok(result);
-        }
+        //    return this.Ok(result);
+        //}
 
-        // POST api/tags
+        // POST api/tags?albumId={id}
         [Authorize]
         public IHttpActionResult Post(TagsBindingModel tagRequestModel)
         {

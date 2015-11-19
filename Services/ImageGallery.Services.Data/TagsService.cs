@@ -1,7 +1,7 @@
 ﻿namespace ImageGallery.Services.Data
 {
     using System;
-    using System.Linq; 
+    using System.Linq;
     using ImageGallery.Data.Contracts;
     using ImageGallery.Services.Data.Contracts;
     using Models;
@@ -36,12 +36,14 @@
         /// <summary>
         /// Gets all tags.
         /// </summary>
+        /// <param name="albumId">The id of the album whos tags to get.</param>
         /// <returns>All found tags.</returns>
-        public IQueryable<Tag> GetAll()
+        public IQueryable<Tag> GetAll(int albumId)
         {
-            var tags = this.data.Tags
-                .All()
-                .OrderByDescending(t => t.Id);
+            var tags = this.data.Albums
+                .GetById(albumId)
+                .Tags
+                .AsQueryable();
 
             return tags;
         }

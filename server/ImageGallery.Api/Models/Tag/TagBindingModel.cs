@@ -8,6 +8,9 @@
     public class TagsBindingModel : IMapFrom<Tag>
     {
         [Required]
+        public int AlbumId { get; set; }
+
+        [Required]
         [MaxLength(ValidationConstants.MaxTagDescriptionLength)]
         public string Description { get; set; }
     }

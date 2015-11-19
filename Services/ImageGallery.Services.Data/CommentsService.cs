@@ -76,8 +76,9 @@
         /// Gets all comments.
         /// </summary>
         /// <param name="username">The username of the user whos comments to get.</param>
+        /// <param name="albumId">The id of the album whos comments to get.</param>
         /// <returns>All found comments.</returns>
-        public IQueryable<Comment> GetAll(string username)
+        public IQueryable<Comment> GetAll(string username, int albumId)
         {
             var comments = this.data.Comments
                 .All()
