@@ -28,12 +28,12 @@
             this.data = data;
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPost]
         public void UploadFile()
         {
             var filePath = string.Empty;
-
+            var a = Request.Content.ReadAsByteArrayAsync();
             if (HttpContext.Current.Request.Files.AllKeys.Any())
             {
                 var httpPostedFile = HttpContext.Current.Request.Files["UploadedImage"];
