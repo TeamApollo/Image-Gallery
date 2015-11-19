@@ -19,11 +19,11 @@
             <a id="btn-album-create" class="btn btn-default" href="#/create-album">Create Album</a>
             <a id="btn-logout" class="btn btn-default" href="#/logout">Logout</a>
         </div>
-
-        <div id="div-reg">
-            <a href="#/login" class="btn btn-default" id="btn-login">Login</a>
-            <a href="#/register" class="btn btn-default" id="btn-register">Register</a>
-        </div>
+            <div id="div-reg">
+                <a class="navbar-brand" href="#/login" id="btn-login">Login</a>
+                <a class="navbar-brand" href="#/register" id="btn-register">Register</a>
+            </div>
+        </nav>
     </nav>
 </nav>
 <div id="content"></div>
@@ -35,9 +35,9 @@
 <script src="bower_components/toastr/toastr.js"></script>
 <script src="bower_components/sammy/lib/sammy.js"></script>
 <script src="bower_components/moment/moment.js"></script>
+<script src="https://cdn.pubnub.com/pubnub.min.js"></script>
 <script src="bower_components/photoswipe/dist/photoswipe.min.js"></script>
 <script src="bower_components/photoswipe/dist/photoswipe-ui-default.min.js"></script>
-<script src="bower_components/jcarousel/dist/jquery.jcarousel.min.js"></script>
 
 <!-- CUSTOM SCRIPTS -->
 <script src="Scripts/validator.js"></script>
@@ -45,6 +45,7 @@
 <script src="Scripts/templates.js"></script>
 <script src="Scripts/navigation.js"></script>
 <script src="Scripts/Controllers/users-controller.js"></script>
+<!-- must be first -->
 <script src="Scripts/Controllers/albums-controller.js"></script>
 <script src="Scripts/Controllers/media-file-controller.js"></script>
 <script src="Scripts/Views/home-view.js"></script>
@@ -52,7 +53,10 @@
 <script src="Scripts/Views/login-view.js"></script>
 <script src="Scripts/Views/album-view.js"></script>
 <script src="Scripts/Views/album-create-view.js"></script>
+<script src="PubNub/notificationManager.js"></script>
+<script src="PubNub/notifier.js"></script>
 <script src="Scripts/Views/albums-manage-view.js"></script>
 <script src="Scripts/app.js"></script>
+
 </body>
 </html>
