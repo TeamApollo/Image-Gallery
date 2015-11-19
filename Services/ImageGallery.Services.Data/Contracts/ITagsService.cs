@@ -5,7 +5,7 @@
 
     public interface ITagsService
     {
-        IQueryable<Tag> GetAll();
+        IQueryable<Tag> GetAll(int albumId);
 
         int Add(Tag tag);
 
