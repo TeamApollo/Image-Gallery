@@ -9,7 +9,7 @@
         private ICollection<Tag> tags;
         private ICollection<Comment> comments;
 
-        protected Image()
+        public Image()
         {
             this.tags = new HashSet<Tag>();
             this.comments = new HashSet<Comment>();
