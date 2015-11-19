@@ -37,7 +37,7 @@ var requester = (function() {
     }
 
     function del(url, options) {
-        return send('POST', url, options);
+        return send('DELETE', url, options);
     }
 
     return {
