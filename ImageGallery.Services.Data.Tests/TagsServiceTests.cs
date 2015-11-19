@@ -10,27 +10,27 @@
     [TestClass]
     public class TagsServiceTests
     {
-        [TestMethod]
-        public void GetAll_ShouldReturnCorrectAmountOfTags()
-        {
-            var data = new FakeGalleryData();
-            var tagsService = new TagsService(data);
+        //[TestMethod]
+        //public void GetAll_ShouldReturnCorrectAmountOfTags()
+        //{
+        //    var data = new FakeGalleryData();
+        //    var tagsService = new TagsService(data);
 
-            Tag tagToAdd = new Tag();
+        //    Tag tagToAdd = new Tag();
 
-            tagsService.Add(tagToAdd);
+        //    tagsService.Add(tagToAdd);
 
-            Assert.AreEqual(1, tagsService.GetAll().Count());
-        }
+        //    Assert.AreEqual(1, tagsService.GetAll().Count());
+        //}
 
-        [TestMethod]
-        public void GetAll_ShouldReturnZeroTagsWhenNoTagsWereAdded()
-        {
-            var data = new FakeGalleryData();
-            var tagsService = new TagsService(data);
+        //[TestMethod]
+        //public void GetAll_ShouldReturnZeroTagsWhenNoTagsWereAdded()
+        //{
+        //    var data = new FakeGalleryData();
+        //    var tagsService = new TagsService(data);
 
-            Assert.AreEqual(0, tagsService.GetAll().Count());
-        }
+        //    Assert.AreEqual(0, tagsService.GetAll().Count());
+        //}
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
@@ -42,22 +42,22 @@
             tagsService.Add(null);
         }
 
-        [TestMethod]
-        public void Add_ShouldAddTagsProperly()
-        {
-            var data = new FakeGalleryData();
-            var tagsService = new TagsService(data);
+        //[TestMethod]
+        //public void Add_ShouldAddTagsProperly()
+        //{
+        //    var data = new FakeGalleryData();
+        //    var tagsService = new TagsService(data);
 
-            Tag firstTag = new Tag();
-            firstTag.Description = "A very important tag!";
-            Tag secondTag = new Tag();
-            secondTag.Description = "A very important tag!";
+        //    Tag firstTag = new Tag();
+        //    firstTag.Description = "A very important tag!";
+        //    Tag secondTag = new Tag();
+        //    secondTag.Description = "A very important tag!";
 
-            tagsService.Add(firstTag);
-            tagsService.Add(secondTag);
+        //    tagsService.Add(firstTag);
+        //    tagsService.Add(secondTag);
 
-            Assert.AreEqual(2, tagsService.GetAll().Count());
-        }
+        //    Assert.AreEqual(2, tagsService.GetAll().Count());
+        //}
 
         [TestMethod]
         public void GetById_ShouldReturnZeroWhenSuchTagIdIsNotFound()
