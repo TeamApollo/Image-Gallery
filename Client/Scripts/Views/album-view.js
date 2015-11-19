@@ -6,11 +6,14 @@ var albumView = (function() {
                 albumsController.getAlbumById(albumId)
                     .then(function (album) {
                         album.CreatedOn = moment(album.CreatedOn).format('LLLL');
-                        album.MediaFiles = mediaFileController.getMediaForAlbum(album.Id);
-                        context.$element().html(template(album));
-                        initPhotoSwipeFromDOM('.my-gallery');
+                        mediaFileController.getByAlbum(album.Id)
+                            .then(function(files) {
+                                album.MediaFiles = files;
+                                context.$element().html(template(album));
+                                initPhotoSwipeFromDOM('.my-gallery');
+                            });
                     })
-                    .catch(function () {
+                    .catch(function (e) {
                         toastr.error("No connection with the server!");
                         context.redirect('#/home');
                     });

@@ -21,11 +21,11 @@ var albumsManageView = (function () {
                         $('.well').on('click', '.btn-alb-upload-media', function () {
                             var clickedAlbumLink = $(this).siblings('a').attr('href');
                             var clickedAlbumId = clickedAlbumLink.substr(clickedAlbumLink.lastIndexOf('/') + 1, clickedAlbumLink.length);
-                            mediaFileController.uploadFile(clickedAlbumId);
+                            mediaFileController.uploadFile(clickedAlbumId); // promise
                         });
                     })
                     .catch(function () {
-                        toastr.error("No connection with the server!");
+                        toastr.error("No albums for this user, or no connection with the server!");
                         context.redirect('#/home');
                     });
             })

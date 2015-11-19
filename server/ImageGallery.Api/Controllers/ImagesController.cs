@@ -104,15 +104,22 @@
             return this.Ok(imageId);
         }
 
-        // DELETE api/images/{albumId}/{imageId}
+        // DELETE api/images/{id}
         [Authorize]
-        public IHttpActionResult Delete(int albumId, int mediaFileId)
+        public IHttpActionResult Delete(int id)
         {
             var currentUser = this.User.Identity.Name;
 
-            int deletedId = this.imagesService.Delete(mediaFileId, albumId, currentUser);
-
-            if (deletedId < 0)
+            int deletedId;
+            try
+            {
+                deletedId = this.imagesService.Delete(id, currentUser);
+            }
+            catch (ImageGalleryException)
+            {
+                return this.Unauthorized();
+            }
+            catch (ArgumentNullException)
             {
                 return this.NotFound();
             }

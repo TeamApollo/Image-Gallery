@@ -34,7 +34,7 @@
         public void UploadFile()
         {
             var filePath = string.Empty;
-            var albumId = Request.Headers.FirstOrDefault(h => h.Key == "X-Album-Id").Value.ToString();
+            var albumId = Request.Headers.FirstOrDefault(h => h.Key == "X-Album-Id").Value.First();
             if (HttpContext.Current.Request.Files.AllKeys.Any())
             {
                 var httpPostedFile = HttpContext.Current.Request.Files["UploadedImage"];

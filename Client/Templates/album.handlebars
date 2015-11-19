@@ -5,7 +5,8 @@
             {{#if MediaFiles}}
                 {{#each MediaFiles}}
                     <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                        <a href="{{UrlPath}}" itemprop="contentUrl">
+                        <a href="{{UrlPath}}" itemprop="contentUrl"
+                           data-size="1024x1024">
                             <img src="{{UrlPath}}"
                                  itemprop="thumbnail" alt="Image description"/>
                         </a>
