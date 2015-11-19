@@ -9,7 +9,7 @@
         private ICollection<Tag> tags;
         private ICollection<Comment> comments;
 
-        protected Image()
+        public Image()
         {
             this.tags = new HashSet<Tag>();
             this.comments = new HashSet<Comment>();
@@ -21,9 +21,9 @@
         [MaxLength(ValidationConstants.MaxOriginalFileNameLength)]
         public string OriginalFileName { get; set; }
 
-        [Required]
-        [MaxLength(ValidationConstants.MaxFileExtensionLength)]
-        public string FileExtension { get; set; }
+        //[Required]
+        //[MaxLength(ValidationConstants.MaxFileExtensionLength)]
+        //public string FileExtension { get; set; }
 
         [Required]
         [MaxLength(ValidationConstants.MaxUrlPathLength)]

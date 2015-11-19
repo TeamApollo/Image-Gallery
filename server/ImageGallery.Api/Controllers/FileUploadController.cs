@@ -4,7 +4,7 @@
     using System.Linq;
     using System.Web;
     using System.Web.Http;
-    using Microsoft.AspNet.Identity;     
+    using Microsoft.AspNet.Identity;
 
     using Spring.IO;
     using Spring.Social.Dropbox.Api;
@@ -12,6 +12,7 @@
     using System.Net.Http;
     using Microsoft.AspNet.Identity.Owin;
     using ImageGallery.Data.Contracts;
+    using ImageGallery.Models;
 
     public class FileUploadController : ApiController
     {
@@ -28,26 +29,26 @@
             this.data = data;
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpPost]
         public void UploadFile()
         {
             var filePath = string.Empty;
-            var a = Request.Content.ReadAsByteArrayAsync();
+            var albumId = Request.Headers.FirstOrDefault(h => h.Key == "X-Album-Id").Value.ToString();
             if (HttpContext.Current.Request.Files.AllKeys.Any())
             {
                 var httpPostedFile = HttpContext.Current.Request.Files["UploadedImage"];
-
+                
                 if (httpPostedFile != null)
                 {
-                    var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/UploadedFiles"), httpPostedFile.FileName);
+                    var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/"), httpPostedFile.FileName);
                     filePath = fileSavePath;
                     name = httpPostedFile.FileName;
                     httpPostedFile.SaveAs(fileSavePath);
                 }
             }
 
-            DropboxServiceProvider dropboxServiceProvider = new DropboxServiceProvider(DropboxAppKey, DropboxAppSecret, AccessLevel.AppFolder);
+            DropboxServiceProvider dropboxServiceProvider = new DropboxServiceProvider(DropboxAppKey, DropboxAppSecret, AccessLevel.Full);
 
             IDropbox dropbox = dropboxServiceProvider.GetApi("0ptqwblxvjk42u2d", "k4rlrdx430xld72");
 
@@ -56,18 +57,19 @@
             var link = dropbox.GetMediaLinkAsync(string.Format("/DateFirstImagesDb/{0}", name));
             var UrlForDb = link.Result.Url;
 
-            //var userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            //var user = userManager.FindByName(User.Identity.Name);
+            //var currentUserName = this.User.Identity.Name;
 
-            //var image = new Image()
-            //{
-            //    UserId = user.Id,
-            //    Url = UrlForDb
-            //};
+            //var userId = this.data.Users.All().FirstOrDefault(x => x.UserName == currentUserName).Id;
 
-
-
-            //data.Images.Add(image);
+            int albumIdReal = int.Parse(albumId);
+            var image = new Image()
+            {
+                AlbumId = albumIdReal,
+                OriginalFileName = name,
+                UrlPath = UrlForDb
+            };
+                                 
+            this.data.Images.Add(image);
             data.SaveChanges();
         }
     }
