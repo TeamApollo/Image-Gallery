@@ -1,11 +1,11 @@
 ﻿namespace ImageGallery.Services.Data.Tests
 {
+    using System;
+    using System.Linq;
     using Common.Constants;
     using ImageGallery.Models;
     using ImageGallery.Services.Data.Tests.Fakes;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System;
-    using System.Linq;
 
     [TestClass]
     public class TagsServiceTests

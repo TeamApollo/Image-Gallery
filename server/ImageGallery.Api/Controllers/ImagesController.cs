@@ -5,12 +5,12 @@
     using System.Linq;
     using System.Web.Http;
     using System.Web.Http.Cors;
-    using AutoMapper.QueryableExtensions;
-    using Models.Image;
-    using Services.Data.Contracts;
-    using ImageGallery.Models;
     using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using Common;
+    using ImageGallery.Models; 
+    using Models.Image;
+    using Services.Data.Contracts;   
 
     [EnableCors("*", "*", "*")]
     public class ImagesController : ApiController
@@ -40,7 +40,7 @@
             {
                 return this.Unauthorized();
             }
-            catch(ArgumentNullException)
+            catch (ArgumentNullException)     
             {
                 return this.NotFound();
             }
