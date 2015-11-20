@@ -10,21 +10,21 @@ var albumView = (function () {
                             .then(function (files) {
                                 album.MediaFiles = files;
                                 commentsController.getAllCommentsByAlbum(album.Id)
-                                    .then(function(comments) {
+                                    .then(function (comments) {
                                         album.Comments = comments;
-                                    });
-                                context.$element().html(template(album));
-                                $(".imgLiquid").imgLiquid();
-                                $('#btn-comment-body').on('click', function() {
-                                    var commentBody = $('#comment-body').val();
-                                    var comment = {
-                                        Body: commentBody,
-                                        AlbumId: album.Id,
-                                        Author: album.Author
-                                    };
+                                        context.$element().html(template(album));
+                                        $(".imgLiquid").imgLiquid();
+                                        $('#btn-comment-body').on('click', function () {
+                                            var commentBody = $('#comment-body').val();
+                                            var comment = {
+                                                Body: commentBody,
+                                                AlbumId: album.Id,
+                                                Author: album.Author
+                                            };
 
-                                    commentsController.createComment(comment)
-                                });
+                                            commentsController.createComment(comment)
+                                        });
+                                    });
                             });
                     })
                     .catch(function (e) {
