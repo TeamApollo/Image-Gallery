@@ -3,8 +3,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using Common;
+    using Contracts;  
     using ImageGallery.Data.Contracts;
-    using Contracts;
     using Models;
 
     public class ImagesService : IImagesService
@@ -51,7 +51,7 @@
         public int Delete(int imageId, string username)
         {
             Validator.ValidateObjectIsNotNull(username);
-            
+
             var image = this.GetById(imageId, username).FirstOrDefault();
             Validator.ValidateObjectIsNotNull(image);
 
@@ -62,8 +62,7 @@
                 throw new ImageGalleryException("The User cannot delete media file from foreign album!");
             }
 
-            // album.Images.Remove(image);
-
+            // album.Images.Remove(image);  
             this.data.Images.Delete(image);
             this.data.SaveChanges();
 
@@ -109,7 +108,7 @@
                 throw new ImageGalleryException("The user does not have access to this image");
             }
 
-            return new EnumerableQuery<Image>(new List<Image> {image});
+            return new EnumerableQuery<Image>(new List<Image> { image });
         }
     }
 }

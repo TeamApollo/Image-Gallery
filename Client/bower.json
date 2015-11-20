@@ -23,6 +23,5 @@
     "lodash": "~3.10.1",
     "toastr": "~2.1.2",
     "moment": "~2.10.6",
-    "photoswipe": "photo.swipe#~4.1.0"
   }
 }
