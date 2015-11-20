@@ -19,5 +19,21 @@
                 <span class="album-createdOn-label">Created On: </span><a>{{CreatedOn}}</a>
             </div>
         </div>
+        <div class="alert alert-info" id="comments-container">
+            <ul>
+                {{#each Comments}}
+                    <li>
+                        <span><b>{{Author}}</b></span>
+                        <p>
+                            {{Body}}
+                        </p>
+                    </li>
+                {{/each}}
+            </ul>
+            <div id="comment-add-container">
+                <textarea name="comment" id="comment-body" cols="130" rows="2" placeholder="Comment Album" style="resize: none;"></textarea>
+                <button id="btn-comment-body" class="btn btn-success">Submit Comment</button>
+            </div>
+        </div>
     </div>
 </div>
