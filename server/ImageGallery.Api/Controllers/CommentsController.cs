@@ -30,9 +30,9 @@
 
             try
             {
-                result = this.comments
-                    .GetAll(currentUserName, albumId)
-                    .ProjectTo<CommentViewModel>();
+                var comments = this.comments
+                    .GetAll(albumId);
+                    result = comments.ProjectTo<CommentViewModel>();
             }
             catch (ImageGalleryException)
             {
@@ -75,6 +75,7 @@
         // }
 
         // POST api/comments
+        //[Authorize]
         public IHttpActionResult Post(CommentBindingModel commentsRequestModel)
         {
             if (!this.ModelState.IsValid)
@@ -82,15 +83,13 @@
                 return this.BadRequest(this.ModelState);
             }
 
-            var currentUserName = this.User.Identity.Name;
-
             var newComment = Mapper.Map<Comment>(commentsRequestModel);
 
             int commentId;
 
             try
             {
-                commentId = this.comments.Add(newComment, currentUserName);
+                commentId = this.comments.Add(newComment);
             }
             catch (ArgumentNullException)
             {

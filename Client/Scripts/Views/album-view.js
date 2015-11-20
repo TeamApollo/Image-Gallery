@@ -1,4 +1,6 @@
 var albumView = (function () {
+    var USERNAME = 'x-user-name';
+
     function show(context) {
         var albumId = this.params['id'];
         templates.get('album')
@@ -19,7 +21,9 @@ var albumView = (function () {
                                             var comment = {
                                                 Body: commentBody,
                                                 AlbumId: album.Id,
-                                                Author: album.Author
+                                                User: {
+                                                    Name: localStorage.getItem(USERNAME)
+                                                }
                                             };
 
                                             commentsController.createComment(comment)
