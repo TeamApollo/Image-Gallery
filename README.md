@@ -190,3 +190,5 @@
     | Header key | Header value | Required |
     | --- | --- | --- |
     | Authorization | bearer {*your access token here*} | true |
+
+######Azure application link: **http://imagegallery2015.azurewebsites.net/**
