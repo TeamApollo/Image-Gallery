@@ -2,13 +2,13 @@
 {
     using System.Reflection;
     using System.Web.Http;
+    using Common.Constants;
 
     public class WebApiApplication : System.Web.HttpApplication
     {
         protected void Application_Start()
         {            
-            GlobalConfiguration.Configure(WebApiConfig.Register);
-            AutoMapperConfig.RegisterMappings(Assembly.Load("ImageGallery.Api"));          
+            AutoMapperConfig.RegisterMappings(Assembly.Load(GlobalConstants.WebApiAssemblyName));
             DatabaseConfig.Initialize();
         }
     }
