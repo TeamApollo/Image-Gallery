@@ -1,30 +1,28 @@
-var albumsComments = (function () {
+var commentsController = (function () {
     var defaultRoute = 'http://imagegallery2015.azurewebsites.net/',
         ACCESSTOKEN = 'x-auth-token';
 
     function createComment(comment) {
-        if (!(validator.validateName(1, 4000, comment.body, "Comment Body"))) {
+        debugger;
+        if (!(validator.validateName(1, 4000, comment.Body, "Comment Body"))) {
             return;
         }
 
         var url = defaultRoute + 'api/comments',
             options = {
-                data: JSON.stringify({
-                    "Body": comment.body
-                }),
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem(ACCESSTOKEN),
-                    'Content-Type': 'application/json'
+                data: {
+                    "Body": comment.Body,
+                    "AlbumId": comment.AlbumId,
+                    "AuthorId": comment.Author
                 }
             };
 
-        debugger;
-
         var promise = requester.post(url, options)
             .then(function (id) {
-                toastr.success('Successfully created comment ' + comment.body + '!');
+                toastr.success('Comment Added!');
             })
             .catch(function (err) {
+                debugger;
                 var errorDescription = JSON.parse(err.responseText).error_description;
                 toastr.error(errorDescription);
             });
@@ -32,24 +30,23 @@ var albumsComments = (function () {
         return promise;
     }
 
-    function getAllComments() {
+    function getAllCommentsByAlbum(id) {
         var url = defaultRoute + 'api/comments',
-            options = {};
-
-        if (usersController.userLoggedIn()) {
-            options.headers = {
-                'Authorization': 'Bearer ' + localStorage.getItem(ACCESSTOKEN)
-            }
-        }
+            options = {
+                data: "albumId=" + id
+            };
 
         var promise = new Promise(function (resolve, reject) {
             requester.get(url, options)
                 .then(function (comments) {
                     resolve(comments);
                 })
-                .catch(function () {
-                    toastr.error("No connection with the server!");
-                    reject();
+                .catch(function (error) {
+                    if(error.statusText !== "Not Found") {
+                        toastr.error("No connection with the server!");
+                    }
+
+                    reject(error);
                 })
         });
 
@@ -58,6 +55,6 @@ var albumsComments = (function () {
 
     return {
         createComment: createComment,
-        getAll: getAllComments
+        getAllCommentsByAlbum: getAllCommentsByAlbum
     }
 }());
