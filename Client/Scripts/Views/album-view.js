@@ -9,8 +9,22 @@ var albumView = (function () {
                         mediaFileController.getByAlbum(album.Id)
                             .then(function (files) {
                                 album.MediaFiles = files;
-                                context.$element().html(template(album));
-                                $(".imgLiquid").imgLiquid();
+                                commentsController.getAllCommentsByAlbum(album.Id)
+                                    .then(function (comments) {
+                                        album.Comments = comments;
+                                        context.$element().html(template(album));
+                                        $(".imgLiquid").imgLiquid();
+                                        $('#btn-comment-body').on('click', function () {
+                                            var commentBody = $('#comment-body').val();
+                                            var comment = {
+                                                Body: commentBody,
+                                                AlbumId: album.Id,
+                                                Author: album.Author
+                                            };
+
+                                            commentsController.createComment(comment)
+                                        });
+                                    });
                             });
                     })
                     .catch(function (e) {
