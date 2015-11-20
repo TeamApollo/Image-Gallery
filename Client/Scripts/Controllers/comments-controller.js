@@ -3,7 +3,6 @@ var commentsController = (function () {
         ACCESSTOKEN = 'x-auth-token';
 
     function createComment(comment) {
-        debugger;
         if (!(validator.validateName(1, 4000, comment.Body, "Comment Body"))) {
             return;
         }
@@ -13,7 +12,7 @@ var commentsController = (function () {
                 data: {
                     "Body": comment.Body,
                     "AlbumId": comment.AlbumId,
-                    "AuthorId": comment.Author
+                    "UserName": comment.User.Name
                 }
             };
 

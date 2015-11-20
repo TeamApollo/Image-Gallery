@@ -318,7 +318,6 @@
         }
 
         // POST api/Account/Register
-        // [EnableCors("*", "*", "*")] TODO: try to register with and without this attribute here.
         [AllowAnonymous]
         [Route("Register")]
         public async Task<IHttpActionResult> Register(RegisterBindingModel model)

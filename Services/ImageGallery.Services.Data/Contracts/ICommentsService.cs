@@ -5,9 +5,9 @@
 
     public interface ICommentsService
     {
-        IQueryable<Comment> GetAll(string username, int albumId);
+        IQueryable<Comment> GetAll(int albumId);
 
-        int Add(Comment comment, string username);
+        int Add(Comment comment);
 
         IQueryable<Comment> GetById(int id, string username);
 

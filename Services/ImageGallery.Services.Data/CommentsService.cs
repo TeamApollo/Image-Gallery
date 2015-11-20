@@ -21,14 +21,13 @@
         /// <param name="comment">The new comment to be added.</param>
         /// <param name="username">The new comment to be added.</param>
         /// <returns>The id of the created comment.</returns>
-        public int Add(Comment comment, string username)
+        public int Add(Comment comment)
         {
             Validator.ValidateObjectIsNotNull(comment);
-            Validator.ValidateObjectIsNotNull(username);
             
             var currentUser = this.data.Users
                 .All()
-                .FirstOrDefault(u => u.UserName == username);
+                .FirstOrDefault(u => u.UserName == comment.UserName);
 
             Validator.ValidateObjectIsNotNull(currentUser);
 
@@ -69,16 +68,16 @@
         /// <param name="username">The username of the user whos comments to get.</param>
         /// <param name="albumId">The id of the album whos comments to get.</param>
         /// <returns>All found comments.</returns>
-        public IQueryable<Comment> GetAll(string username, int albumId)
+        public IQueryable<Comment> GetAll(int albumId)
         {
             var album = this.data.Albums.GetById(albumId);
             Validator.ValidateObjectIsNotNull(album);
 
-            if (album.Owner.UserName != username)
-            {
-                throw new ImageGalleryException("The user does not have access to this album");
-            }
-            
+            //if (album.Owner.UserName != username)
+            //{
+            //    throw new ImageGalleryException("The user does not have access to this album");
+            //}
+
             return album.Comments.AsQueryable();
         }
 
